@@ -85,7 +85,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		ResponseData scopRet = newsUserService.queryResourceScopse();
 
 		http.authorizeRequests().antMatchers(Constant.URL_PERMITALL).permitAll();
-		http.authorizeRequests().antMatchers("/login/**").denyAll();
 		http.authorizeRequests().antMatchers("/news/login/**").denyAll();
 		//http.authorizeRequests().antMatchers("/news/reech/depart").access("#oauth2.hasAnyScope('abc,aab') and @permissionService.hasPermission(request,authentication)");
 		if(1000==scopRet.getCode()) {
