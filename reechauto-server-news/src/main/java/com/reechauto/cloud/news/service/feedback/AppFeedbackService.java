@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +13,8 @@ import org.springframework.stereotype.Service;
 import com.reechauto.cloud.common.exception.DataEmptyException;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.date.DateUtil;
-import com.reechauto.cloud.news.bean.FeedbackList;
 import com.reechauto.cloud.news.bean.req.feedback.FeedbackAnswerByOperatorRequest;
-import com.reechauto.cloud.news.controller.FeedbackController;
+import com.reechauto.cloud.news.bean.response.FeedbackList;
 import com.reechauto.cloud.news.entity.NewsFeedback;
 import com.reechauto.cloud.news.entity.NewsFeedbackExample;
 import com.reechauto.cloud.news.entity.NewsFeedbackExample.Criteria;
@@ -61,22 +58,6 @@ public class AppFeedbackService {
 		boolean flag = this.newsFeedbackMapper.insertSelective(record) > 0;
 		return ResponseData.ok();
 	}
-
-	/*
-	 * public ResponseData queryFeedbacksByOperator(FeedbackQueryByOperatorReq vo) {
-	 * //Long userId = commonService.getUserIdByToken(token); FeedbackQueryInfo bean
-	 * = new FeedbackQueryInfo(); bean.setMobileNum(vo.getMobileNum());
-	 * bean.setOperatorId(vo.getOperatorId()); bean.setStatus(vo.getStatus());
-	 * bean.setBeginDate(vo.getBeginDate()); bean.setEndDate(vo.getEndDate());
-	 * bean.setPageNum(vo.getPageNum()); bean.setStart(vo.getStart());
-	 * 
-	 * return
-	 * queryFeedbacksByOperator(bean.getOperatorId(),bean.getMobileNum()==null?"":
-	 * bean.getMobileNum(),
-	 * bean.getStatus()==null?"":bean.getStatus(),bean.getBeginDate()==null?"":bean.
-	 * getBeginDate(),bean.getEndDate()==null?"":bean.getEndDate(),
-	 * bean.getPageNum(),bean.getStart()); }
-	 */
 
 	public ResponseData queryFeedbacksByOperator(Long operatorId, String mobileNum, String status, String beginDate,
 			String endDate, Integer pageNum, Integer start) {

@@ -4,17 +4,16 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.reechauto.cloud.common.beans.NewsShareInfo;
-import com.reechauto.cloud.common.beans.NewsShareQuery;
 import com.reechauto.cloud.common.enums.IsTopEnum;
 import com.reechauto.cloud.common.enums.NewsShareEnum;
 import com.reechauto.cloud.common.enums.NewsShareStatusEnum;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.json.JsonUtils;
+import com.reechauto.cloud.news.bean.NewsShareInfo;
+import com.reechauto.cloud.news.bean.NewsShareQuery;
 import com.reechauto.cloud.news.bean.req.news.ShareModifyRequest;
 import com.reechauto.cloud.news.bean.req.news.SharePublishRequest;
 import com.reechauto.cloud.news.bean.req.news.ShareQueryRequest;
-import com.reechauto.cloud.news.controller.CommentController;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j

@@ -5,11 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.runner.ReactiveWebApplicationContextRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +14,7 @@ import com.reechauto.cloud.common.enums.NoticeTypeEnum;
 import com.reechauto.cloud.common.enums.YnEnum;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.code.IdGenerator;
-import com.reechauto.cloud.news.bean.NoticeList;
-import com.reechauto.cloud.news.controller.FeedbackController;
+import com.reechauto.cloud.news.bean.response.NoticeList;
 import com.reechauto.cloud.news.entity.NewsNotice;
 import com.reechauto.cloud.news.entity.NewsNoticeExample;
 import com.reechauto.cloud.news.entity.NewsShareComment;
