@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reechauto.cloud.common.resp.ResponseData;
-import com.reechauto.cloud.news.bean.req.RolesQueryRequest;
 import com.reechauto.cloud.news.bean.req.feedback.FeedbackAnswerByOperatorRequest;
 import com.reechauto.cloud.news.bean.req.feedback.FeedbackQueryByOperatorRequest;
 import com.reechauto.cloud.news.bean.req.feedback.FeedbackQueryByUserRequest;
 import com.reechauto.cloud.news.bean.req.feedback.FeedbackQuestionRequest;
-import com.reechauto.cloud.news.entity.SysRole;
 import com.reechauto.cloud.news.service.feedback.AppFeedbackService;
 
 import lombok.extern.slf4j.Slf4j;

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reechauto.cloud.common.resp.ResponseData;
-import com.reechauto.cloud.news.bean.req.comment.CommentAddRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsModifyRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsPublishRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsQueryRequest;

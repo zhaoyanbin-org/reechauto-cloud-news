@@ -13,7 +13,6 @@ import com.reechauto.cloud.news.bean.req.comment.CommentAddRequest;
 import com.reechauto.cloud.news.bean.req.comment.CommentDelRequest;
 import com.reechauto.cloud.news.bean.req.comment.CommentModifyRequest;
 import com.reechauto.cloud.news.bean.req.comment.CommentQueryRequest;
-import com.reechauto.cloud.news.bean.req.notice.NoticeQueryRequest;
 import com.reechauto.cloud.news.service.comment.CommentService;
 
 import lombok.extern.slf4j.Slf4j;

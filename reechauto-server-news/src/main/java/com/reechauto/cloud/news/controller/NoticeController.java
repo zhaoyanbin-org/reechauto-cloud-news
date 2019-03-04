@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reechauto.cloud.common.resp.ResponseData;
-import com.reechauto.cloud.news.bean.req.feedback.FeedbackQueryByUserRequest;
 import com.reechauto.cloud.news.bean.req.notice.NoticeQueryRequest;
 import com.reechauto.cloud.news.bean.req.notice.NoticeReadRequest;
 import com.reechauto.cloud.news.service.notice.NoticeService;
