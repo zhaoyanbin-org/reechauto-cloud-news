@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.reechauto.cloud.news.mapper.NewsNoticeMapper">
+    <resultMap id="BaseResultMap" type="com.reechauto.cloud.news.entity.NewsNotice">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="notify_id" jdbcType="BIGINT" property="notifyId" />
+        <result column="news_share_id" jdbcType="VARCHAR" property="newsShareId" />
+        <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+        <result column="notice_type" jdbcType="VARCHAR" property="noticeType" />
+        <result column="is_read" jdbcType="VARCHAR" property="isRead" />
+        <result column="read_time" jdbcType="TIMESTAMP" property="readTime" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, notify_id, news_share_id, relation_id, notice_type, is_read, read_time, create_time
+    </sql>
+    <select id="selectByExample" parameterType="com.reechauto.cloud.news.entity.NewsNoticeExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from news_notice
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{offset}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from news_notice
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from news_notice
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.reechauto.cloud.news.entity.NewsNoticeExample">
+        delete from news_notice
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.reechauto.cloud.news.entity.NewsNotice">
+        insert into news_notice (id, notify_id, news_share_id, 
+            relation_id, notice_type, is_read, 
+            read_time, create_time)
+        values (#{id,jdbcType=VARCHAR}, #{notifyId,jdbcType=BIGINT}, #{newsShareId,jdbcType=VARCHAR}, 
+            #{relationId,jdbcType=VARCHAR}, #{noticeType,jdbcType=VARCHAR}, #{isRead,jdbcType=VARCHAR}, 
+            #{readTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.reechauto.cloud.news.entity.NewsNotice">
+        insert into news_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="notifyId != null">
+                notify_id,
+            </if>
+            <if test="newsShareId != null">
+                news_share_id,
+            </if>
+            <if test="relationId != null">
+                relation_id,
+            </if>
+            <if test="noticeType != null">
+                notice_type,
+            </if>
+            <if test="isRead != null">
+                is_read,
+            </if>
+            <if test="readTime != null">
+                read_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="notifyId != null">
+                #{notifyId,jdbcType=BIGINT},
+            </if>
+            <if test="newsShareId != null">
+                #{newsShareId,jdbcType=VARCHAR},
+            </if>
+            <if test="relationId != null">
+                #{relationId,jdbcType=VARCHAR},
+            </if>
+            <if test="noticeType != null">
+                #{noticeType,jdbcType=VARCHAR},
+            </if>
+            <if test="isRead != null">
+                #{isRead,jdbcType=VARCHAR},
+            </if>
+            <if test="readTime != null">
+                #{readTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.reechauto.cloud.news.entity.NewsNoticeExample" resultType="java.lang.Long">
+        select count(*) from news_notice
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update news_notice
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.notifyId != null">
+                notify_id = #{record.notifyId,jdbcType=BIGINT},
+            </if>
+            <if test="record.newsShareId != null">
+                news_share_id = #{record.newsShareId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.relationId != null">
+                relation_id = #{record.relationId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.noticeType != null">
+                notice_type = #{record.noticeType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isRead != null">
+                is_read = #{record.isRead,jdbcType=VARCHAR},
+            </if>
+            <if test="record.readTime != null">
+                read_time = #{record.readTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update news_notice
+        set id = #{record.id,jdbcType=VARCHAR},
+            notify_id = #{record.notifyId,jdbcType=BIGINT},
+            news_share_id = #{record.newsShareId,jdbcType=VARCHAR},
+            relation_id = #{record.relationId,jdbcType=VARCHAR},
+            notice_type = #{record.noticeType,jdbcType=VARCHAR},
+            is_read = #{record.isRead,jdbcType=VARCHAR},
+            read_time = #{record.readTime,jdbcType=TIMESTAMP},
+            create_time = #{record.createTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.reechauto.cloud.news.entity.NewsNotice">
+        update news_notice
+        <set>
+            <if test="notifyId != null">
+                notify_id = #{notifyId,jdbcType=BIGINT},
+            </if>
+            <if test="newsShareId != null">
+                news_share_id = #{newsShareId,jdbcType=VARCHAR},
+            </if>
+            <if test="relationId != null">
+                relation_id = #{relationId,jdbcType=VARCHAR},
+            </if>
+            <if test="noticeType != null">
+                notice_type = #{noticeType,jdbcType=VARCHAR},
+            </if>
+            <if test="isRead != null">
+                is_read = #{isRead,jdbcType=VARCHAR},
+            </if>
+            <if test="readTime != null">
+                read_time = #{readTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.reechauto.cloud.news.entity.NewsNotice">
+        update news_notice
+        set notify_id = #{notifyId,jdbcType=BIGINT},
+            news_share_id = #{newsShareId,jdbcType=VARCHAR},
+            relation_id = #{relationId,jdbcType=VARCHAR},
+            notice_type = #{noticeType,jdbcType=VARCHAR},
+            is_read = #{isRead,jdbcType=VARCHAR},
+            read_time = #{readTime,jdbcType=TIMESTAMP},
+            create_time = #{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

@@ -35,10 +35,31 @@ public class LoginService {
 	private RedisTemplate<String, Object> redisTemplate;
 
 	@SuppressWarnings("unchecked")
-	public ResponseData login(String username, String password) throws UnsupportedEncodingException {
+	public ResponseData loginByPassword(String username, String password) throws UnsupportedEncodingException {
 		String authorizationStr = BasicTokenUtil.authorizationBasic(resourceServerProperties.getClientId(),
 				resourceServerProperties.getClientSecret());
 		ToeknBean token = authorizationService.login(authorizationStr, "password", username, password);
+		ResponseData responseData = getUserInfo(token);
+		return responseData;
+	}
+	public ResponseData loginByCode(String username, String vcode) throws UnsupportedEncodingException {
+		String authorizationStr = BasicTokenUtil.authorizationBasic(resourceServerProperties.getClientId(),
+				resourceServerProperties.getClientSecret());
+		ToeknBean token = authorizationService.loginByCode(authorizationStr,  username, vcode);
+		System.out.println("获得token");
+		ResponseData responseData = getUserInfo(token);
+		System.out.println("获得用户信息");
+		return responseData;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ResponseData sendMessage(String mobile, String clientId)  {
+		ResponseData responseData = authorizationService.sendMessage(mobile);
+		return responseData;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ResponseData getUserInfo(ToeknBean token) throws UnsupportedEncodingException{
 		Object userObj = authorizationService.userInfo(BasicTokenUtil.authorizationBearer(token.getAccess_token()));
 		ResponseData serverUser = GsonUtil.GsonToBean(GsonUtil.GsonString(userObj), ResponseData.class);
 		if (1000 != serverUser.getCode()) {
@@ -98,4 +119,6 @@ public class LoginService {
 		userRet.data("token", token);
 		return userRet;
 	}
+	
+	
 }

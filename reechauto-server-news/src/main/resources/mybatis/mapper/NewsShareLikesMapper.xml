@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.reechauto.cloud.news.mapper.NewsShareLikesMapper">
+    <resultMap id="BaseResultMap" type="com.reechauto.cloud.news.entity.NewsShareLikes">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="news_share_id" jdbcType="VARCHAR" property="newsShareId" />
+        <result column="likes_user_id" jdbcType="BIGINT" property="likesUserId" />
+        <result column="likes_user_nick_name" jdbcType="VARCHAR" property="likesUserNickName" />
+        <result column="likes_user_head_portrait_url" jdbcType="VARCHAR" property="likesUserHeadPortraitUrl" />
+        <result column="likes_time" jdbcType="TIMESTAMP" property="likesTime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, news_share_id, likes_user_id, likes_user_nick_name, likes_user_head_portrait_url, 
+        likes_time
+    </sql>
+    <select id="selectByExample" parameterType="com.reechauto.cloud.news.entity.NewsShareLikesExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from news_share_likes
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{offset}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from news_share_likes
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from news_share_likes
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.reechauto.cloud.news.entity.NewsShareLikesExample">
+        delete from news_share_likes
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.reechauto.cloud.news.entity.NewsShareLikes">
+        insert into news_share_likes (id, news_share_id, likes_user_id, 
+            likes_user_nick_name, likes_user_head_portrait_url, 
+            likes_time)
+        values (#{id,jdbcType=VARCHAR}, #{newsShareId,jdbcType=VARCHAR}, #{likesUserId,jdbcType=BIGINT}, 
+            #{likesUserNickName,jdbcType=VARCHAR}, #{likesUserHeadPortraitUrl,jdbcType=VARCHAR}, 
+            #{likesTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.reechauto.cloud.news.entity.NewsShareLikes">
+        insert into news_share_likes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="newsShareId != null">
+                news_share_id,
+            </if>
+            <if test="likesUserId != null">
+                likes_user_id,
+            </if>
+            <if test="likesUserNickName != null">
+                likes_user_nick_name,
+            </if>
+            <if test="likesUserHeadPortraitUrl != null">
+                likes_user_head_portrait_url,
+            </if>
+            <if test="likesTime != null">
+                likes_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="newsShareId != null">
+                #{newsShareId,jdbcType=VARCHAR},
+            </if>
+            <if test="likesUserId != null">
+                #{likesUserId,jdbcType=BIGINT},
+            </if>
+            <if test="likesUserNickName != null">
+                #{likesUserNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="likesUserHeadPortraitUrl != null">
+                #{likesUserHeadPortraitUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="likesTime != null">
+                #{likesTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.reechauto.cloud.news.entity.NewsShareLikesExample" resultType="java.lang.Long">
+        select count(*) from news_share_likes
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update news_share_likes
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.newsShareId != null">
+                news_share_id = #{record.newsShareId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.likesUserId != null">
+                likes_user_id = #{record.likesUserId,jdbcType=BIGINT},
+            </if>
+            <if test="record.likesUserNickName != null">
+                likes_user_nick_name = #{record.likesUserNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.likesUserHeadPortraitUrl != null">
+                likes_user_head_portrait_url = #{record.likesUserHeadPortraitUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.likesTime != null">
+                likes_time = #{record.likesTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update news_share_likes
+        set id = #{record.id,jdbcType=VARCHAR},
+            news_share_id = #{record.newsShareId,jdbcType=VARCHAR},
+            likes_user_id = #{record.likesUserId,jdbcType=BIGINT},
+            likes_user_nick_name = #{record.likesUserNickName,jdbcType=VARCHAR},
+            likes_user_head_portrait_url = #{record.likesUserHeadPortraitUrl,jdbcType=VARCHAR},
+            likes_time = #{record.likesTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.reechauto.cloud.news.entity.NewsShareLikes">
+        update news_share_likes
+        <set>
+            <if test="newsShareId != null">
+                news_share_id = #{newsShareId,jdbcType=VARCHAR},
+            </if>
+            <if test="likesUserId != null">
+                likes_user_id = #{likesUserId,jdbcType=BIGINT},
+            </if>
+            <if test="likesUserNickName != null">
+                likes_user_nick_name = #{likesUserNickName,jdbcType=VARCHAR},
+            </if>
+            <if test="likesUserHeadPortraitUrl != null">
+                likes_user_head_portrait_url = #{likesUserHeadPortraitUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="likesTime != null">
+                likes_time = #{likesTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.reechauto.cloud.news.entity.NewsShareLikes">
+        update news_share_likes
+        set news_share_id = #{newsShareId,jdbcType=VARCHAR},
+            likes_user_id = #{likesUserId,jdbcType=BIGINT},
+            likes_user_nick_name = #{likesUserNickName,jdbcType=VARCHAR},
+            likes_user_head_portrait_url = #{likesUserHeadPortraitUrl,jdbcType=VARCHAR},
+            likes_time = #{likesTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>
