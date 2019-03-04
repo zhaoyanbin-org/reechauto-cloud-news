@@ -34,7 +34,7 @@
 
 		 
 
-		<table tableName="sys_menu">
+		<!-- <table tableName="sys_menu">
 			<property name="useActualColumnNames" value="false" />
 		</table>
 		<table tableName="sys_privilege">
@@ -51,7 +51,26 @@
 		</table>
 		<table tableName="sys_resource_scope">
 			<property name="useActualColumnNames" value="false" />
+		</table> -->
+
+        <table tableName="news_feedback">
+			<property name="useActualColumnNames" value="false" />
 		</table>
+		<table tableName="news_notice">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table tableName="news_share">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table tableName="news_share_comment">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table tableName="news_share_likes">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table tableName="news_version">
+			<property name="useActualColumnNames" value="false" />
+		</table> 
 
 
 	</context>
