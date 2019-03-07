@@ -3,16 +3,15 @@ package com.reechauto.cloud.news.service.feedback;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.reechauto.cloud.common.exception.DataEmptyException;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.date.DateUtil;
+import com.reechauto.cloud.news.bean.enums.IsAnsweredEnum;
 import com.reechauto.cloud.news.bean.req.feedback.FeedbackAnswerByOperatorRequest;
 import com.reechauto.cloud.news.bean.response.FeedbackList;
 import com.reechauto.cloud.news.entity.NewsFeedback;
@@ -22,7 +21,6 @@ import com.reechauto.cloud.news.entity.UserDetails;
 import com.reechauto.cloud.news.entity.UserDetailsExample;
 import com.reechauto.cloud.news.mapper.NewsFeedbackMapper;
 import com.reechauto.cloud.news.mapper.UserDetailsMapper;
-
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
@@ -79,7 +77,7 @@ public class AppFeedbackService {
 			criteria.andQuestionerIdEqualTo(userId);
 		}
 		if (StringUtils.isNotBlank(status)) {
-			criteria.andStatusEqualTo(status);
+			criteria.andStatusEqualTo(IsAnsweredEnum.get(status).getValue());
 		}
 		if (StringUtils.isNotBlank(beginDate)) {
 			criteria.andQuestionTimeGreaterThanOrEqualTo(DateUtil.convert2Date(beginDate, "yyyy-MM-dd"));

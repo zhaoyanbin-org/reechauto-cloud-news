@@ -3,19 +3,12 @@ package com.reechauto.cloud.news.service.news;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.transaction.Transactional;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.reechauto.cloud.common.enums.CommentStatusEnum;
-import com.reechauto.cloud.common.enums.IsTopEnum;
-import com.reechauto.cloud.common.enums.NewsShareEnum;
-import com.reechauto.cloud.common.enums.NewsShareStatusEnum;
 import com.reechauto.cloud.common.exception.DataEmptyException;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.code.IdGenerator;
@@ -24,6 +17,10 @@ import com.reechauto.cloud.common.utils.json.JsonUtils;
 import com.reechauto.cloud.news.bean.NewsShareBean;
 import com.reechauto.cloud.news.bean.NewsShareInfo;
 import com.reechauto.cloud.news.bean.NewsShareQuery;
+import com.reechauto.cloud.news.bean.enums.CommentStatusEnum;
+import com.reechauto.cloud.news.bean.enums.IsTopEnum;
+import com.reechauto.cloud.news.bean.enums.NewsShareEnum;
+import com.reechauto.cloud.news.bean.enums.NewsShareStatusEnum;
 import com.reechauto.cloud.news.bean.req.news.NewsShareTopQueryRequest;
 import com.reechauto.cloud.news.entity.NewsShareCommentExample;
 import com.reechauto.cloud.news.entity.NewsShareExample;
@@ -37,7 +34,6 @@ import com.reechauto.cloud.news.mapper.NewsShareLikesMapper;
 import com.reechauto.cloud.news.mapper.NewsShareMapper;
 import com.reechauto.cloud.news.mapper.UserDetailsMapper;
 import com.reechauto.cloud.news.service.notice.NoticeService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

@@ -3,7 +3,7 @@ package com.reechauto.cloud.news.bean.req.news;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.reechauto.cloud.common.enums.NewsShareStatusEnum;
+import com.reechauto.cloud.news.bean.enums.NewsShareStatusEnum;
 import com.reechauto.cloud.news.bean.req.BaseRequest;
 
 public class ShareQueryRequest extends BaseRequest {

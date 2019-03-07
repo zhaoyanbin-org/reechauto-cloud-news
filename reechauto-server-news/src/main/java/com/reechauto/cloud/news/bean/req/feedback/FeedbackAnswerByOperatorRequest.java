@@ -15,7 +15,7 @@ public class FeedbackAnswerByOperatorRequest extends BaseRequest {
 	@NotNull(message = "意见反馈ID不可以为NULL")
 	private int appFeedbackId;
 	
-	@NotNull(message = "意见反馈内容不可以为NULL")
+	@NotNull(message = "回复内容不可以为NULL")
 	private String content;
 
 	public Long getOperatorId() {

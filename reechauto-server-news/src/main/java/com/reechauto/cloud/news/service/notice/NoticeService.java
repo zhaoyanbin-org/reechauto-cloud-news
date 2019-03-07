@@ -3,17 +3,15 @@ package com.reechauto.cloud.news.service.notice;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-
-import com.reechauto.cloud.common.enums.NoticeTypeEnum;
-import com.reechauto.cloud.common.enums.YnEnum;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.code.IdGenerator;
+import com.reechauto.cloud.news.bean.enums.NoticeTypeEnum;
+import com.reechauto.cloud.news.bean.enums.YnEnum;
 import com.reechauto.cloud.news.bean.response.NoticeList;
 import com.reechauto.cloud.news.entity.NewsNotice;
 import com.reechauto.cloud.news.entity.NewsNoticeExample;
@@ -24,7 +22,6 @@ import com.reechauto.cloud.news.mapper.NewsNoticeMapper;
 import com.reechauto.cloud.news.mapper.NewsShareCommentMapper;
 import com.reechauto.cloud.news.mapper.NewsShareLikesMapper;
 import com.reechauto.cloud.news.mapper.NewsShareMapper;
-
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service

@@ -2,14 +2,12 @@ package com.reechauto.cloud.news.service.comment;
 
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.reechauto.cloud.common.enums.CommentStatusEnum;
 import com.reechauto.cloud.common.exception.DataEmptyException;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.code.IdGenerator;
+import com.reechauto.cloud.news.bean.enums.CommentStatusEnum;
 import com.reechauto.cloud.news.entity.NewsShareComment;
 import com.reechauto.cloud.news.entity.NewsShareCommentExample;
 import com.reechauto.cloud.news.entity.UserDetails;
