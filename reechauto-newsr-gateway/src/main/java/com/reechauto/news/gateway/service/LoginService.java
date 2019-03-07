@@ -19,6 +19,7 @@ import com.reechauto.cloud.common.utils.str.BasicTokenUtil;
 import com.reechauto.news.gateway.config.Constant;
 import com.reechauto.news.gateway.feign.AuthorizationService;
 import com.reechauto.news.gateway.feign.NewsUserService;
+import com.reechauto.news.gateway.feign.UserCenterService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +30,8 @@ public class LoginService {
 	private ResourceServerProperties resourceServerProperties;
 	@Autowired
 	private AuthorizationService authorizationService;
+	@Autowired
+	private UserCenterService userCenterService;
 	@Autowired
 	private NewsUserService newsUserService;
 	@Autowired
@@ -54,7 +57,7 @@ public class LoginService {
 	
 	@SuppressWarnings("unchecked")
 	public ResponseData sendMessage(String mobile, String clientId)  {
-		ResponseData responseData = authorizationService.sendMessage(mobile);
+		ResponseData responseData = userCenterService.sendMessage(mobile);
 		return responseData;
 	}
 	

@@ -4,8 +4,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.resp.ToeknBean;
 
 
@@ -23,7 +21,4 @@ public interface AuthorizationService {
 	@PostMapping("/userinfo")
     public Object userInfo(@RequestHeader("Authorization")String authorization);
 	
-	
-	@PostMapping("/nologin/mobile/send")
-    public ResponseData sendMessage(@RequestParam("mobile") String mobile);
 }
