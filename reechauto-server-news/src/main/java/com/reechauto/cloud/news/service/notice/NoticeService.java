@@ -150,7 +150,7 @@ public class NoticeService {
 	
 	public void readAllNotice(Long notifyId) {
 		
-		this.reechAutoJdbcTemplate.update("update notice set is_read = ? where notify_id = ? ",YnEnum.Y.getValue(),notifyId);
+		this.reechAutoJdbcTemplate.update("update news_notice set is_read = ? where notify_id = ? ",YnEnum.Y.getValue(),notifyId);
 		
 	}
 	
