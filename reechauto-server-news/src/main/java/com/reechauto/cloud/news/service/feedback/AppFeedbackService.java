@@ -38,11 +38,12 @@ public class AppFeedbackService {
 		NewsFeedbackExample example = new NewsFeedbackExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andQuestionerIdEqualTo(userId);
+		Long total = newsFeedbackMapper.countByExample(example);
 		example.setOrderByClause(" question_time DESC");
 		example.setLimitStart(start);
 		example.setOffset(pageNum);
 		list = this.newsFeedbackMapper.selectByExample(example);
-		return ResponseData.ok().data(list);
+		return ResponseData.ok().data(list).data(total);
 
 	}
 
