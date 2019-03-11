@@ -43,7 +43,7 @@ public class AppFeedbackService {
 		example.setLimitStart(start);
 		example.setOffset(pageNum);
 		list = this.newsFeedbackMapper.selectByExample(example);
-		return ResponseData.ok().data(list).data(total);
+		return ResponseData.ok().data(list).data("total",total);
 
 	}
 
