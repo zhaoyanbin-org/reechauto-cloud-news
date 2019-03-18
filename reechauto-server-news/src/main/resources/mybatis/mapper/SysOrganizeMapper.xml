@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.reechauto.cloud.news.mapper.NewsVersionMapper">
-    <resultMap id="BaseResultMap" type="com.reechauto.cloud.news.entity.NewsVersion">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="version_num" jdbcType="VARCHAR" property="versionNum" />
-        <result column="version_name" jdbcType="VARCHAR" property="versionName" />
-        <result column="version_info" jdbcType="VARCHAR" property="versionInfo" />
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+<mapper namespace="com.reechauto.cloud.news.mapper.SysOrganizeMapper">
+    <resultMap id="BaseResultMap" type="com.reechauto.cloud.news.entity.SysOrganize">
+        <id column="org_id" jdbcType="BIGINT" property="orgId" />
+        <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+        <result column="parent_org_id" jdbcType="BIGINT" property="parentOrgId" />
+        <result column="org_level" jdbcType="INTEGER" property="orgLevel" />
+        <result column="is_enable" jdbcType="VARCHAR" property="isEnable" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -67,15 +67,15 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        id, version_num, version_name, version_info, create_time
+        org_id, org_name, parent_org_id, org_level, is_enable
     </sql>
-    <select id="selectByExample" parameterType="com.reechauto.cloud.news.entity.NewsVersionExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.reechauto.cloud.news.entity.SysOrganizeExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         <include refid="Base_Column_List" />
-        from news_version
+        from sys_organize
         <if test="_parameter != null">
             <include refid="Example_Where_Clause" />
         </if>
@@ -86,88 +86,88 @@
             limit #{limitStart} , #{offset}
         </if>
     </select>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select 
         <include refid="Base_Column_List" />
-        from news_version
-        where id = #{id,jdbcType=INTEGER}
+        from sys_organize
+        where org_id = #{orgId,jdbcType=BIGINT}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from news_version
-        where id = #{id,jdbcType=INTEGER}
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from sys_organize
+        where org_id = #{orgId,jdbcType=BIGINT}
     </delete>
-    <delete id="deleteByExample" parameterType="com.reechauto.cloud.news.entity.NewsVersionExample">
-        delete from news_version
+    <delete id="deleteByExample" parameterType="com.reechauto.cloud.news.entity.SysOrganizeExample">
+        delete from sys_organize
         <if test="_parameter != null">
             <include refid="Example_Where_Clause" />
         </if>
     </delete>
-    <insert id="insert" parameterType="com.reechauto.cloud.news.entity.NewsVersion">
-        insert into news_version (id, version_num, version_name, 
-            version_info, create_time)
-        values (#{id,jdbcType=INTEGER}, #{versionNum,jdbcType=VARCHAR}, #{versionName,jdbcType=VARCHAR}, 
-            #{versionInfo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+    <insert id="insert" parameterType="com.reechauto.cloud.news.entity.SysOrganize">
+        insert into sys_organize (org_id, org_name, parent_org_id, 
+            org_level, is_enable)
+        values (#{orgId,jdbcType=BIGINT}, #{orgName,jdbcType=VARCHAR}, #{parentOrgId,jdbcType=BIGINT}, 
+            #{orgLevel,jdbcType=INTEGER}, #{isEnable,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.reechauto.cloud.news.entity.NewsVersion">
-        insert into news_version
+    <insert id="insertSelective" parameterType="com.reechauto.cloud.news.entity.SysOrganize">
+        insert into sys_organize
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
+            <if test="orgId != null">
+                org_id,
             </if>
-            <if test="versionNum != null">
-                version_num,
+            <if test="orgName != null">
+                org_name,
             </if>
-            <if test="versionName != null">
-                version_name,
+            <if test="parentOrgId != null">
+                parent_org_id,
             </if>
-            <if test="versionInfo != null">
-                version_info,
+            <if test="orgLevel != null">
+                org_level,
             </if>
-            <if test="createTime != null">
-                create_time,
+            <if test="isEnable != null">
+                is_enable,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
+            <if test="orgId != null">
+                #{orgId,jdbcType=BIGINT},
             </if>
-            <if test="versionNum != null">
-                #{versionNum,jdbcType=VARCHAR},
+            <if test="orgName != null">
+                #{orgName,jdbcType=VARCHAR},
             </if>
-            <if test="versionName != null">
-                #{versionName,jdbcType=VARCHAR},
+            <if test="parentOrgId != null">
+                #{parentOrgId,jdbcType=BIGINT},
             </if>
-            <if test="versionInfo != null">
-                #{versionInfo,jdbcType=VARCHAR},
+            <if test="orgLevel != null">
+                #{orgLevel,jdbcType=INTEGER},
             </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
+            <if test="isEnable != null">
+                #{isEnable,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.reechauto.cloud.news.entity.NewsVersionExample" resultType="java.lang.Long">
-        select count(*) from news_version
+    <select id="countByExample" parameterType="com.reechauto.cloud.news.entity.SysOrganizeExample" resultType="java.lang.Long">
+        select count(*) from sys_organize
         <if test="_parameter != null">
             <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
-        update news_version
+        update sys_organize
         <set>
-            <if test="record.id != null">
-                id = #{record.id,jdbcType=INTEGER},
+            <if test="record.orgId != null">
+                org_id = #{record.orgId,jdbcType=BIGINT},
             </if>
-            <if test="record.versionNum != null">
-                version_num = #{record.versionNum,jdbcType=VARCHAR},
+            <if test="record.orgName != null">
+                org_name = #{record.orgName,jdbcType=VARCHAR},
             </if>
-            <if test="record.versionName != null">
-                version_name = #{record.versionName,jdbcType=VARCHAR},
+            <if test="record.parentOrgId != null">
+                parent_org_id = #{record.parentOrgId,jdbcType=BIGINT},
             </if>
-            <if test="record.versionInfo != null">
-                version_info = #{record.versionInfo,jdbcType=VARCHAR},
+            <if test="record.orgLevel != null">
+                org_level = #{record.orgLevel,jdbcType=INTEGER},
             </if>
-            <if test="record.createTime != null">
-                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            <if test="record.isEnable != null">
+                is_enable = #{record.isEnable,jdbcType=VARCHAR},
             </if>
         </set>
         <if test="_parameter != null">
@@ -175,40 +175,40 @@
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
-        update news_version
-        set id = #{record.id,jdbcType=INTEGER},
-            version_num = #{record.versionNum,jdbcType=VARCHAR},
-            version_name = #{record.versionName,jdbcType=VARCHAR},
-            version_info = #{record.versionInfo,jdbcType=VARCHAR},
-            create_time = #{record.createTime,jdbcType=TIMESTAMP}
+        update sys_organize
+        set org_id = #{record.orgId,jdbcType=BIGINT},
+            org_name = #{record.orgName,jdbcType=VARCHAR},
+            parent_org_id = #{record.parentOrgId,jdbcType=BIGINT},
+            org_level = #{record.orgLevel,jdbcType=INTEGER},
+            is_enable = #{record.isEnable,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.reechauto.cloud.news.entity.NewsVersion">
-        update news_version
+    <update id="updateByPrimaryKeySelective" parameterType="com.reechauto.cloud.news.entity.SysOrganize">
+        update sys_organize
         <set>
-            <if test="versionNum != null">
-                version_num = #{versionNum,jdbcType=VARCHAR},
+            <if test="orgName != null">
+                org_name = #{orgName,jdbcType=VARCHAR},
             </if>
-            <if test="versionName != null">
-                version_name = #{versionName,jdbcType=VARCHAR},
+            <if test="parentOrgId != null">
+                parent_org_id = #{parentOrgId,jdbcType=BIGINT},
             </if>
-            <if test="versionInfo != null">
-                version_info = #{versionInfo,jdbcType=VARCHAR},
+            <if test="orgLevel != null">
+                org_level = #{orgLevel,jdbcType=INTEGER},
             </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
+            <if test="isEnable != null">
+                is_enable = #{isEnable,jdbcType=VARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where org_id = #{orgId,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.reechauto.cloud.news.entity.NewsVersion">
-        update news_version
-        set version_num = #{versionNum,jdbcType=VARCHAR},
-            version_name = #{versionName,jdbcType=VARCHAR},
-            version_info = #{versionInfo,jdbcType=VARCHAR},
-            create_time = #{createTime,jdbcType=TIMESTAMP}
-        where id = #{id,jdbcType=INTEGER}
+    <update id="updateByPrimaryKey" parameterType="com.reechauto.cloud.news.entity.SysOrganize">
+        update sys_organize
+        set org_name = #{orgName,jdbcType=VARCHAR},
+            parent_org_id = #{parentOrgId,jdbcType=BIGINT},
+            org_level = #{orgLevel,jdbcType=INTEGER},
+            is_enable = #{isEnable,jdbcType=VARCHAR}
+        where org_id = #{orgId,jdbcType=BIGINT}
     </update>
 </mapper>
