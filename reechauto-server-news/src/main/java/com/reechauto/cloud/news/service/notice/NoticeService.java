@@ -114,7 +114,12 @@ public class NoticeService {
 		readAllNotice(userId);
 		return ResponseData.ok();
 	}
-
+    /**
+     * 发送通知
+     * @param newsShareId
+     * @param relationId
+     * @param noticeType
+     */
 	public void addNotice(String newsShareId, String relationId, String noticeType) {
 		try {
 			NewsShareWithBLOBs bean = newsShareMapper.selectByPrimaryKey(newsShareId);
