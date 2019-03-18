@@ -76,6 +76,9 @@
 		<table tableName="sys_organize_user">
 			<property name="useActualColumnNames" value="false" />
 		</table>
+		<table tableName="sys_agreement">
+			<property name="useActualColumnNames" value="false" />
+		</table>
 
 	</context>
 </generatorConfiguration>
