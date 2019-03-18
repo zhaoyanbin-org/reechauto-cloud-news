@@ -22,18 +22,23 @@ import com.reechauto.cloud.news.entity.UserDetailsExample;
 import com.reechauto.cloud.news.mapper.NewsFeedbackMapper;
 import com.reechauto.cloud.news.mapper.UserDetailsMapper;
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
 public class AppFeedbackService {
-
 
 	@Autowired
 	private NewsFeedbackMapper newsFeedbackMapper;
 	@Autowired
 	private UserDetailsMapper userDetailsMapper;
-
+    /**
+             * 用户查询意见反馈表
+     * @param userId
+     * @param pageNum
+     * @param start
+     * @return
+     */
 	public ResponseData queryFeedbacksByUserId(Long userId, Integer pageNum, Integer start) {
-
 		List<NewsFeedback> list = null;
 		NewsFeedbackExample example = new NewsFeedbackExample();
 		Criteria criteria = example.createCriteria();
@@ -43,21 +48,37 @@ public class AppFeedbackService {
 		example.setLimitStart(start);
 		example.setOffset(pageNum);
 		list = this.newsFeedbackMapper.selectByExample(example);
-		return ResponseData.ok().data(list).data("total",total);
-
+		return ResponseData.ok().data(list).data("total", total);
 	}
-
+    /**
+             * 用户提交反馈
+     * @param userId
+     * @param question
+     * @return
+     */
 	public ResponseData addQuestion(Long userId, String question) {
-
 		log.info("questionerId:" + userId);
 		NewsFeedback record = new NewsFeedback();
 		record.setQuestion(question);
 		record.setQuestionerId(userId);
 		record.setQuestionTime(new Date());
 		boolean flag = this.newsFeedbackMapper.insertSelective(record) > 0;
+		if (!flag) {
+			throw new RuntimeException("提交反馈失败");
+		}
 		return ResponseData.ok();
 	}
-
+    /**
+             * 操作员查询意见反馈表
+     * @param operatorId
+     * @param mobileNum
+     * @param status
+     * @param beginDate
+     * @param endDate
+     * @param pageNum
+     * @param start
+     * @return
+     */
 	public ResponseData queryFeedbacksByOperator(Long operatorId, String mobileNum, String status, String beginDate,
 			String endDate, Integer pageNum, Integer start) {
 		List<NewsFeedback> list = null;
@@ -106,9 +127,12 @@ public class AppFeedbackService {
 		}
 		return ResponseData.ok().data(nList);
 	}
-
+    /**
+               * 操作员回复反馈
+     * @param vo
+     * @return
+     */
 	public ResponseData answerQuestion(FeedbackAnswerByOperatorRequest vo) {
-
 		log.info("appFeedbackId:" + vo.getAppFeedbackId());
 		log.info("content:" + vo.getContent());
 		NewsFeedback record = newsFeedbackMapper.selectByPrimaryKey(vo.getAppFeedbackId());
@@ -117,6 +141,9 @@ public class AppFeedbackService {
 		record.setAnswerTime(new Date());
 		record.setStatus("Y");
 		boolean flag = this.newsFeedbackMapper.updateByPrimaryKeySelective(record) > 0;
+		if (!flag) {
+			throw new RuntimeException("回复反馈失败");
+		}
 		return ResponseData.ok();
 	}
 

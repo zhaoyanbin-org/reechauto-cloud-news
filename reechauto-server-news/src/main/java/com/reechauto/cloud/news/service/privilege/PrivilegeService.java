@@ -1,13 +1,11 @@
 package com.reechauto.cloud.news.service.privilege;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
-
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysRole;
 

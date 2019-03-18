@@ -14,7 +14,6 @@ import com.reechauto.cloud.news.entity.UserDetails;
 import com.reechauto.cloud.news.mapper.NewsShareCommentMapper;
 import com.reechauto.cloud.news.mapper.UserDetailsMapper;
 import com.reechauto.cloud.news.service.notice.NoticeService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,9 +26,14 @@ public class CommentService {
 	private NoticeService noticeService;
 	@Autowired
 	private NewsShareCommentMapper newsShareCommentMapper;
-
+    /**
+                 * 发表评论
+     * @param userId
+     * @param newsShareId
+     * @param commentContext
+     * @return
+     */
 	public ResponseData addComment(Long userId, String newsShareId, String commentContext) {
-
 		log.info("newsShareId:" + newsShareId);
 		UserDetails userDetails = userDetailsMapper.selectByPrimaryKey(userId);
 		if (userDetails == null) {
@@ -51,7 +55,12 @@ public class CommentService {
 		noticeService.addNotice(newsShareId, id, "comment");
 		return ResponseData.ok();
 	}
-
+    /**
+                  * 修改评论
+     * @param id
+     * @param commentContext
+     * @return
+     */
 	public ResponseData modifyComment(String id, String commentContext) {
 			NewsShareComment record = this.newsShareCommentMapper.selectByPrimaryKey(id);
 			record.setModifyTime(new Date());
@@ -62,7 +71,11 @@ public class CommentService {
 			}
 			return ResponseData.ok();
 	}
-
+    /**
+                  * 删除评论
+     * @param id
+     * @return
+     */
 	public ResponseData delComment(String id) {
 			NewsShareComment record = this.newsShareCommentMapper.selectByPrimaryKey(id);
 			record.setModifyTime(new Date());
@@ -73,9 +86,12 @@ public class CommentService {
 			}
 			return ResponseData.ok();
 	}
-
+    /**
+                  * 查询评论
+     * @param newsShareId
+     * @return
+     */
 	public ResponseData queryByNewsShareId(String newsShareId) {
-		
 			NewsShareCommentExample example = new NewsShareCommentExample();
 			example.createCriteria().andCommentStatusEqualTo(CommentStatusEnum.Y.getValue())
 					.andNewsShareIdEqualTo(newsShareId);

@@ -1,22 +1,18 @@
 package com.reechauto.cloud.news.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.bean.req.MenusQueryRequest;
 import com.reechauto.cloud.news.bean.req.RolesQueryRequest;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysRole;
 import com.reechauto.cloud.news.service.privilege.PrivilegeService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
