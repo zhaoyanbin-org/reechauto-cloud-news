@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reechauto.cloud.common.resp.ResponseData;
@@ -27,6 +28,7 @@ public class AgreementController {
 	 * @param result
 	 * @return
 	 */
+	@RequestMapping(value = "/isAgreement", method = RequestMethod.POST)
 	public ResponseData isAgreement(@Valid AgreementRequest req, BindingResult result) {
 		log.info("查询是否同意协议");
 		if (result.hasErrors()) {
@@ -48,6 +50,7 @@ public class AgreementController {
 	 * @param result
 	 * @return
 	 */
+	@RequestMapping(value = "/agree", method = RequestMethod.POST)
 	public ResponseData agreeAgreement(@Valid AgreementRequest req, BindingResult result) {
 		log.info("添加否同意协议记录");
 		if (result.hasErrors()) {
