@@ -31,13 +31,15 @@ public class AppFeedbackService {
 	private NewsFeedbackMapper newsFeedbackMapper;
 	@Autowired
 	private UserDetailsMapper userDetailsMapper;
-    /**
-             * 用户查询意见反馈表
-     * @param userId
-     * @param pageNum
-     * @param start
-     * @return
-     */
+
+	/**
+	 * 用户查询意见反馈表
+	 * 
+	 * @param userId
+	 * @param pageNum
+	 * @param start
+	 * @return
+	 */
 	public ResponseData queryFeedbacksByUserId(Long userId, Integer pageNum, Integer start) {
 		List<NewsFeedback> list = null;
 		NewsFeedbackExample example = new NewsFeedbackExample();
@@ -50,12 +52,14 @@ public class AppFeedbackService {
 		list = this.newsFeedbackMapper.selectByExample(example);
 		return ResponseData.ok().data(list).data("total", total);
 	}
-    /**
-             * 用户提交反馈
-     * @param userId
-     * @param question
-     * @return
-     */
+
+	/**
+	 * 用户提交反馈
+	 * 
+	 * @param userId
+	 * @param question
+	 * @return
+	 */
 	public ResponseData addQuestion(Long userId, String question) {
 		log.info("questionerId:" + userId);
 		NewsFeedback record = new NewsFeedback();
@@ -68,17 +72,19 @@ public class AppFeedbackService {
 		}
 		return ResponseData.ok();
 	}
-    /**
-             * 操作员查询意见反馈表
-     * @param operatorId
-     * @param mobileNum
-     * @param status
-     * @param beginDate
-     * @param endDate
-     * @param pageNum
-     * @param start
-     * @return
-     */
+
+	/**
+	 * 操作员查询意见反馈表
+	 * 
+	 * @param operatorId
+	 * @param mobileNum
+	 * @param status
+	 * @param beginDate
+	 * @param endDate
+	 * @param pageNum
+	 * @param start
+	 * @return
+	 */
 	public ResponseData queryFeedbacksByOperator(Long operatorId, String mobileNum, String status, String beginDate,
 			String endDate, Integer pageNum, Integer start) {
 		List<NewsFeedback> list = null;
@@ -127,11 +133,13 @@ public class AppFeedbackService {
 		}
 		return ResponseData.ok().data(nList);
 	}
-    /**
-               * 操作员回复反馈
-     * @param vo
-     * @return
-     */
+
+	/**
+	 * 操作员回复反馈
+	 * 
+	 * @param vo
+	 * @return
+	 */
 	public ResponseData answerQuestion(FeedbackAnswerByOperatorRequest vo) {
 		log.info("appFeedbackId:" + vo.getAppFeedbackId());
 		log.info("content:" + vo.getContent());
