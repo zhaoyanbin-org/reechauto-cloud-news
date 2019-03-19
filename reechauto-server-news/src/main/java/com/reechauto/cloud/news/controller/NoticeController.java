@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/notice")
-public class NoticeController extends BaseController {
+public class NoticeController {
 
 	@Autowired
 	private NoticeService noticeServer;

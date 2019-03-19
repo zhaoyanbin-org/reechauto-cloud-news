@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author DELL
  *
  */
-public class NewsShareController extends BaseController {
+public class NewsShareController {
 
 	@Autowired
 	private NewsShareService newsShareService;

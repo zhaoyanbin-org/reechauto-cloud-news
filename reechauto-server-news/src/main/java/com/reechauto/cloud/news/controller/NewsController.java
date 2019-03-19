@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/news")
-public class NewsController extends BaseController {
+public class NewsController {
 
 	@Autowired
 	private NewsService newsService;

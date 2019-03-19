@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/comment")
-public class CommentController extends BaseController {
+public class CommentController  {
 
 	@Autowired
 	private CommentService commentService;

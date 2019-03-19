@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.code.IdGenerator;
 import com.reechauto.cloud.common.utils.date.DateUtil;
 import com.reechauto.cloud.news.service.image.OSSService;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @RestController
 @RequestMapping("/file")
-public class ImageController extends BaseController {
+public class ImageController {
 
 	@Autowired
 	private OSSService oSSService;

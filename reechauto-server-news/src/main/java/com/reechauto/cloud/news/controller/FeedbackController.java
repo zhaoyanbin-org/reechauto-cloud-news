@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/feedback")
-public class FeedbackController extends BaseController {
+public class FeedbackController {
 
 	@Autowired
 	private AppFeedbackService AppFeedbackService;
