@@ -36,8 +36,8 @@ public class OrganizeService {
 	public boolean addOrganize(String orgName, Long parentOrgId, int sort) {
 		log.info("添加组织");
 		int n = queryOrgName(orgName.trim());
-		if(n>0) {
-			throw new RuntimeException("组织名'"+orgName+"'已被占用");
+		if (n > 0) {
+			throw new RuntimeException("组织名'" + orgName + "'已被占用");
 		}
 		SysOrganize record = new SysOrganize();
 		Long orgId = IdGenerator.getInstance().nextId();
@@ -53,8 +53,8 @@ public class OrganizeService {
 		} else {
 			// 查询上一级组织
 			SysOrganize parent = this.sysOrganizeMapper.selectByPrimaryKey(parentOrgId);
-			if(parent==null) {
-				throw new RuntimeException("不存在的上级组织ID'"+parentOrgId+"'");
+			if (parent == null) {
+				throw new RuntimeException("不存在的上级组织ID'" + parentOrgId + "'");
 			}
 			int orgLevel = parent.getOrgLevel() + 1;
 			record.setIsEnable("Y");
@@ -78,19 +78,30 @@ public class OrganizeService {
 	 */
 	public boolean updateOrganizeByOrgId(Long orgId, String orgName, Long parentOrgId, int sort) {
 		SysOrganize sysOrganize = this.sysOrganizeMapper.selectByPrimaryKey(orgId);
-		if(sysOrganize==null) {
-			throw new RuntimeException("不存在的组织ID'"+orgId+"'");
+		if (sysOrganize == null) {
+			throw new RuntimeException("不存在的组织ID'" + orgId + "'");
 		}
 		if (StringUtils.isNotBlank(orgName)) {
 			sysOrganize.setOrgName(orgName);
 		}
-		if (parentOrgId != null && parentOrgId > 0) {
+		boolean flag = false;
+		if (parentOrgId != null && parentOrgId >= 0) {
 			sysOrganize.setParentOrgId(parentOrgId);
+			flag=true;
 		}
 		if (sort >= 0) {
 			sysOrganize.setSort(sort);
 		}
-		return this.sysOrganizeMapper.updateByPrimaryKey(sysOrganize) > 0;
+		boolean ret = this.sysOrganizeMapper.updateByPrimaryKey(sysOrganize) > 0;
+		if(ret&&flag) {
+			int orgLevel=0;
+			if(parentOrgId!=0) {
+				SysOrganize parent =this.sysOrganizeMapper.selectByPrimaryKey(parentOrgId);
+				orgLevel = parent.getOrgLevel();
+			}
+			resetOrganizeLevel(parentOrgId,orgLevel);
+		}
+		return ret;
 	}
 
 	/**
@@ -101,8 +112,8 @@ public class OrganizeService {
 	@Transactional
 	public void delOrg(Long orgId) {
 		SysOrganize sysOrganize = this.sysOrganizeMapper.selectByPrimaryKey(orgId);
-		if(sysOrganize==null) {
-			throw new RuntimeException("不存在的组织ID'"+orgId+"'");
+		if (sysOrganize == null) {
+			throw new RuntimeException("不存在的组织ID'" + orgId + "'");
 		}
 		sysOrganize.setIsEnable("N");
 		this.sysOrganizeMapper.updateByPrimaryKeySelective(sysOrganize);
@@ -166,8 +177,8 @@ public class OrganizeService {
 	public SysOrganizeBean queryOrgByOrgId(Long orgId, Boolean isAll) {
 		SysOrganizeBean bean = new SysOrganizeBean();
 		SysOrganize sysOrganize = this.sysOrganizeMapper.selectByPrimaryKey(orgId);
-		if(sysOrganize==null) {
-			throw new RuntimeException("不存在的组织ID'"+orgId+"'");
+		if (sysOrganize == null) {
+			throw new RuntimeException("不存在的组织ID'" + orgId + "'");
 		}
 		BeanUtils.copyProperties(sysOrganize, bean);
 		List<SysOrganizeBean> childOrg = queryOrgByParentOrgId(orgId, isAll);
@@ -179,6 +190,27 @@ public class OrganizeService {
 		SysOrganizeExample example = new SysOrganizeExample();
 		example.createCriteria().andOrgNameEqualTo(orgName);
 		return (int) this.sysOrganizeMapper.countByExample(example);
+	}
+	
+
+
+	/**
+	 * 重置OrgLevel
+	 * @param parentOrgId
+	 * @param parentOrgLevel
+	 */
+	private void resetOrganizeLevel(Long parentOrgId,int parentOrgLevel) {
+		SysOrganizeExample example = new SysOrganizeExample();
+		example.createCriteria().andParentOrgIdEqualTo(parentOrgId);
+		List<SysOrganize> orglist = this.sysOrganizeMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(orglist)) {
+			for (SysOrganize sysOrganize : orglist) {
+				int orgLevel = parentOrgLevel+1;
+				sysOrganize.setOrgLevel(orgLevel);
+				this.sysOrganizeMapper.updateByPrimaryKeySelective(sysOrganize);
+				resetOrganizeLevel(sysOrganize.getOrgId(),orgLevel);
+			}
+		} 
 	}
 
 	/**
