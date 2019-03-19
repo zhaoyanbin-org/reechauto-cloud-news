@@ -1,6 +1,8 @@
-package com.reechauto.cloud.news.bean.req;
+package com.reechauto.cloud.news.bean.req.privilege;
 
 import javax.validation.constraints.NotNull;
+
+import com.reechauto.cloud.news.bean.req.BaseRequest;
 
 public class MenusQueryRequest extends BaseRequest {
 	private static final long serialVersionUID = 1L;

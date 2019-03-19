@@ -1,8 +1,11 @@
-package com.reechauto.cloud.news.bean.req;
+package com.reechauto.cloud.news.bean.req.agreement;
 
 import javax.validation.constraints.NotNull;
 
-public class RolesQueryRequest extends BaseRequest {
+import com.reechauto.cloud.news.bean.req.BaseRequest;
+
+public class AgreementRequest extends BaseRequest {
+
 	private static final long serialVersionUID = 1L;
 
 	@NotNull(message = "用户ID不可以为NULL")

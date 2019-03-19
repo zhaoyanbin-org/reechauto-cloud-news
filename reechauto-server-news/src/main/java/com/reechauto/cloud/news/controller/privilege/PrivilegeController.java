@@ -1,4 +1,4 @@
-package com.reechauto.cloud.news.controller;
+package com.reechauto.cloud.news.controller.privilege;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reechauto.cloud.common.resp.ResponseData;
-import com.reechauto.cloud.news.bean.req.MenusQueryRequest;
-import com.reechauto.cloud.news.bean.req.RolesQueryRequest;
+import com.reechauto.cloud.news.bean.req.privilege.MenusQueryRequest;
+import com.reechauto.cloud.news.bean.req.privilege.RolesQueryRequest;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysRole;
 import com.reechauto.cloud.news.service.privilege.PrivilegeService;

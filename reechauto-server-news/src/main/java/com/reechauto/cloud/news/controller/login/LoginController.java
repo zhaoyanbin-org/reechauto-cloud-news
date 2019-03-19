@@ -1,4 +1,4 @@
-package com.reechauto.cloud.news.controller;
+package com.reechauto.cloud.news.controller.login;
 
 import java.util.List;
 
