@@ -21,8 +21,12 @@ public class FeedbackController extends BaseController {
 
 	@Autowired
 	private AppFeedbackService AppFeedbackService;
-
-	// 用户查询意见反馈表
+	/**
+	 * 用户查询意见反馈表
+	 * @param req
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value = "/queryFeedbacksByUserId", method = RequestMethod.POST)
 	public ResponseData queryFeedbacksByUserId(@Valid FeedbackQueryByUserRequest req, BindingResult result) {
 		log.info("用户查询意见反馈表");
@@ -34,7 +38,12 @@ public class FeedbackController extends BaseController {
 		return responseData;
 	}
 
-	// 用户提交反馈
+	/**
+	 * 用户提交反馈
+	 * @param req
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value = "/addQuestion", method = RequestMethod.POST)
 	public ResponseData addQuestion(@Valid FeedbackQuestionRequest req, BindingResult result) {
 		log.info("用户提交反馈");
@@ -45,10 +54,15 @@ public class FeedbackController extends BaseController {
 		return responseData;
 	}
 
-	// 操作员查询意见反馈表
+	/**
+	 * 操作员查询意见反馈表
+	 * @param req
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value = "/queryFeedbacksByOperator", method = RequestMethod.POST)
 	public ResponseData queryFeedbacksByOperator(@Valid FeedbackQueryByOperatorRequest req, BindingResult result) {
-		log.info("用户提交反馈");
+		log.info("操作员查询意见反馈表");
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(result.getAllErrors());
 		}
@@ -57,7 +71,12 @@ public class FeedbackController extends BaseController {
 		return responseData;
 	}
 
-	// 操作员回复反馈
+	/**
+	 * 操作员回复反馈
+	 * @param req
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value = "/answerQuestion", method = RequestMethod.POST)
 	public ResponseData answerQuestion(@Valid FeedbackAnswerByOperatorRequest req, BindingResult result) {
 		log.info("用户提交反馈");

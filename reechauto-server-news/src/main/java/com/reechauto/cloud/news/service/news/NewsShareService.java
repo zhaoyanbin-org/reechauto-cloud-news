@@ -127,12 +127,23 @@ public class NewsShareService {
 		}
 		return this.newsShareMapper.updateByPrimaryKeySelective(record) > 0;
 	}
-
+    /**
+             * 根据条件查询资讯或动态
+     * @param userId
+     * @param isNews
+     * @param isTop
+     * @param status
+     * @param pushUserId
+     * @param createDate
+     * @param SearchCondition
+     * @param start
+     * @param pageNum
+     * @return
+     */
 	public ResponseData queryNewsShare(Long userId, String isNews, String isTop, String status, Long pushUserId,
 			String createDate, String SearchCondition, int start, int pageNum) {
 		NewsShareExample example = new NewsShareExample();
 		Criteria criteria = example.createCriteria();
-
 		if (StringUtils.isNotBlank(isNews)) {
 			criteria.andIsNewsEqualTo(NewsShareEnum.get(isNews).getValue());
 		}
@@ -152,14 +163,11 @@ public class NewsShareService {
 		if (StringUtils.isNotBlank(SearchCondition)) {
 			criteria.andTitleLike("%" + SearchCondition + "%");
 		}
-
 		Long total = this.newsShareMapper.countByExample(example);
 		example.setOrderByClause(" create_time Desc");
 		example.setOffset(pageNum);
 		example.setLimitStart(start);
-
 		List<NewsShareWithBLOBs> list = this.newsShareMapper.selectByExampleWithBLOBs(example);
-
 		List<NewsShareBean> nlist = new ArrayList<NewsShareBean>();
 		if (CollectionUtils.isNotEmpty(list)) {
 			for (NewsShareWithBLOBs bean : list) {
@@ -172,7 +180,6 @@ public class NewsShareService {
 				nlist.add(vo);
 			}
 		}
-
 		return ResponseData.ok().data(nlist).data("total", total);
 	}
 
@@ -219,7 +226,6 @@ public class NewsShareService {
 			// 发送通知
 			noticeService.addNotice(newsShareId, id, "likes");
 		}
-
 		return true;
 	}
 
@@ -262,7 +268,11 @@ public class NewsShareService {
 		List<NewsShareLikes> list = this.newsShareLikesMapper.selectByExample(example);
 		return ResponseData.ok().data(list).data("total", total);
 	}
-
+    /**
+              * 根据资讯或动态的ID增加浏览次数
+     * @param newsShareId
+     * @return
+     */
 	public boolean browse(String newsShareId) {
 		NewsShareWithBLOBs bean = this.newsShareMapper.selectByPrimaryKey(newsShareId);
 		bean.setBrowseNum(bean.getBrowseNum() + 1);
@@ -342,8 +352,6 @@ public class NewsShareService {
 	 * @return
 	 */
 	public ResponseData addLikes(Long userId, String newsShareId) {
-		// Long userId = commonService.getUserIdByToken(token);
-		// return feignNewsShareService.addLikes(newsShareId, userId);
 		boolean flag = addLikes(newsShareId, userId);
 		if (flag) {
 			return ResponseData.ok();
@@ -373,14 +381,11 @@ public class NewsShareService {
 	 * @param start
 	 * @return
 	 */
-	
 
 	public ResponseData delNewsShare(String id) {
-
 		NewsShareInfo bean = new NewsShareInfo();
 		bean.setId(id);
 		bean.setStatus(NewsShareStatusEnum.N.getValue());
-		// return feignNewsShareService.modifyNewsShare(bean);
 		log.info(JsonUtils.toJson(bean));
 		boolean flag = modifyNewsShare(bean);
 		if (!flag) {

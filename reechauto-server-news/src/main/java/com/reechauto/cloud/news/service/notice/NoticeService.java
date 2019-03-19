@@ -23,11 +23,11 @@ import com.reechauto.cloud.news.mapper.NewsShareCommentMapper;
 import com.reechauto.cloud.news.mapper.NewsShareLikesMapper;
 import com.reechauto.cloud.news.mapper.NewsShareMapper;
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
 public class NoticeService {
-	
-	
+
 	@Autowired
 	private NewsNoticeMapper newsNoticeMapper;
 	@Autowired
@@ -37,8 +37,16 @@ public class NoticeService {
 	@Autowired
 	private NewsShareLikesMapper newsShareLikesMapper;
 	@Autowired
-	private JdbcTemplate  reechAutoJdbcTemplate;
+	private JdbcTemplate reechAutoJdbcTemplate;
 
+	/**
+	 * 查询我的消息
+	 * 
+	 * @param userId
+	 * @param start
+	 * @param pageNum
+	 * @return
+	 */
 	public ResponseData queryNotice(Long userId, int start, int pageNum) {
 		NewsNoticeExample example = new NewsNoticeExample();
 		example.createCriteria().andNotifyIdEqualTo(userId);
@@ -70,31 +78,48 @@ public class NoticeService {
 
 		return ResponseData.ok().data(nlist).data("total", total);
 	}
+
+	/**
+	 * read消息
+	 * 
+	 * @param noticeId
+	 * @return
+	 */
 	public ResponseData read(String noticeId) {
-		
-		boolean flag = readNotice(noticeId);;
-		if(flag) {
+		boolean flag = readNotice(noticeId);
+		;
+		if (flag) {
 			return ResponseData.ok();
 		}
 		throw new RuntimeException("消息已读失败");
 	}
-	
+   
+	/**
+             * 统计未读消息的个数
+     * @param userId
+     * @return
+     */
 	public ResponseData countNoRead(Long userId) {
-	//	Long userId = commonService.getUserIdByToken(token);
-	//	return this.feignNoticeService.countNoRead(userId);
 		Long num = countNotRead(userId);
 		return ResponseData.ok().data(num);
 	}
-	
-	public ResponseData readAll(Long userId) {
-		//Long userId = commonService.getUserIdByToken(token);
-		 readAllNotice(userId);
-		 return ResponseData.ok();
-	}
-	
-	
-	
 
+	/**
+	 * 将消息全部标记为已读
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public ResponseData readAll(Long userId) {
+		readAllNotice(userId);
+		return ResponseData.ok();
+	}
+    /**
+     * 发送通知
+     * @param newsShareId
+     * @param relationId
+     * @param noticeType
+     */
 	public void addNotice(String newsShareId, String relationId, String noticeType) {
 		try {
 			NewsShareWithBLOBs bean = newsShareMapper.selectByPrimaryKey(newsShareId);
@@ -123,7 +148,6 @@ public class NoticeService {
 	 * @param pageNum
 	 * @return
 	 */
-	
 
 	/**
 	 * 已读通知
@@ -140,30 +164,31 @@ public class NoticeService {
 		}
 		throw new RuntimeException("错误的ID:" + id);
 	}
-	
+
 	/**
 	 * 全部已读通知
 	 * 
 	 * @param id
 	 * @return
 	 */
-	
+
 	public void readAllNotice(Long notifyId) {
-		
-		this.reechAutoJdbcTemplate.update("update news_notice set is_read = ? where notify_id = ? ",YnEnum.Y.getValue(),notifyId);
-		
+
+		this.reechAutoJdbcTemplate.update("update news_notice set is_read = ? where notify_id = ? ",
+				YnEnum.Y.getValue(), notifyId);
+
 	}
-	
+
 	/**
 	 * 统计未读
+	 * 
 	 * @param notifyId
 	 * @return
 	 */
 	public Long countNotRead(Long notifyId) {
-		NewsNoticeExample example=new NewsNoticeExample();
+		NewsNoticeExample example = new NewsNoticeExample();
 		example.createCriteria().andIsReadEqualTo(YnEnum.N.getValue()).andNotifyIdEqualTo(notifyId);
 		return this.newsNoticeMapper.countByExample(example);
 	}
-
 
 }

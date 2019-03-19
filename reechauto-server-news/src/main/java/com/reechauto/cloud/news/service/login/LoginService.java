@@ -2,14 +2,12 @@ package com.reechauto.cloud.news.service.login;
 
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
-
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.date.DateUtil;
 import com.reechauto.cloud.news.entity.SysMenu;

@@ -18,7 +18,12 @@ public class NewsService {
 	
 	@Autowired
 	private NewsShareService  newsShareService;
-
+  
+	/**
+             * 发布资讯
+     * @param vo
+     * @return
+     */
 	public ResponseData pushNews( NewsPublishRequest vo) {
 		NewsShareInfo bean = new NewsShareInfo();
 		bean.setTitle(vo.getTitle());
@@ -72,9 +77,7 @@ public class NewsService {
 		if (StringUtils.isNotBlank(vo.getStatus())) {
 			bean.setStatus(NewsShareStatusEnum.get(vo.getStatus()).getValue());
 		}
-
 		boolean flag =  newsShareService.modifyNewsShare(bean);
-		
 		if (!flag) {
 			throw new RuntimeException("修改资讯失败");
 		}

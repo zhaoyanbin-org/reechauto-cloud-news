@@ -22,6 +22,11 @@ public class ShareService {
 	@Autowired
 	private NewsShareService  newsShareService;
 	
+	/**
+	 * 发布动态
+	 * @param vo
+	 * @return
+	 */
 	public ResponseData pushShare(SharePublishRequest vo) {
 		NewsShareInfo bean = new NewsShareInfo();
 		bean.setTitle(vo.getContext());
@@ -60,7 +65,6 @@ public class ShareService {
 		}
 		bean.setIsNews(NewsShareEnum.SHARE.getValue());
 		bean.setPushUserId(vo.getUserId());
-	//	return feignNewsShareService.modifyNewsShare(bean);
 		log.info(JsonUtils.toJson(bean));
 		boolean flag = newsShareService.modifyNewsShare(bean);
 		if (!flag) {
@@ -70,7 +74,7 @@ public class ShareService {
 	}
 
 	/**
-	 * 查询动态
+	 * 根据条件查询动态
 	 * 
 	 * @param isTop
 	 * @param status
