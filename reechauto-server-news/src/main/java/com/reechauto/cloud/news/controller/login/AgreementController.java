@@ -34,7 +34,11 @@ public class AgreementController {
 		}
 
 		boolean flag = agreementService.isAgreement(req.getUserId());
-		return ResponseData.ok().data(flag);
+		if (flag) {
+			return ResponseData.ok("已同意");
+		} else {
+			return ResponseData.error("未同意协议");
+		}
 	}
 
 	/**
@@ -49,9 +53,12 @@ public class AgreementController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(result.getAllErrors());
 		}
-
 		boolean flag = agreementService.agreeAgreement(req.getUserId());
-		return ResponseData.ok().data(flag);
+		if (flag) {
+			return ResponseData.ok();
+		} else {
+			return ResponseData.error("同意协议操作失败");
+		}
 	}
 
 }

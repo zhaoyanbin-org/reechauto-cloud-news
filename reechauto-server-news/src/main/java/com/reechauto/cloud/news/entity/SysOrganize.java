@@ -26,6 +26,10 @@ public class SysOrganize implements Serializable {
      */
     private Integer orgLevel;
     /**
+     * 排序
+     */
+    private Integer sort;
+    /**
      * Y/N是否可用
      */
     private String isEnable;
@@ -54,6 +58,12 @@ public class SysOrganize implements Serializable {
     }
     public void setOrgLevel(Integer orgLevel) {
         this.orgLevel = orgLevel;
+    }
+    public Integer getSort() {
+        return sort;
+    }
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
     public String getIsEnable() {
         return isEnable;
