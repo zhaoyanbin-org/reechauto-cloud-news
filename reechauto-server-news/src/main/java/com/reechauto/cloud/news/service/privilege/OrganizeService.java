@@ -2,22 +2,18 @@ package com.reechauto.cloud.news.service.privilege;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.transaction.Transactional;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.reechauto.cloud.common.utils.code.IdGenerator;
 import com.reechauto.cloud.news.bean.organize.SysOrganizeBean;
 import com.reechauto.cloud.news.entity.SysOrganize;
 import com.reechauto.cloud.news.entity.SysOrganizeExample;
 import com.reechauto.cloud.news.entity.SysOrganizeExample.Criteria;
 import com.reechauto.cloud.news.mapper.SysOrganizeMapper;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
