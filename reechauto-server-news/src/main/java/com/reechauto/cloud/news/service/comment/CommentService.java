@@ -26,13 +26,14 @@ public class CommentService {
 	private NoticeService noticeService;
 	@Autowired
 	private NewsShareCommentMapper newsShareCommentMapper;
-    /**
-                 * 发表评论
-     * @param userId
-     * @param newsShareId
-     * @param commentContext
-     * @return
-     */
+	/**
+	 * 发表评论
+	 * 
+	 * @param userId
+	 * @param newsShareId
+	 * @param commentContext
+	 * @return
+	 */
 	public ResponseData addComment(Long userId, String newsShareId, String commentContext) {
 		log.info("newsShareId:" + newsShareId);
 		UserDetails userDetails = userDetailsMapper.selectByPrimaryKey(userId);
@@ -55,48 +56,54 @@ public class CommentService {
 		noticeService.addNotice(newsShareId, id, "comment");
 		return ResponseData.ok();
 	}
-    /**
-                  * 修改评论
-     * @param id
-     * @param commentContext
-     * @return
-     */
+
+	/**
+	 * 修改评论
+	 * 
+	 * @param id
+	 * @param commentContext
+	 * @return
+	 */
 	public ResponseData modifyComment(String id, String commentContext) {
-			NewsShareComment record = this.newsShareCommentMapper.selectByPrimaryKey(id);
-			record.setModifyTime(new Date());
-			record.setCommentContext(commentContext);
-			boolean flag = this.newsShareCommentMapper.updateByPrimaryKeySelective(record) > 0;
-			if (!flag) {
-				throw new RuntimeException("更新评论失败");
-			}
-			return ResponseData.ok();
+		NewsShareComment record = this.newsShareCommentMapper.selectByPrimaryKey(id);
+		record.setModifyTime(new Date());
+		record.setCommentContext(commentContext);
+		boolean flag = this.newsShareCommentMapper.updateByPrimaryKeySelective(record) > 0;
+		if (!flag) {
+			throw new RuntimeException("更新评论失败");
+		}
+		return ResponseData.ok();
 	}
-    /**
-                  * 删除评论
-     * @param id
-     * @return
-     */
+
+	/**
+	 * 删除评论
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public ResponseData delComment(String id) {
-			NewsShareComment record = this.newsShareCommentMapper.selectByPrimaryKey(id);
-			record.setModifyTime(new Date());
-			record.setCommentStatus(CommentStatusEnum.N.getValue());
-			boolean flag = this.newsShareCommentMapper.updateByPrimaryKeySelective(record) > 0;
-			if (!flag) {
-				throw new RuntimeException("删除评论失败");
-			}
-			return ResponseData.ok();
+		NewsShareComment record = this.newsShareCommentMapper.selectByPrimaryKey(id);
+		record.setModifyTime(new Date());
+		record.setCommentStatus(CommentStatusEnum.N.getValue());
+		boolean flag = this.newsShareCommentMapper.updateByPrimaryKeySelective(record) > 0;
+		if (!flag) {
+			throw new RuntimeException("删除评论失败");
+		}
+		return ResponseData.ok();
 	}
-    /**
-                  * 查询评论
-     * @param newsShareId
-     * @return
-     */
+
+	/**
+	 * 查询评论
+	 * 
+	 * @param newsShareId
+	 * @return
+	 */
 	public ResponseData queryByNewsShareId(String newsShareId) {
-			NewsShareCommentExample example = new NewsShareCommentExample();
-			example.createCriteria().andCommentStatusEqualTo(CommentStatusEnum.Y.getValue())
-					.andNewsShareIdEqualTo(newsShareId);
-			example.setOrderByClause(" create_time desc");
-			List<NewsShareComment> list = this.newsShareCommentMapper.selectByExample(example);
-			return ResponseData.ok().data(list);
-		} 
+		NewsShareCommentExample example = new NewsShareCommentExample();
+		example.createCriteria().andCommentStatusEqualTo(CommentStatusEnum.Y.getValue())
+				.andNewsShareIdEqualTo(newsShareId);
+		example.setOrderByClause(" create_time desc");
+		List<NewsShareComment> list = this.newsShareCommentMapper.selectByExample(example);
+		return ResponseData.ok().data(list);
+	}
 }
