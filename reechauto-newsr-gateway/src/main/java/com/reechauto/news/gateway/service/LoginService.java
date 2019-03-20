@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
 import com.google.gson.internal.LinkedTreeMap;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.resp.ToeknBean;
@@ -20,7 +18,6 @@ import com.reechauto.news.gateway.config.Constant;
 import com.reechauto.news.gateway.feign.AuthorizationService;
 import com.reechauto.news.gateway.feign.NewsUserService;
 import com.reechauto.news.gateway.feign.UserCenterService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
