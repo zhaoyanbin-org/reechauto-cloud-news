@@ -1,4 +1,4 @@
-package com.reechauto.cloud.news.bean;
+package com.reechauto.cloud.news.bean.news;
 
 import java.io.Serializable;
 import java.util.Date;
