@@ -250,29 +250,4 @@ public class OrganizeService {
 		}
 	}
 
-	/**
-	 * 组织orgId
-	 * 
-	 * @param parentOrgId
-	 * @return
-	 */
-	private Long getOrgId(Long parentOrgId) {
-		if (parentOrgId <= 0) {
-			parentOrgId = 0L;
-		}
-		SysOrganizeExample example = new SysOrganizeExample();
-		example.createCriteria().andParentOrgIdEqualTo(parentOrgId);
-		example.setOrderByClause(" org_id desc");
-		List<SysOrganize> list = this.sysOrganizeMapper.selectByExample(example);
-		if (CollectionUtils.isEmpty(list)) {
-			// 没有子组织,父组织Id后加10;
-			if (parentOrgId == 0) {
-				return 10L;
-			} else {
-				return Long.valueOf(parentOrgId + "10");
-			}
-		}
-		return list.get(0).getOrgId() + 1;
-	}
-
 }
