@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.bean.req.privilege.MenusQueryRequest;
 import com.reechauto.cloud.news.bean.req.privilege.PrivilegeAddRequest;
+import com.reechauto.cloud.news.bean.req.privilege.PrivilegeDelByRoleRequest;
+import com.reechauto.cloud.news.bean.req.privilege.PrivilegeDelRequest;
 import com.reechauto.cloud.news.bean.req.privilege.RolesQueryRequest;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysRole;
@@ -54,7 +56,12 @@ public class PrivilegeController {
 		List<SysMenu> list = privilegeService.queryPrivilege(req.getUserId());
 		return ResponseData.ok().data(list);
 	}
-	
+	/**
+	 * 新增一个角色--菜单权限
+	 * @param req
+	 * @param result
+	 * @return
+	 */
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	public ResponseData addPrivilege(@Valid PrivilegeAddRequest req, BindingResult result) {
 		log.info("新增一个角色--菜单权限");
@@ -67,6 +74,41 @@ public class PrivilegeController {
 		}
 		return ResponseData.ok();
 	}
-	
+	/**
+	 * 删除一个角色--菜单权限
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "del", method = RequestMethod.POST)
+	public ResponseData delPrivilege(@Valid PrivilegeDelRequest req, BindingResult result) {
+		log.info("删除一个角色--菜单权限");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = privilegeService.delPrivilege(req.getRoleId(),req.getMenuId());
+		if (!flag) {
+			throw new RuntimeException("删除该角色--菜单权限失败");
+		}
+		return ResponseData.ok();
+	}
+	/**
+	 * 删除一个角色对应的所有菜单权限
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "deletePrivilegesByRoleId", method = RequestMethod.POST)
+	public ResponseData queryPrivilege(@Valid PrivilegeDelByRoleRequest req, BindingResult result) {
+		log.info("删除一个角色对应的所有菜单权限");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(result.getAllErrors());
+		}
+		boolean flag = privilegeService.delPrivileges(req.getRoleId());
+		if (!flag) {
+			throw new RuntimeException("删除该角色对应的所有菜单权限失败");
+		}
+		return ResponseData.ok();
+	}
 
 }

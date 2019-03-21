@@ -9,6 +9,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysPrivilege;
+import com.reechauto.cloud.news.entity.SysPrivilegeExample;
+import com.reechauto.cloud.news.entity.SysPrivilegeExample.Criteria;
+import com.reechauto.cloud.news.entity.SysPrivilegeKey;
 import com.reechauto.cloud.news.entity.SysRole;
 import com.reechauto.cloud.news.mapper.SysMenuMapper;
 import com.reechauto.cloud.news.mapper.SysPrivilegeMapper;
@@ -49,7 +52,13 @@ public class PrivilegeService {
 		List<SysMenu> list = this.jdbcTemplate.query(sql, rowMapper, userId);
 		return list;
 	}
-	
+	/**
+	 * 新增一个角色--菜单权限
+	 * @param roleId
+	 * @param menuId
+	 * @param userId
+	 * @return
+	 */
 	public boolean addPrivilege(String roleId,Integer menuId,Long userId) {
 		SysMenu sysMenu= sysMenuMapper.selectByPrimaryKey(menuId);
 		if (sysMenu==null) {
@@ -65,6 +74,42 @@ public class PrivilegeService {
 		record.setCreateBy(userId);
 		record.setCreateTime(new Date());
 		return sysPrivilegeMapper.insert(record)>0;
+	}
+	/**
+	 * 删除一个角色--菜单权限
+	 * @param roleId
+	 * @param menuId
+	 * @param userId
+	 * @return
+	 */
+	public boolean delPrivilege(String roleId,Integer menuId) {
+		SysPrivilegeKey SysPrivilegeKey = new SysPrivilegeKey();
+		SysPrivilegeKey.setRoleId(roleId);
+		SysPrivilegeKey.setMenuId(menuId);
+		return sysPrivilegeMapper.deleteByPrimaryKey(SysPrivilegeKey)>0;
+	}
+	/**
+	 * 查询某角色对应的所有菜单
+	 * @param roleId
+	 * @return
+	 */
+	public List<SysMenu> queryMenusByRole(String roleId){
+		String sql = "SELECT m.* FROM sys_menu m,sys_privilege p where m.id = p.menu_id and p.role_id = ?";
+		RowMapper<SysMenu> rowMapper = new BeanPropertyRowMapper<SysMenu>(SysMenu.class);
+		List<SysMenu> list = this.jdbcTemplate.query(sql, rowMapper, roleId);
+		return list;
+	}
+	/**
+	 * 删除某角色对应的所有菜单权限
+	 * @param roleId
+	 * @param menuId
+	 * @return
+	 */
+	public boolean delPrivileges(String roleId) {
+		SysPrivilegeExample example = new SysPrivilegeExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andRoleIdEqualTo(roleId.trim());
+		return sysPrivilegeMapper.deleteByExample(example)>0;
 	}
 
 }
