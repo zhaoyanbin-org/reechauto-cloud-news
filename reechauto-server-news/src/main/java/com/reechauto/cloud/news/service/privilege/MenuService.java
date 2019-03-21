@@ -8,11 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.reechauto.cloud.common.utils.code.IdGenerator;
 import com.reechauto.cloud.news.bean.menu.SysMenuBean;
-import com.reechauto.cloud.news.bean.req.privilege.MenuAddRequest;
-import com.reechauto.cloud.news.bean.req.privilege.MenuDelRequest;
-import com.reechauto.cloud.news.bean.req.privilege.MenuUpdateRequest;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysMenuExample;
 import com.reechauto.cloud.news.entity.SysMenuExample.Criteria;
@@ -31,15 +27,15 @@ public class MenuService {
 	 * @param req
 	 */
 	@Transactional
-	public void delMenu(MenuDelRequest req) {
+	public void delMenu(Integer id) {
 		log.info("删除当前菜单以及下级菜单");
-		SysMenu sysMenu = this.sysMenuMapper.selectByPrimaryKey(req.getId());
+		SysMenu sysMenu = this.sysMenuMapper.selectByPrimaryKey(id);
 		if (sysMenu == null) {
-			throw new RuntimeException("不存在的菜单ID'" + req.getId() + "'");
+			throw new RuntimeException("不存在的菜单ID'" + id + "'");
 		}
 		sysMenu.setStatus("N");;
 		this.sysMenuMapper.updateByPrimaryKeySelective(sysMenu);
-		delMenuByParentId(req.getId());
+		delMenuByParentId(id);
 	}
 	/**
 	 * 根据父ID删除菜单
@@ -110,72 +106,85 @@ public class MenuService {
 		return (int) this.sysMenuMapper.countByExample(example);
 	}
 	/**
-	 * 新增加菜单
-	 * @param req
+	 * 新增菜单
+	 * @param pId
+	 * @param pCode
+	 * @param name
+	 * @param url
+	 * @param isMenu
+	 * @param sort
 	 * @return
 	 */
-	public boolean addMenu(MenuAddRequest req) {
+	public boolean addMenu(Integer pId,String pCode,String name,String url,Integer isMenu,Integer sort) {
 		log.info("添加菜单");
-		int n = queryMenuName(req.getName().trim());
+		int n = queryMenuName(name.trim());
 		if (n > 0) {
-			throw new RuntimeException("菜单名'" + req.getName() + "'已被占用");
+			throw new RuntimeException("菜单名'" + name + "'已被占用");
 		}
 		SysMenu record = new SysMenu();
-		Integer id = getMenuId(req.getpId());
-		if (req.getpId() <= 0) {
+		Integer id = getMenuId(pId);
+		if (pId <= 0) {
 			
 			// 第一级组织
 			record.setStatus("Y");
 			record.setId(id);
-			record.setName(req.getName());
+			record.setName(name);
 			record.setpId(0);
 			record.setpCode("0");
 			record.setLevel(1);
-			record.setSort(req.getSort());
+			record.setSort(sort);
 			record.setCode("menus_"+id);
-			if (StringUtils.isNotBlank(req.getUrl())) {
-				record.setUrl(req.getUrl());
+			if (StringUtils.isNotBlank(url)) {
+				record.setUrl(url);
 			}
-			record.setIsMenu(req.getIsMenu());
+			record.setIsMenu(isMenu);
 		} else {
 			// 查询上一级组织
-			SysMenu parent = this.sysMenuMapper.selectByPrimaryKey(req.getpId());
+			SysMenu parent = this.sysMenuMapper.selectByPrimaryKey(pId);
 			if (parent == null) {
-				throw new RuntimeException("不存在的上级菜单ID'" + req.getpId() + "'");
+				throw new RuntimeException("不存在的上级菜单ID'" + pId + "'");
 			}
 			int level = parent.getLevel() + 1;
 			record.setStatus("Y");
 			record.setId(id);
-			record.setName(req.getName());
-			record.setpId(req.getpId());
-			record.setpCode(req.getpCode());
+			record.setName(name);
+			record.setpId(pId);
+			record.setpCode(pCode);
 			record.setLevel(level);
-			record.setSort(req.getSort());
+			record.setSort(sort);
 			String code = parent.getCode()+"_"+Integer.toString(id).substring(Integer.toString(id).length()-2,Integer.toString(id).length());
 			record.setCode(code);
-			if (StringUtils.isNotBlank(req.getUrl())) {
-				record.setUrl(req.getUrl());
+			if (StringUtils.isNotBlank(url)) {
+				record.setUrl(url);
 			}
-			record.setIsMenu(req.getIsMenu());
+			record.setIsMenu(isMenu);
 		}
 		return this.sysMenuMapper.insertSelective(record) > 0;
 	}
-
-	public boolean updateMenu(MenuUpdateRequest req) {
+    /**
+     * 修改菜单
+     * @param id
+     * @param name
+     * @param url
+     * @param isMenu
+     * @param sort
+     * @return
+     */
+	public boolean updateMenu(Integer id,String name,String url,Integer isMenu,Integer sort) {
 		SysMenu record = new SysMenu();
-		record.setId(req.getId());
-		if (StringUtils.isNotBlank(req.getName())) {
-			record.setName(req.getName());
+		record.setId(id);
+		if (StringUtils.isNotBlank(name)) {
+			record.setName(name);
 		}
-		if (StringUtils.isNotBlank(req.getUrl())) {
-			record.setUrl(req.getUrl());
+		if (StringUtils.isNotBlank(url)) {
+			record.setUrl(url);
 		}
-		if (req.getIsMenu()!=null) {
-			record.setIsMenu(req.getIsMenu());
+		if (isMenu!=null) {
+			record.setIsMenu(isMenu);
 		}
-		if (req.getSort()!=null) {
-			record.setSort(req.getSort());
+		if (sort!=null) {
+			record.setSort(sort);
 		}
-		return sysMenuMapper.updateByPrimaryKey(record)>0;
+		return sysMenuMapper.updateByPrimaryKeySelective(record)>0;
 	}
 }

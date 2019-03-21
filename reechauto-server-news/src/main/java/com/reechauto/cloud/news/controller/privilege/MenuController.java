@@ -35,7 +35,7 @@ public class MenuController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(result.getAllErrors());
 		}
-		menuService.delMenu(req);
+		menuService.delMenu(req.getId());
 		return ResponseData.ok();
 	}
 	/**
@@ -65,7 +65,7 @@ public class MenuController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(result.getAllErrors());
 		}
-		boolean flag = menuService.addMenu(req);
+		boolean flag = menuService.addMenu(req.getpId(),req.getpCode(),req.getName(),req.getUrl(),req.getIsMenu(),req.getSort());
 		if (!flag) {
 			throw new RuntimeException("新增菜单失败");
 		}
@@ -83,7 +83,7 @@ public class MenuController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(result.getAllErrors());
 		}
-		boolean flag = menuService.updateMenu(req);
+		boolean flag = menuService.updateMenu(req.getId(),req.getName(),req.getUrl(),req.getIsMenu(),req.getSort());
 		if (!flag) {
 			throw new RuntimeException("修改菜单失败");
 		}
