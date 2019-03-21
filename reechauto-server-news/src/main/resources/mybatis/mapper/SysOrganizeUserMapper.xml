@@ -6,8 +6,6 @@
         <id column="org_id" jdbcType="BIGINT" property="orgId" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
         <result column="create_by" jdbcType="BIGINT" property="createBy" />
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-        <result column="update_by" jdbcType="BIGINT" property="updateBy" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -68,7 +66,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        user_Id, org_id, create_time, create_by, update_time, update_by
+        user_Id, org_id, create_time, create_by
     </sql>
     <select id="selectByExample" parameterType="com.reechauto.cloud.news.entity.SysOrganizeUserExample" resultMap="BaseResultMap">
         select
@@ -107,11 +105,9 @@
     </delete>
     <insert id="insert" parameterType="com.reechauto.cloud.news.entity.SysOrganizeUser">
         insert into sys_organize_user (user_Id, org_id, create_time, 
-            create_by, update_time, update_by
-            )
+            create_by)
         values (#{userId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-            #{createBy,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}
-            )
+            #{createBy,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" parameterType="com.reechauto.cloud.news.entity.SysOrganizeUser">
         insert into sys_organize_user
@@ -128,12 +124,6 @@
             <if test="createBy != null">
                 create_by,
             </if>
-            <if test="updateTime != null">
-                update_time,
-            </if>
-            <if test="updateBy != null">
-                update_by,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">
@@ -147,12 +137,6 @@
             </if>
             <if test="createBy != null">
                 #{createBy,jdbcType=BIGINT},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateBy != null">
-                #{updateBy,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -177,12 +161,6 @@
             <if test="record.createBy != null">
                 create_by = #{record.createBy,jdbcType=BIGINT},
             </if>
-            <if test="record.updateTime != null">
-                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="record.updateBy != null">
-                update_by = #{record.updateBy,jdbcType=BIGINT},
-            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
@@ -193,9 +171,7 @@
         set user_Id = #{record.userId,jdbcType=BIGINT},
             org_id = #{record.orgId,jdbcType=BIGINT},
             create_time = #{record.createTime,jdbcType=TIMESTAMP},
-            create_by = #{record.createBy,jdbcType=BIGINT},
-            update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-            update_by = #{record.updateBy,jdbcType=BIGINT}
+            create_by = #{record.createBy,jdbcType=BIGINT}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -209,12 +185,6 @@
             <if test="createBy != null">
                 create_by = #{createBy,jdbcType=BIGINT},
             </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateBy != null">
-                update_by = #{updateBy,jdbcType=BIGINT},
-            </if>
         </set>
         where user_Id = #{userId,jdbcType=BIGINT}
           and org_id = #{orgId,jdbcType=BIGINT}
@@ -222,9 +192,7 @@
     <update id="updateByPrimaryKey" parameterType="com.reechauto.cloud.news.entity.SysOrganizeUser">
         update sys_organize_user
         set create_time = #{createTime,jdbcType=TIMESTAMP},
-            create_by = #{createBy,jdbcType=BIGINT},
-            update_time = #{updateTime,jdbcType=TIMESTAMP},
-            update_by = #{updateBy,jdbcType=BIGINT}
+            create_by = #{createBy,jdbcType=BIGINT}
         where user_Id = #{userId,jdbcType=BIGINT}
           and org_id = #{orgId,jdbcType=BIGINT}
     </update>

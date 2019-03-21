@@ -12,8 +12,6 @@ public class SysOrganizeUser extends SysOrganizeUserKey implements Serializable 
 
     private Date createTime;
     private Long createBy;
-    private Date updateTime;
-    private Long updateBy;
     private static final long serialVersionUID = 1L;
 
     public Date getCreateTime() {
@@ -27,17 +25,5 @@ public class SysOrganizeUser extends SysOrganizeUserKey implements Serializable 
     }
     public void setCreateBy(Long createBy) {
         this.createBy = createBy;
-    }
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-    public Long getUpdateBy() {
-        return updateBy;
-    }
-    public void setUpdateBy(Long updateBy) {
-        this.updateBy = updateBy;
     }
 }

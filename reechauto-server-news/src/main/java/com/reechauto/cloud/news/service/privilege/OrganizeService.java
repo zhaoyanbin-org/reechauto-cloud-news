@@ -1,7 +1,9 @@
 package com.reechauto.cloud.news.service.privilege;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -25,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class OrganizeService {
 	@Autowired
 	private SysOrganizeMapper sysOrganizeMapper;
+	@Autowired
+	private OrganizeUserService organizeUserService;
 
 	/**
 	 * 新增加组织
@@ -38,6 +42,11 @@ public class OrganizeService {
 		int n = queryOrgName(orgName.trim());
 		if (n > 0) {
 			throw new RuntimeException("组织名'" + orgName + "'已被占用");
+		}
+		//判断组织下有没有人员，有人员不可以添加下一级组织
+		boolean hasUser = organizeUserService.hasUserOnOrganize(parentOrgId);
+		if(hasUser) {
+			throw new RuntimeException("组织id为'"+parentOrgId+"'的组织下已分配人员，不可以添加下一级组织");
 		}
 		SysOrganize record = new SysOrganize();
 		Long orgId = IdGenerator.getInstance().nextId();
@@ -87,19 +96,19 @@ public class OrganizeService {
 		boolean flag = false;
 		if (parentOrgId != null && parentOrgId >= 0) {
 			sysOrganize.setParentOrgId(parentOrgId);
-			flag=true;
+			flag = true;
 		}
 		if (sort >= 0) {
 			sysOrganize.setSort(sort);
 		}
 		boolean ret = this.sysOrganizeMapper.updateByPrimaryKey(sysOrganize) > 0;
-		if(ret&&flag) {
-			int orgLevel=0;
-			if(parentOrgId!=0) {
-				SysOrganize parent =this.sysOrganizeMapper.selectByPrimaryKey(parentOrgId);
+		if (ret && flag) {
+			int orgLevel = 0;
+			if (parentOrgId != 0) {
+				SysOrganize parent = this.sysOrganizeMapper.selectByPrimaryKey(parentOrgId);
 				orgLevel = parent.getOrgLevel();
 			}
-			resetOrganizeLevel(parentOrgId,orgLevel);
+			resetOrganizeLevel(parentOrgId, orgLevel);
 		}
 		return ret;
 	}
@@ -186,31 +195,61 @@ public class OrganizeService {
 		return bean;
 	}
 
+	/**
+	 * 是否有子组织
+	 * 
+	 * @param orgId
+	 * @return
+	 */
+	public boolean hasChildOrg(Long orgId) {
+		SysOrganizeExample example = new SysOrganizeExample();
+		example.createCriteria().andParentOrgIdEqualTo(orgId);
+		return this.sysOrganizeMapper.countByExample(example) > 0;
+	}
+	
+	/**
+	 * 查询当前节点下的所有叶子节点
+	 * @param orgId
+	 * @param orgIds
+	 */
+	public void queryAllChildOrgId(Long orgId,List<String> list){
+		SysOrganizeExample example=new SysOrganizeExample();
+		example.createCriteria().andParentOrgIdEqualTo(orgId);
+		List<SysOrganize> so = this.sysOrganizeMapper.selectByExample(example);
+		if(CollectionUtils.isNotEmpty(so)) {
+			so.forEach(item ->{
+				queryAllChildOrgId(item.getOrgId(),list);
+			});
+		}
+		else {
+			list.add(orgId+"");
+		}
+	}
+
 	private int queryOrgName(String orgName) {
 		SysOrganizeExample example = new SysOrganizeExample();
 		example.createCriteria().andOrgNameEqualTo(orgName);
 		return (int) this.sysOrganizeMapper.countByExample(example);
 	}
-	
-
 
 	/**
 	 * 重置OrgLevel
+	 * 
 	 * @param parentOrgId
 	 * @param parentOrgLevel
 	 */
-	private void resetOrganizeLevel(Long parentOrgId,int parentOrgLevel) {
+	private void resetOrganizeLevel(Long parentOrgId, int parentOrgLevel) {
 		SysOrganizeExample example = new SysOrganizeExample();
 		example.createCriteria().andParentOrgIdEqualTo(parentOrgId);
 		List<SysOrganize> orglist = this.sysOrganizeMapper.selectByExample(example);
 		if (CollectionUtils.isNotEmpty(orglist)) {
 			for (SysOrganize sysOrganize : orglist) {
-				int orgLevel = parentOrgLevel+1;
+				int orgLevel = parentOrgLevel + 1;
 				sysOrganize.setOrgLevel(orgLevel);
 				this.sysOrganizeMapper.updateByPrimaryKeySelective(sysOrganize);
-				resetOrganizeLevel(sysOrganize.getOrgId(),orgLevel);
+				resetOrganizeLevel(sysOrganize.getOrgId(), orgLevel);
 			}
-		} 
+		}
 	}
 
 	/**
