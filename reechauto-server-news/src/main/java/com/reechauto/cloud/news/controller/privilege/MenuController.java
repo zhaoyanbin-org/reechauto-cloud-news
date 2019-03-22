@@ -14,6 +14,8 @@ import com.reechauto.cloud.news.bean.req.privilege.MenuDelRequest;
 import com.reechauto.cloud.news.bean.req.privilege.MenuQueryByParentIdRequest;
 import com.reechauto.cloud.news.bean.req.privilege.MenuUpdateRequest;
 import com.reechauto.cloud.news.service.privilege.MenuService;
+import com.reechauto.cloud.news.utils.ErrorsUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -33,7 +35,7 @@ public class MenuController {
 	public ResponseData delMenuById(@Valid MenuDelRequest req, BindingResult result) {
 		log.info("根据id删除菜单及其子菜单");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		menuService.delMenu(req.getId());
 		return ResponseData.ok();
@@ -48,7 +50,7 @@ public class MenuController {
 	public ResponseData queryMenuByParentId(@Valid MenuQueryByParentIdRequest req, BindingResult result) {
 		log.info(" 根据父id查询所有的子菜单");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		List<SysMenuBean> list = menuService.queryMenuByParentId(req.getpId());
 		return ResponseData.ok().data(list);
@@ -63,7 +65,7 @@ public class MenuController {
 	public ResponseData addMenu(@Valid MenuAddRequest req, BindingResult result) {
 		log.info("新增菜单");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = menuService.addMenu(req.getpId(),req.getpCode(),req.getName(),req.getUrl(),req.getIsMenu(),req.getSort());
 		if (!flag) {
@@ -81,7 +83,7 @@ public class MenuController {
 	public ResponseData updateMenu(@Valid MenuUpdateRequest req, BindingResult result) {
 		log.info("修改菜单");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = menuService.updateMenu(req.getId(),req.getName(),req.getUrl(),req.getIsMenu(),req.getSort());
 		if (!flag) {

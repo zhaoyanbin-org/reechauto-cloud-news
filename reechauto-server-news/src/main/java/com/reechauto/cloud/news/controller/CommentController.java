@@ -12,6 +12,8 @@ import com.reechauto.cloud.news.bean.req.comment.CommentDelRequest;
 import com.reechauto.cloud.news.bean.req.comment.CommentModifyRequest;
 import com.reechauto.cloud.news.bean.req.comment.CommentQueryRequest;
 import com.reechauto.cloud.news.service.comment.CommentService;
+import com.reechauto.cloud.news.utils.ErrorsUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -32,7 +34,7 @@ public class CommentController  {
 	public ResponseData addComment(@Valid CommentAddRequest req, BindingResult result) {
 		log.info("发表评论");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = commentService.addComment(req.getUserId(), req.getNewsShareId(),
 				req.getCommentContext());
@@ -49,7 +51,7 @@ public class CommentController  {
 	public ResponseData modifyComment(@Valid CommentModifyRequest req, BindingResult result) {
 		log.info("修改评论");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = commentService.modifyComment(req.getId(), req.getCommentContext());
 		return responseData;
@@ -65,7 +67,7 @@ public class CommentController  {
 	public ResponseData delComment(@Valid CommentDelRequest req, BindingResult result) {
 		log.info("删除评论");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = commentService.delComment(req.getId());
 		return responseData;
@@ -81,7 +83,7 @@ public class CommentController  {
 	public ResponseData queryComment(@Valid CommentQueryRequest req, BindingResult result) {
 		log.info("查询评论");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = commentService.queryByNewsShareId(req.getNewsShareId());
 		return responseData;

@@ -11,6 +11,8 @@ import com.reechauto.cloud.news.bean.req.news.ShareModifyRequest;
 import com.reechauto.cloud.news.bean.req.news.SharePublishRequest;
 import com.reechauto.cloud.news.bean.req.news.ShareQueryRequest;
 import com.reechauto.cloud.news.service.news.ShareService;
+import com.reechauto.cloud.news.utils.ErrorsUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,7 +33,7 @@ public class ShareController  {
 	public ResponseData releaseShare(@Valid SharePublishRequest req, BindingResult result) {
 		log.info("发布动态");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = ShareService.pushShare(req);
 		return responseData;
@@ -47,7 +49,7 @@ public class ShareController  {
 	public ResponseData modifyShare(@Valid ShareModifyRequest req, BindingResult result) {
 		log.info("修改动态");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = ShareService.modifyShare(req);
 		return responseData;
@@ -63,7 +65,7 @@ public class ShareController  {
 	public ResponseData queryShare(@Valid ShareQueryRequest req, BindingResult result) {
 		log.info("根据条件查询动态");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = ShareService.queryShare(req, false);
 		return responseData;
@@ -79,7 +81,7 @@ public class ShareController  {
 	public ResponseData queryMeShare(@Valid ShareQueryRequest req, BindingResult result) {
 		log.info("查询我的动态");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = ShareService.queryShare(req, true);
 		return responseData;

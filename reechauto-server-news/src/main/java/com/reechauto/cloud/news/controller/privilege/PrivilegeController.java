@@ -16,6 +16,8 @@ import com.reechauto.cloud.news.bean.req.privilege.RolesQueryRequest;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysRole;
 import com.reechauto.cloud.news.service.privilege.PrivilegeService;
+import com.reechauto.cloud.news.utils.ErrorsUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -35,7 +37,7 @@ public class PrivilegeController {
 	public ResponseData queryRoles(@Valid RolesQueryRequest req, BindingResult result) {
 		log.info("查询角色");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		List<SysRole> list = privilegeService.queryRoleByUserId(req.getUserId());
 		return ResponseData.ok().data(list);
@@ -51,7 +53,7 @@ public class PrivilegeController {
 	public ResponseData queryPrivilege(@Valid MenusQueryRequest req, BindingResult result) {
 		log.info("查询用户对应的菜单权限");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		List<SysMenu> list = privilegeService.queryPrivilege(req.getUserId());
 		return ResponseData.ok().data(list);
@@ -66,7 +68,7 @@ public class PrivilegeController {
 	public ResponseData addPrivilege(@Valid PrivilegeAddRequest req, BindingResult result) {
 		log.info("新增一个角色--菜单权限");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = privilegeService.addPrivilege(req.getRoleId(),req.getMenuId(),req.getUserId());
 		if (!flag) {
@@ -84,7 +86,7 @@ public class PrivilegeController {
 	public ResponseData delPrivilege(@Valid PrivilegeDelRequest req, BindingResult result) {
 		log.info("删除一个角色--菜单权限");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = privilegeService.delPrivilege(req.getRoleId(),req.getMenuId());
 		if (!flag) {
@@ -102,7 +104,7 @@ public class PrivilegeController {
 	public ResponseData queryPrivilege(@Valid PrivilegeDelByRoleRequest req, BindingResult result) {
 		log.info("删除一个角色对应的所有菜单权限");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = privilegeService.delPrivileges(req.getRoleId());
 		if (!flag) {

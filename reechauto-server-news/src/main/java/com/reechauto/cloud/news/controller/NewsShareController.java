@@ -12,6 +12,8 @@ import com.reechauto.cloud.news.bean.req.news.NewsShareLikesRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsShareSingleRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsShareTopQueryRequest;
 import com.reechauto.cloud.news.service.news.NewsShareService;
+import com.reechauto.cloud.news.utils.ErrorsUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -39,7 +41,7 @@ public class NewsShareController {
 	public ResponseData releaseNews(@Valid NewsShareTopQueryRequest req, BindingResult result) {
 		log.info("查询推荐");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsShareService.queryNewsShareTop(req);
 		return responseData;
@@ -56,7 +58,7 @@ public class NewsShareController {
 	public ResponseData querySingleNews(@Valid NewsShareSingleRequest req, BindingResult result) {
 		log.info("根据ID查询单条资讯或动态");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsShareService.querySingleNewsShare(req.getId());
 		return responseData;
@@ -73,7 +75,7 @@ public class NewsShareController {
 	public ResponseData addLikes(@Valid NewsShareLikesRequest req, BindingResult result) {
 		log.info("点赞");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsShareService.addLikes(req.getUserId(), req.getNewsShareId());
 		return responseData;
@@ -90,7 +92,7 @@ public class NewsShareController {
 	public ResponseData removeLikes(@Valid NewsShareLikesRequest req, BindingResult result) {
 		log.info("取消点赞");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsShareService.removeLikes(req.getUserId(), req.getNewsShareId());
 		return responseData;
@@ -107,7 +109,7 @@ public class NewsShareController {
 	public ResponseData queryLikesUsers(@Valid LikesUsersQueryRequest req, BindingResult result) {
 		log.info("查询点赞人员");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsShareService.queryLikesNum(req.getNewsShareId(), req.getStart(),
 				req.getPageNum());
@@ -124,7 +126,7 @@ public class NewsShareController {
 	public ResponseData delComment(@Valid NewsShareSingleRequest req, BindingResult result) {
 		log.info("删除动态");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsShareService.delNewsShare(req.getId());
 		return responseData;

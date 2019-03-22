@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.bean.req.agreement.AgreementRequest;
 import com.reechauto.cloud.news.service.agreement.AgreementService;
+import com.reechauto.cloud.news.utils.ErrorsUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +33,7 @@ public class AgreementController {
 	public ResponseData isAgreement(@Valid AgreementRequest req, BindingResult result) {
 		log.info("查询是否同意协议");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 
 		boolean flag = agreementService.isAgreement(req.getUserId());
@@ -54,7 +55,7 @@ public class AgreementController {
 	public ResponseData agreeAgreement(@Valid AgreementRequest req, BindingResult result) {
 		log.info("添加否同意协议记录");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = agreementService.agreeAgreement(req.getUserId());
 		if (flag) {

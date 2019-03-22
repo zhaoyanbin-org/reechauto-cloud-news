@@ -12,6 +12,8 @@ import com.reechauto.cloud.news.bean.req.news.NewsPublishRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsQueryRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsShareSingleRequest;
 import com.reechauto.cloud.news.service.news.NewsService;
+import com.reechauto.cloud.news.utils.ErrorsUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -33,7 +35,7 @@ public class NewsController {
 	public ResponseData releaseNews(@Valid NewsPublishRequest req, BindingResult result) {
 		log.info("发布资讯");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsService.pushNews(req);
 		return responseData;
@@ -50,7 +52,7 @@ public class NewsController {
 	public ResponseData modifyNews(@Valid NewsModifyRequest req, BindingResult result) {
 		log.info("修改资讯");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsService.modifyNews(req);
 		return responseData;
@@ -67,7 +69,7 @@ public class NewsController {
 	public ResponseData queryNews(@Valid NewsQueryRequest req, BindingResult result) {
 		log.info("根据条件查询资讯");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsService.queryNews(req);
 		return responseData;
@@ -84,7 +86,7 @@ public class NewsController {
 	public ResponseData browse(@Valid NewsShareSingleRequest req, BindingResult result) {
 		log.info("根据资讯或动态的ID增加浏览次数");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsService.browse(req.getId());
 		return responseData;

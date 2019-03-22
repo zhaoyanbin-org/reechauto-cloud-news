@@ -11,6 +11,8 @@ import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.bean.req.notice.NoticeQueryRequest;
 import com.reechauto.cloud.news.bean.req.notice.NoticeReadRequest;
 import com.reechauto.cloud.news.service.notice.NoticeService;
+import com.reechauto.cloud.news.utils.ErrorsUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,7 +33,7 @@ public class NoticeController {
 	public ResponseData queryNotice(@Valid NoticeQueryRequest req, BindingResult result) {
 		log.info("查询我的消息");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = noticeServer.queryNotice(req.getUserId(), req.getStart(), req.getPageNum());
 		return responseData;
@@ -47,7 +49,7 @@ public class NoticeController {
 	public ResponseData readNotice(@Valid NoticeReadRequest req, BindingResult result) {
 		log.info("read消息");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = noticeServer.read(req.getNoticeId());
 		return responseData;

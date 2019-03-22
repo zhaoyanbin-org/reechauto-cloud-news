@@ -12,6 +12,8 @@ import com.reechauto.cloud.news.bean.req.feedback.FeedbackQueryByOperatorRequest
 import com.reechauto.cloud.news.bean.req.feedback.FeedbackQueryByUserRequest;
 import com.reechauto.cloud.news.bean.req.feedback.FeedbackQuestionRequest;
 import com.reechauto.cloud.news.service.feedback.AppFeedbackService;
+import com.reechauto.cloud.news.utils.ErrorsUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,7 +33,7 @@ public class FeedbackController {
 	public ResponseData queryFeedbacksByUserId(@Valid FeedbackQueryByUserRequest req, BindingResult result) {
 		log.info("用户查询意见反馈表");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = AppFeedbackService.queryFeedbacksByUserId(req.getUserId(), req.getPageNum(),
 				req.getStart());
@@ -48,7 +50,7 @@ public class FeedbackController {
 	public ResponseData addQuestion(@Valid FeedbackQuestionRequest req, BindingResult result) {
 		log.info("用户提交反馈");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = AppFeedbackService.addQuestion(req.getUserId(), req.getQuestion());
 		return responseData;
@@ -64,7 +66,7 @@ public class FeedbackController {
 	public ResponseData queryFeedbacksByOperator(@Valid FeedbackQueryByOperatorRequest req, BindingResult result) {
 		log.info("操作员查询意见反馈表");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = AppFeedbackService.queryFeedbacksByOperator(req.getOperatorId(), req.getMobileNum(),
 				req.getStatus(), req.getBeginDate(), req.getEndDate(), req.getPageNum(), req.getStart());
@@ -81,7 +83,7 @@ public class FeedbackController {
 	public ResponseData answerQuestion(@Valid FeedbackAnswerByOperatorRequest req, BindingResult result) {
 		log.info("用户提交反馈");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = AppFeedbackService.answerQuestion(req);
 		return responseData;

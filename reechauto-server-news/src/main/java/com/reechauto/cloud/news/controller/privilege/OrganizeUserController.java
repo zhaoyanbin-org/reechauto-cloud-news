@@ -16,6 +16,7 @@ import com.reechauto.cloud.news.bean.req.privilege.OrganizeUserAddRequest;
 import com.reechauto.cloud.news.bean.req.privilege.OrganizeUserDelRequest;
 import com.reechauto.cloud.news.bean.req.privilege.OrganizeUserQueryByOrgIdRequest;
 import com.reechauto.cloud.news.service.privilege.OrganizeUserService;
+import com.reechauto.cloud.news.utils.ErrorsUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +34,7 @@ public class OrganizeUserController {
 	public ResponseData organizeAddUser(@Valid OrganizeUserAddRequest req, BindingResult result) {
 		log.info("为组织添加人员");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		boolean flag = organizeUserService.organizeAddUser(req.getOrgId(), req.getUserId(), req.getOperBy());
 		if (flag) {
@@ -53,7 +54,7 @@ public class OrganizeUserController {
 	public ResponseData organizeDelUser(@Valid OrganizeUserDelRequest req, BindingResult result) {
 		log.info("删除组织下的人员");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		Boolean flag = organizeUserService.organizeDelUser(req.getOrgId(), req.getUserId());
 		if (flag) {
@@ -73,7 +74,7 @@ public class OrganizeUserController {
 	public ResponseData queryOrgUserByOrgId(@Valid OrganizeUserQueryByOrgIdRequest req, BindingResult result) {
 		log.info("查询指定组织下的人员");
 		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(result.getAllErrors());
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		List<UserOrganizeDetails> list = organizeUserService.queryOrgUserByOrgId(req.getOrgId(),req.getPageNum(),req.getPageSize());
 		return ResponseData.ok().data(list);
