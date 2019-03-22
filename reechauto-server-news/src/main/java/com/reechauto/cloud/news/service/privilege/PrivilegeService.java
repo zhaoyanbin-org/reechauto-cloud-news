@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysPrivilege;
 import com.reechauto.cloud.news.entity.SysPrivilegeExample;
@@ -93,11 +94,13 @@ public class PrivilegeService {
 	 * @param roleId
 	 * @return
 	 */
-	public List<SysMenu> queryMenusByRole(String roleId){
-		String sql = "SELECT m.* FROM sys_menu m,sys_privilege p where m.id = p.menu_id and p.role_id = ?";
+	public ResponseData queryMenusByRole(String roleId,Integer pageNum,Integer start){
+		String sql = "SELECT m.* FROM sys_menu m,sys_privilege p where m.id = p.menu_id and p.role_id = ? limit ?,?";
 		RowMapper<SysMenu> rowMapper = new BeanPropertyRowMapper<SysMenu>(SysMenu.class);
 		List<SysMenu> list = this.jdbcTemplate.query(sql, rowMapper, roleId);
-		return list;
+		String sql1 = "SELECT count(*) FROM sys_menu m,sys_privilege p where m.id = p.menu_id and p.role_id = ?";
+		Integer total = this.jdbcTemplate.queryForObject(sql1, Integer.class, roleId,start,pageNum);
+		return ResponseData.ok().data(list).data("total", total);
 	}
 	/**
 	 * 删除某角色对应的所有菜单权限

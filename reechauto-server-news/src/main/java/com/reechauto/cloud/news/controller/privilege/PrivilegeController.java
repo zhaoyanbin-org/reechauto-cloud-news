@@ -12,12 +12,12 @@ import com.reechauto.cloud.news.bean.req.privilege.MenusQueryRequest;
 import com.reechauto.cloud.news.bean.req.privilege.PrivilegeAddRequest;
 import com.reechauto.cloud.news.bean.req.privilege.PrivilegeDelByRoleRequest;
 import com.reechauto.cloud.news.bean.req.privilege.PrivilegeDelRequest;
+import com.reechauto.cloud.news.bean.req.privilege.PrivilegeQueryRequest;
 import com.reechauto.cloud.news.bean.req.privilege.RolesQueryRequest;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysRole;
 import com.reechauto.cloud.news.service.privilege.PrivilegeService;
 import com.reechauto.cloud.news.utils.ErrorsUtil;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -101,7 +101,7 @@ public class PrivilegeController {
 	 * @return
 	 */
 	@RequestMapping(value = "deletePrivilegesByRoleId", method = RequestMethod.POST)
-	public ResponseData queryPrivilege(@Valid PrivilegeDelByRoleRequest req, BindingResult result) {
+	public ResponseData deletePrivilegesByRoleId(@Valid PrivilegeDelByRoleRequest req, BindingResult result) {
 		log.info("删除一个角色对应的所有菜单权限");
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
@@ -111,6 +111,22 @@ public class PrivilegeController {
 			throw new RuntimeException("删除该角色对应的所有菜单权限失败");
 		}
 		return ResponseData.ok();
+	}
+	
+	/**
+	 * 查询一个角色对应的所有菜单权限
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "queryPrivilegesByRoleId", method = RequestMethod.POST)
+	public ResponseData queryPrivilegesByRoleId(@Valid PrivilegeQueryRequest req, BindingResult result) {
+		log.info("查询一个角色对应的所有菜单权限");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
+		}
+		ResponseData resp = privilegeService.queryMenusByRole(req.getRoleId(),req.getPageNum(),req.getStart());
+		return resp;
 	}
 
 }
