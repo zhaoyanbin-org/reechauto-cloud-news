@@ -34,7 +34,6 @@ public class LoginService {
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
 
-	@SuppressWarnings("unchecked")
 	public ResponseData loginByPassword(String username, String password) throws UnsupportedEncodingException {
 		String authorizationStr = BasicTokenUtil.authorizationBasic(resourceServerProperties.getClientId(),
 				resourceServerProperties.getClientSecret());
@@ -42,24 +41,24 @@ public class LoginService {
 		ResponseData responseData = getUserInfo(token);
 		return responseData;
 	}
+
 	public ResponseData loginByCode(String username, String vcode) throws UnsupportedEncodingException {
 		String authorizationStr = BasicTokenUtil.authorizationBasic(resourceServerProperties.getClientId(),
 				resourceServerProperties.getClientSecret());
-		ToeknBean token = authorizationService.loginByCode(authorizationStr,  username, vcode);
+		ToeknBean token = authorizationService.loginByCode(authorizationStr, username, vcode);
 		System.out.println("获得token");
 		ResponseData responseData = getUserInfo(token);
 		System.out.println("获得用户信息");
 		return responseData;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public ResponseData sendMessage(String mobile, String clientId)  {
+
+	public ResponseData sendMessage(String mobile, String clientId) {
 		ResponseData responseData = userCenterService.sendMessage(mobile);
 		return responseData;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public ResponseData getUserInfo(ToeknBean token) throws UnsupportedEncodingException{
+	public ResponseData getUserInfo(ToeknBean token) throws UnsupportedEncodingException {
 		Object userObj = authorizationService.userInfo(BasicTokenUtil.authorizationBearer(token.getAccess_token()));
 		ResponseData serverUser = GsonUtil.GsonToBean(GsonUtil.GsonString(userObj), ResponseData.class);
 		if (1000 != serverUser.getCode()) {
@@ -99,26 +98,27 @@ public class LoginService {
 				account, mobile, email, idcard, "" + user.get("sex"), "" + user.get("birthday"),
 				"" + user.get("imgUrl"), "" + user.get("city"));
 
-		//获取授权
+		// 获取授权
 		ResponseData privilegeRet = newsUserService.queryPrivilege(userId);
 		if (1000 != privilegeRet.getCode()) {
 			throw new RuntimeException("获取用户权限失败");
 		} else {
 			userRet.data("menus", privilegeRet.getData().get("context"));
-			redisTemplate.opsForValue().set(Constant.USER_MENUS+token.getAccess_token(), privilegeRet.getData().get("context"), token.getExpires_in(),TimeUnit.SECONDS);
+			redisTemplate.opsForValue().set(Constant.USER_MENUS + token.getAccess_token(),
+					privilegeRet.getData().get("context"), token.getExpires_in(), TimeUnit.SECONDS);
 		}
-		//获取角色
+		// 获取角色
 		ResponseData roleRet = newsUserService.queryRoles(userId);
 		if (1000 != roleRet.getCode()) {
 			throw new RuntimeException("获取用户角色失败");
 		} else {
 			userRet.data("roles", roleRet.getData().get("context"));
-			redisTemplate.opsForValue().set(Constant.USER_ROLES+token.getAccess_token(), roleRet.getData().get("context"), token.getExpires_in(),TimeUnit.SECONDS);
+			redisTemplate.opsForValue().set(Constant.USER_ROLES + token.getAccess_token(),
+					roleRet.getData().get("context"), token.getExpires_in(), TimeUnit.SECONDS);
 		}
 
 		userRet.data("token", token);
 		return userRet;
 	}
-	
-	
+
 }

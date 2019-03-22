@@ -1,7 +1,5 @@
 package com.reechauto.news.gateway.config.resource;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -21,9 +19,9 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.news.gateway.config.Constant;
-import com.reechauto.news.gateway.feign.NewsUserService;
+import com.reechauto.news.gateway.service.resource.SysResourceScope;
+import com.reechauto.news.gateway.service.resource.SysResourceScopeService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,18 +38,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Autowired
 	private OAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler;
 	@Autowired
-	private NewsUserService newsUserService;
+	private SysResourceScopeService sysResourceScopeService;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-//	@Bean
-//	@Qualifier("authorizationHeaderRequestMatcher")
-//	public RequestMatcher authorizationHeaderRequestMatcher() {
-//		return new RequestHeaderRequestMatcher("Authorization");
-//	}
 
 	@Bean
 	public OAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler(
@@ -60,13 +52,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		expressionHandler.setApplicationContext(applicationContext);
 		return expressionHandler;
 	}
-	
+
 	@Bean
-    public RemoteTokenServices remoteTokenServices() {
-        RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
-        return remoteTokenServices;
-    }
-	
+	public RemoteTokenServices remoteTokenServices() {
+		RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
+		return remoteTokenServices;
+	}
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -76,37 +67,34 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		resources.expressionHandler(oAuth2WebSecurityExpressionHandler);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().exceptionHandling().accessDeniedHandler(reechAccessDeniedHandler)
 				.authenticationEntryPoint(reechAuthenticationEntryPoint);
-		
-		ResponseData scopRet = newsUserService.queryResourceScopse();
+
+		List<SysResourceScope> list = sysResourceScopeService.queryResourceScopse();
 
 		http.authorizeRequests().antMatchers(Constant.URL_PERMITALL).permitAll();
 		http.authorizeRequests().antMatchers("/login/**").permitAll();
 		http.authorizeRequests().antMatchers("/news/login/**").denyAll();
-		//http.authorizeRequests().antMatchers("/news/reech/depart").access("#oauth2.hasAnyScope('abc,aab') and @permissionService.hasPermission(request,authentication)");
-		if(1000==scopRet.getCode()) {
-			List<LinkedHashMap<String, Object>> list = (ArrayList<LinkedHashMap<String, Object>>) scopRet.getData().get("context");
-			if(!CollectionUtils.isEmpty(list)) {
-				list.forEach(e ->{
-					String url = e.get("url").toString();
-					String scope = e.get("scope").toString();
-					try {
-						http.authorizeRequests().antMatchers(url).access("#oauth2.hasAnyScope('"+scope+"') and @permissionService.hasPermission(request,authentication)");
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-				});
-			}
+
+		if (!CollectionUtils.isEmpty(list)) {
+			list.forEach(e -> {
+				String url = e.getUrl();
+				String scope = e.getScope();
+				try {
+					http.authorizeRequests().antMatchers(url).access("#oauth2.hasAnyScope('" + scope
+							+ "') and @permissionService.hasPermission(request,authentication)");
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			});
+
 		}
-		
+
 		http.authorizeRequests().anyRequest().access("@permissionService.hasPermission(request,authentication)");
 		http.authorizeRequests().anyRequest().authenticated();
-		
+
 	}
 
 }
-

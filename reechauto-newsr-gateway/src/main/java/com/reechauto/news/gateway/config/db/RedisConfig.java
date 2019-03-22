@@ -1,4 +1,4 @@
-package com.reechauto.news.gateway.config;
+package com.reechauto.news.gateway.config.db;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;

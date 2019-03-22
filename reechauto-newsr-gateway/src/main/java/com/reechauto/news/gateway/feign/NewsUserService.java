@@ -23,6 +23,6 @@ public interface NewsUserService {
 	@PostMapping("/login/menus/queryByUserId")
 	public ResponseData queryPrivilege(@RequestParam("userId") Long userId);
 	
-	@PostMapping("/login/resource/scopes")
-	public ResponseData queryResourceScopse();
+//	@PostMapping("/login/resource/scopes")
+//	public ResponseData queryResourceScopse();
 }
