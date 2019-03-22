@@ -10,8 +10,8 @@ public class PrivilegeAddRequest extends BaseRequest {
 	
 	@NotBlank(message = "roleId不可以为空")
 	private String roleId;
-	@NotNull(message = "menuId不可以为null")
-	private Integer menuId;
+	@NotNull(message = "menuIds不可以为null")
+	private String  menuIds;
 	@NotNull(message = "userId不可以为null")
 	private Long userId;
 	public String getRoleId() {
@@ -20,11 +20,11 @@ public class PrivilegeAddRequest extends BaseRequest {
 	public void setRoleId(String roleId) {
 		this.roleId = roleId;
 	}
-	public Integer getMenuId() {
-		return menuId;
+	public String getMenuIds() {
+		return menuIds;
 	}
-	public void setMenuId(Integer menuId) {
-		this.menuId = menuId;
+	public void setMenuIds(String menuIds) {
+		this.menuIds = menuIds;
 	}
 	public Long getUserId() {
 		return userId;

@@ -3,6 +3,9 @@ package com.reechauto.cloud.news.service.privilege;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import javax.transaction.Transactional;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+
 import com.reechauto.cloud.common.resp.ResponseData;
+import com.reechauto.cloud.news.bean.menu.MenuId;
 import com.reechauto.cloud.news.bean.menu.SysMenuBean;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysMenuExample;
@@ -33,6 +38,8 @@ public class PrivilegeService {
 	private SysMenuMapper sysMenuMapper;
 	@Autowired
 	private SysRoleMapper sysRoleMapper;
+	@Autowired
+	private MenuService menuService;
 
 	/**
 	 * 查询角色
@@ -61,44 +68,38 @@ public class PrivilegeService {
 	}
 
 	/**
-	 * 新增一个角色--菜单权限
+	 * 新增角色--菜单权限
 	 * 
 	 * @param roleId
 	 * @param menuId
 	 * @param userId
 	 * @return
 	 */
-	public boolean addPrivilege(String roleId, Integer menuId, Long userId) {
-		SysMenu sysMenu = sysMenuMapper.selectByPrimaryKey(menuId);
-		if (sysMenu == null) {
-			throw new RuntimeException("menuId错误，对应的menu不存在");
-		}
+	@Transactional
+	public void addPrivilege(String roleId, String menuIds, Long userId) {
+		delPrivileges(roleId);
 		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
 		if (sysRole == null) {
 			throw new RuntimeException("roleId错误，对应的role不存在");
 		}
-		SysPrivilege record = new SysPrivilege();
-		record.setRoleId(roleId);
-		record.setMenuId(menuId);
-		record.setCreateBy(userId);
-		record.setCreateTime(new Date());
-		return sysPrivilegeMapper.insert(record) > 0;
+		String[] menuIds1 = menuIds.split(",");
+		for (int i = 0; i < menuIds1.length; i++) {
+			Integer menuId = Integer.parseInt(menuIds1[i]);
+			SysMenu sysMenu = sysMenuMapper.selectByPrimaryKey(menuId);
+			if (sysMenu == null) {
+				throw new RuntimeException("menuId错误，对应的menu不存在");
+			}
+			
+			SysPrivilege record = new SysPrivilege();
+			record.setRoleId(roleId);
+			record.setMenuId(menuId);
+			record.setCreateBy(userId);
+			record.setCreateTime(new Date());
+			sysPrivilegeMapper.insert(record);
+		}
 	}
 
-	/**
-	 * 删除一个角色--菜单权限
-	 * 
-	 * @param roleId
-	 * @param menuId
-	 * @param userId
-	 * @return
-	 */
-	public boolean delPrivilege(String roleId, Integer menuId) {
-		SysPrivilegeKey SysPrivilegeKey = new SysPrivilegeKey();
-		SysPrivilegeKey.setRoleId(roleId);
-		SysPrivilegeKey.setMenuId(menuId);
-		return sysPrivilegeMapper.deleteByPrimaryKey(SysPrivilegeKey) > 0;
-	}
+	
 
 	/**
 	 * 查询某角色对应的所有菜单
@@ -106,30 +107,12 @@ public class PrivilegeService {
 	 * @param roleId
 	 * @return
 	 */
-	public List<SysMenuBean> queryMenusByRoleId(int pId, String roleId) {
-		List<SysMenuBean> list = new ArrayList<SysMenuBean>();
-		SysMenuExample example = new SysMenuExample();
-		com.reechauto.cloud.news.entity.SysMenuExample.Criteria criteria = example.createCriteria();
-		criteria.andPIdEqualTo(pId);
-		criteria.andStatusEqualTo("Y");
-		example.setOrderByClause(" sort ASC");
-		List<SysMenu> menuList = this.sysMenuMapper.selectByExample(example);
-		if (CollectionUtils.isNotEmpty(menuList)) {
-			menuList.forEach(item -> {
-				SysPrivilegeKey SysPrivilegeKey = new SysPrivilegeKey();
-				SysPrivilegeKey.setRoleId(roleId);
-				SysPrivilegeKey.setMenuId(item.getId());
-				SysPrivilege sysPrivilege = sysPrivilegeMapper.selectByPrimaryKey(SysPrivilegeKey);
-				if (sysPrivilege != null) {
-					SysMenuBean bean = new SysMenuBean();
-					BeanUtils.copyProperties(item, bean);
-					List<SysMenuBean> childMenu = queryMenusByRoleId(item.getId(), roleId);
-					bean.setChildMenu(childMenu);
-					list.add(bean);
-				}
-			});
-		}
-		return list;
+	public ResponseData queryMenusByRoleId(int pId, String roleId) {
+		List<SysMenuBean> allList = menuService.queryMenuByParentId(0);
+		String sql = "SELECT t.menu_id FROM sys_privilege t,sys_menu m WHERE t.role_id = ? and t.menu_id = m.id and m.status = 'Y' ";
+		RowMapper<MenuId> rowMapper = new BeanPropertyRowMapper<MenuId>(MenuId.class);
+		List<MenuId> menuIdList = this.jdbcTemplate.query(sql, rowMapper, roleId);
+		return ResponseData.ok().data("allList", allList).data("menuIdList", menuIdList);
 	}
 
 	/**
