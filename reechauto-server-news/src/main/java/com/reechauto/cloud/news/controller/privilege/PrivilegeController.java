@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.reechauto.cloud.common.resp.ResponseData;
+import com.reechauto.cloud.news.bean.menu.SysMenuBean;
 import com.reechauto.cloud.news.bean.req.privilege.MenusQueryRequest;
 import com.reechauto.cloud.news.bean.req.privilege.PrivilegeAddRequest;
 import com.reechauto.cloud.news.bean.req.privilege.PrivilegeDelByRoleRequest;
@@ -119,14 +120,14 @@ public class PrivilegeController {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(value = "queryPrivilegesByRoleId", method = RequestMethod.POST)
-	public ResponseData queryPrivilegesByRoleId(@Valid PrivilegeQueryRequest req, BindingResult result) {
+	@RequestMapping(value = "queryMenusByRoleId", method = RequestMethod.POST)
+	public ResponseData queryMenusByRoleId(@Valid PrivilegeQueryRequest req, BindingResult result) {
 		log.info("查询一个角色对应的所有菜单权限");
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData resp = privilegeService.queryMenusByRole(req.getRoleId(),req.getPageNum(),req.getStart());
-		return resp;
+		List<SysMenuBean> list = privilegeService.queryMenusByRoleId(0,req.getRoleId());
+		return ResponseData.ok().data(list);
 	}
 
 }
