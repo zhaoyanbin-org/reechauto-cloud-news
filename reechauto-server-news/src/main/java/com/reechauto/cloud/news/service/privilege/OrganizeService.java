@@ -57,6 +57,8 @@ public class OrganizeService {
 			record.setParentOrgId(parentOrgId);
 			record.setOrgLevel(1);
 			record.setSort(sort);
+			record.setParentOrgIdAll(parentOrgId+",");
+			record.setParentOrgNameAll("/");
 		} else {
 			// 查询上一级组织
 			SysOrganize parent = this.sysOrganizeMapper.selectByPrimaryKey(parentOrgId);
@@ -70,6 +72,8 @@ public class OrganizeService {
 			record.setParentOrgId(parentOrgId);
 			record.setOrgLevel(orgLevel);
 			record.setSort(sort);
+			record.setParentOrgIdAll(parent.getParentOrgIdAll()+parentOrgId+",");
+			record.setParentOrgNameAll(parent.getParentOrgNameAll()+parent.getOrgName()+"/");
 		}
 		return this.sysOrganizeMapper.insertSelective(record) > 0;
 	}
@@ -101,12 +105,7 @@ public class OrganizeService {
 		}
 		boolean ret = this.sysOrganizeMapper.updateByPrimaryKey(sysOrganize) > 0;
 		if (ret && flag) {
-			int orgLevel = 0;
-			if (parentOrgId != 0) {
-				SysOrganize parent = this.sysOrganizeMapper.selectByPrimaryKey(parentOrgId);
-				orgLevel = parent.getOrgLevel();
-			}
-			resetOrganizeLevel(parentOrgId, orgLevel);
+			resetOrganizeLevel(parentOrgId);
 		}
 		return ret;
 	}
@@ -230,22 +229,34 @@ public class OrganizeService {
 		return (int) this.sysOrganizeMapper.countByExample(example);
 	}
 
+	
 	/**
 	 * 重置OrgLevel
-	 * 
 	 * @param parentOrgId
-	 * @param parentOrgLevel
 	 */
-	private void resetOrganizeLevel(Long parentOrgId, int parentOrgLevel) {
+	private void resetOrganizeLevel(Long parentOrgId) {
+		SysOrganize parentOrg =null;
+		if(parentOrgId!=0) {
+			parentOrg = this.sysOrganizeMapper.selectByPrimaryKey(parentOrgId);
+		}
 		SysOrganizeExample example = new SysOrganizeExample();
 		example.createCriteria().andParentOrgIdEqualTo(parentOrgId);
 		List<SysOrganize> orglist = this.sysOrganizeMapper.selectByExample(example);
 		if (CollectionUtils.isNotEmpty(orglist)) {
 			for (SysOrganize sysOrganize : orglist) {
-				int orgLevel = parentOrgLevel + 1;
-				sysOrganize.setOrgLevel(orgLevel);
+				if(parentOrgId==0) {
+					sysOrganize.setOrgLevel(1);
+					sysOrganize.setParentOrgIdAll("0,");
+					sysOrganize.setParentOrgNameAll("/");
+				}
+				else {
+					sysOrganize.setOrgLevel(parentOrg.getOrgLevel()+1);
+					sysOrganize.setParentOrgIdAll(parentOrg.getParentOrgIdAll()+parentOrg.getOrgId()+",");
+					sysOrganize.setParentOrgNameAll(parentOrg.getParentOrgNameAll()+parentOrg.getOrgName()+"/");
+				}
+				
 				this.sysOrganizeMapper.updateByPrimaryKeySelective(sysOrganize);
-				resetOrganizeLevel(sysOrganize.getOrgId(), orgLevel);
+				resetOrganizeLevel(sysOrganize.getOrgId());
 			}
 		}
 	}

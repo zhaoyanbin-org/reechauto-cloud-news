@@ -410,6 +410,118 @@ public class SysOrganizeExample {
             addCriterion("is_enable not between", value1, value2, "isEnable");
             return (Criteria) this;
         }
+        public Criteria andParentOrgIdAllIsNull() {
+            addCriterion("parent_org_id_all is null");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllIsNotNull() {
+            addCriterion("parent_org_id_all is not null");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllEqualTo(String value) {
+            addCriterion("parent_org_id_all =", value, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllNotEqualTo(String value) {
+            addCriterion("parent_org_id_all <>", value, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllGreaterThan(String value) {
+            addCriterion("parent_org_id_all >", value, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllGreaterThanOrEqualTo(String value) {
+            addCriterion("parent_org_id_all >=", value, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllLessThan(String value) {
+            addCriterion("parent_org_id_all <", value, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllLessThanOrEqualTo(String value) {
+            addCriterion("parent_org_id_all <=", value, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllLike(String value) {
+            addCriterion("parent_org_id_all like", value, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllNotLike(String value) {
+            addCriterion("parent_org_id_all not like", value, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllIn(List<String> values) {
+            addCriterion("parent_org_id_all in", values, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllNotIn(List<String> values) {
+            addCriterion("parent_org_id_all not in", values, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllBetween(String value1, String value2) {
+            addCriterion("parent_org_id_all between", value1, value2, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgIdAllNotBetween(String value1, String value2) {
+            addCriterion("parent_org_id_all not between", value1, value2, "parentOrgIdAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllIsNull() {
+            addCriterion("parent_org_name_all is null");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllIsNotNull() {
+            addCriterion("parent_org_name_all is not null");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllEqualTo(String value) {
+            addCriterion("parent_org_name_all =", value, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllNotEqualTo(String value) {
+            addCriterion("parent_org_name_all <>", value, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllGreaterThan(String value) {
+            addCriterion("parent_org_name_all >", value, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllGreaterThanOrEqualTo(String value) {
+            addCriterion("parent_org_name_all >=", value, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllLessThan(String value) {
+            addCriterion("parent_org_name_all <", value, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllLessThanOrEqualTo(String value) {
+            addCriterion("parent_org_name_all <=", value, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllLike(String value) {
+            addCriterion("parent_org_name_all like", value, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllNotLike(String value) {
+            addCriterion("parent_org_name_all not like", value, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllIn(List<String> values) {
+            addCriterion("parent_org_name_all in", values, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllNotIn(List<String> values) {
+            addCriterion("parent_org_name_all not in", values, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllBetween(String value1, String value2) {
+            addCriterion("parent_org_name_all between", value1, value2, "parentOrgNameAll");
+            return (Criteria) this;
+        }
+        public Criteria andParentOrgNameAllNotBetween(String value1, String value2) {
+            addCriterion("parent_org_name_all not between", value1, value2, "parentOrgNameAll");
+            return (Criteria) this;
+        }
     }
 
     /**

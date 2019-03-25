@@ -8,6 +8,8 @@
         <result column="org_level" jdbcType="INTEGER" property="orgLevel" />
         <result column="sort" jdbcType="INTEGER" property="sort" />
         <result column="is_enable" jdbcType="VARCHAR" property="isEnable" />
+        <result column="parent_org_id_all" jdbcType="VARCHAR" property="parentOrgIdAll" />
+        <result column="parent_org_name_all" jdbcType="VARCHAR" property="parentOrgNameAll" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -68,7 +70,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        org_id, org_name, parent_org_id, org_level, sort, is_enable
+        org_id, org_name, parent_org_id, org_level, sort, is_enable, parent_org_id_all, parent_org_name_all
     </sql>
     <select id="selectByExample" parameterType="com.reechauto.cloud.news.entity.SysOrganizeExample" resultMap="BaseResultMap">
         select
@@ -105,11 +107,11 @@
     </delete>
     <insert id="insert" parameterType="com.reechauto.cloud.news.entity.SysOrganize">
         insert into sys_organize (org_id, org_name, parent_org_id, 
-            org_level, sort, is_enable
-            )
+            org_level, sort, is_enable, 
+            parent_org_id_all, parent_org_name_all)
         values (#{orgId,jdbcType=BIGINT}, #{orgName,jdbcType=VARCHAR}, #{parentOrgId,jdbcType=BIGINT}, 
-            #{orgLevel,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{isEnable,jdbcType=VARCHAR}
-            )
+            #{orgLevel,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{isEnable,jdbcType=VARCHAR}, 
+            #{parentOrgIdAll,jdbcType=VARCHAR}, #{parentOrgNameAll,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.reechauto.cloud.news.entity.SysOrganize">
         insert into sys_organize
@@ -132,6 +134,12 @@
             <if test="isEnable != null">
                 is_enable,
             </if>
+            <if test="parentOrgIdAll != null">
+                parent_org_id_all,
+            </if>
+            <if test="parentOrgNameAll != null">
+                parent_org_name_all,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="orgId != null">
@@ -151,6 +159,12 @@
             </if>
             <if test="isEnable != null">
                 #{isEnable,jdbcType=VARCHAR},
+            </if>
+            <if test="parentOrgIdAll != null">
+                #{parentOrgIdAll,jdbcType=VARCHAR},
+            </if>
+            <if test="parentOrgNameAll != null">
+                #{parentOrgNameAll,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -181,6 +195,12 @@
             <if test="record.isEnable != null">
                 is_enable = #{record.isEnable,jdbcType=VARCHAR},
             </if>
+            <if test="record.parentOrgIdAll != null">
+                parent_org_id_all = #{record.parentOrgIdAll,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentOrgNameAll != null">
+                parent_org_name_all = #{record.parentOrgNameAll,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
@@ -193,7 +213,9 @@
             parent_org_id = #{record.parentOrgId,jdbcType=BIGINT},
             org_level = #{record.orgLevel,jdbcType=INTEGER},
             sort = #{record.sort,jdbcType=INTEGER},
-            is_enable = #{record.isEnable,jdbcType=VARCHAR}
+            is_enable = #{record.isEnable,jdbcType=VARCHAR},
+            parent_org_id_all = #{record.parentOrgIdAll,jdbcType=VARCHAR},
+            parent_org_name_all = #{record.parentOrgNameAll,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -216,6 +238,12 @@
             <if test="isEnable != null">
                 is_enable = #{isEnable,jdbcType=VARCHAR},
             </if>
+            <if test="parentOrgIdAll != null">
+                parent_org_id_all = #{parentOrgIdAll,jdbcType=VARCHAR},
+            </if>
+            <if test="parentOrgNameAll != null">
+                parent_org_name_all = #{parentOrgNameAll,jdbcType=VARCHAR},
+            </if>
         </set>
         where org_id = #{orgId,jdbcType=BIGINT}
     </update>
@@ -225,7 +253,9 @@
             parent_org_id = #{parentOrgId,jdbcType=BIGINT},
             org_level = #{orgLevel,jdbcType=INTEGER},
             sort = #{sort,jdbcType=INTEGER},
-            is_enable = #{isEnable,jdbcType=VARCHAR}
+            is_enable = #{isEnable,jdbcType=VARCHAR},
+            parent_org_id_all = #{parentOrgIdAll,jdbcType=VARCHAR},
+            parent_org_name_all = #{parentOrgNameAll,jdbcType=VARCHAR}
         where org_id = #{orgId,jdbcType=BIGINT}
     </update>
 </mapper>

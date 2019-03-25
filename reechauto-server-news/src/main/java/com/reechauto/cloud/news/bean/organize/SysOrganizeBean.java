@@ -29,6 +29,14 @@ public class SysOrganizeBean implements Serializable {
 	 * Y/N是否可用
 	 */
 	private String isEnable;
+	/**
+	 * 上级组织ID集合
+	 */
+	private String parentOrgIdAll;
+	/**
+	 * 上级组织名称集合
+	 */
+	private String parentOrgNameAll;
 
 	/**
 	 * 下级组织
@@ -81,6 +89,22 @@ public class SysOrganizeBean implements Serializable {
 
 	public void setIsEnable(String isEnable) {
 		this.isEnable = isEnable;
+	}
+
+	public String getParentOrgIdAll() {
+		return parentOrgIdAll;
+	}
+
+	public void setParentOrgIdAll(String parentOrgIdAll) {
+		this.parentOrgIdAll = parentOrgIdAll;
+	}
+
+	public String getParentOrgNameAll() {
+		return parentOrgNameAll;
+	}
+
+	public void setParentOrgNameAll(String parentOrgNameAll) {
+		this.parentOrgNameAll = parentOrgNameAll;
 	}
 
 	public List<SysOrganizeBean> getChildOrg() {

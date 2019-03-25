@@ -138,7 +138,7 @@ public class OrganizeUserService {
 		organizeService.queryAllChildOrgId(orgId, list);
 		if (CollectionUtils.isNotEmpty(list)) {
 			String orgIds = String.join(",", list);
-			String sql = "SELECT c.*,b.org_id,b.org_name FROM sys_organize_user a,sys_organize b,user_details c WHERE a.org_id=b.org_id AND a.user_Id=c.user_id AND a.org_id IN("
+			String sql = "SELECT c.*,b.org_id,b.org_name,b.parent_org_id_all,b.parent_org_name_all FROM sys_organize_user a,sys_organize b,user_details c WHERE a.org_id=b.org_id AND a.user_Id=c.user_id AND a.org_id IN("
 					+ orgIds + ")  ORDER BY a.org_id LIMIT "+start+","+pageSize;
 			RowMapper<UserOrganizeDetails> rowMapper = new BeanPropertyRowMapper<UserOrganizeDetails>(
 					UserOrganizeDetails.class);
