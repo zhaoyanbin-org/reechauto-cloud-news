@@ -34,7 +34,7 @@ public class RoleController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData resp = roleService.queryRoles(req.getRoleId(),req.getRoleName());
+		ResponseData resp = roleService.queryRoles(req.getRoleId(),req.getRoleName(),req.getStart(),req.getPageNum());
 		return resp;
 	}
 	

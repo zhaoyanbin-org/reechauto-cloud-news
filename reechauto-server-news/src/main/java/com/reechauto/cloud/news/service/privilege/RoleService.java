@@ -22,7 +22,7 @@ public class RoleService {
 	 * @param roleName
 	 * @return
 	 */
-	public ResponseData queryRoles(String roleId,String roleName) {
+	public ResponseData queryRoles(String roleId,String roleName,Integer start,Integer pageNum) {
 		SysRoleExample example = new SysRoleExample();
 		Criteria criteria = example.createCriteria();
 		if (StringUtils.isNotBlank(roleId)) {
@@ -32,6 +32,8 @@ public class RoleService {
 			criteria.andRoleNameLike("%"+roleName.trim()+"%");
 		}
 		Long total = SysRoleMapper.countByExample(example);
+		example.setLimitStart(start);
+		example.setOffset(pageNum);
 		List<SysRole> list = SysRoleMapper.selectByExample(example);
 		return ResponseData.ok().data(list).data("total", total);
 	}
