@@ -73,6 +73,14 @@ public class UserOrganizeDetails implements Serializable {
 	 * 组织名称
 	 */
 	private String orgName;
+	/**
+	 * 上级组织ID集合
+	 */
+	private String parentOrgIdAll;
+	/**
+	 * 上级组织名称集合
+	 */
+	private String parentOrgNameAll;
 
 	public Long getUserId() {
 		return userId;
@@ -208,6 +216,22 @@ public class UserOrganizeDetails implements Serializable {
 
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+
+	public String getParentOrgIdAll() {
+		return parentOrgIdAll;
+	}
+
+	public void setParentOrgIdAll(String parentOrgIdAll) {
+		this.parentOrgIdAll = parentOrgIdAll;
+	}
+
+	public String getParentOrgNameAll() {
+		return parentOrgNameAll;
+	}
+
+	public void setParentOrgNameAll(String parentOrgNameAll) {
+		this.parentOrgNameAll = parentOrgNameAll;
 	}
 
 }
