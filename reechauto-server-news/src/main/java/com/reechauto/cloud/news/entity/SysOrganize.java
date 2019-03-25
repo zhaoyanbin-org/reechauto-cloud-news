@@ -33,6 +33,8 @@ public class SysOrganize implements Serializable {
      * Y/N是否可用
      */
     private String isEnable;
+    private String parentOrgIdAll;
+    private String parentOrgNameAll;
     private static final long serialVersionUID = 1L;
 
     public Long getOrgId() {
@@ -70,5 +72,17 @@ public class SysOrganize implements Serializable {
     }
     public void setIsEnable(String isEnable) {
         this.isEnable = isEnable;
+    }
+    public String getParentOrgIdAll() {
+        return parentOrgIdAll;
+    }
+    public void setParentOrgIdAll(String parentOrgIdAll) {
+        this.parentOrgIdAll = parentOrgIdAll;
+    }
+    public String getParentOrgNameAll() {
+        return parentOrgNameAll;
+    }
+    public void setParentOrgNameAll(String parentOrgNameAll) {
+        this.parentOrgNameAll = parentOrgNameAll;
     }
 }
