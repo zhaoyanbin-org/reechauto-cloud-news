@@ -31,7 +31,7 @@ public class SysMenu implements Serializable {
      */
     private String url;
     /**
-     * 是否是菜单(1.菜单。2.按钮)
+     * 是否是菜单(1.菜单。2.权限)
      */
     private Integer isMenu;
     /**
