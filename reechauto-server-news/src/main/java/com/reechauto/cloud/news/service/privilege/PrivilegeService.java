@@ -1,28 +1,20 @@
 package com.reechauto.cloud.news.service.privilege;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import javax.transaction.Transactional;
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
-
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.bean.menu.MenuId;
 import com.reechauto.cloud.news.bean.menu.SysMenuBean;
 import com.reechauto.cloud.news.entity.SysMenu;
-import com.reechauto.cloud.news.entity.SysMenuExample;
 import com.reechauto.cloud.news.entity.SysPrivilege;
 import com.reechauto.cloud.news.entity.SysPrivilegeExample;
 import com.reechauto.cloud.news.entity.SysPrivilegeExample.Criteria;
-import com.reechauto.cloud.news.entity.SysPrivilegeKey;
 import com.reechauto.cloud.news.entity.SysRole;
 import com.reechauto.cloud.news.mapper.SysMenuMapper;
 import com.reechauto.cloud.news.mapper.SysPrivilegeMapper;
