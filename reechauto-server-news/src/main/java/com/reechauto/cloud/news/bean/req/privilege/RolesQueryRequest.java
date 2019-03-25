@@ -1,7 +1,6 @@
 package com.reechauto.cloud.news.bean.req.privilege;
 
 import javax.validation.constraints.NotNull;
-
 import com.reechauto.cloud.news.bean.req.BaseRequest;
 
 public class RolesQueryRequest extends BaseRequest {

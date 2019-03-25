@@ -1,7 +1,7 @@
 package com.reechauto.cloud.news.service.privilege;
 
+import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,5 +34,37 @@ public class RoleService {
 		Long total = SysRoleMapper.countByExample(example);
 		List<SysRole> list = SysRoleMapper.selectByExample(example);
 		return ResponseData.ok().data(list).data("total", total);
+	}
+	
+	public boolean updateRole(String roleId,String roleName,String tips,Long userId) {
+		SysRole record = new SysRole();
+		record.setRoleId(roleId.trim());
+		if (StringUtils.isNotBlank(roleName)) {
+			record.setRoleName(roleName.trim());
+		}
+		if (StringUtils.isNotBlank(tips)) {
+			record.setTips(tips);
+		}
+		if (userId!=null) {
+			record.setUpdateBy(userId);
+		}
+		record.setUpdateTime(new Date());
+		return SysRoleMapper.updateByPrimaryKeySelective(record)>0;
+	}
+	public boolean deleteRole(String roleId) {
+		SysRole record = new SysRole();
+		record.setRoleId(roleId);
+		record.setStatus("N");
+		return SysRoleMapper.updateByPrimaryKeySelective(record)>0;
+	}
+	public boolean addRole(String roleId,String roleName,String tips,Long userId) {
+		SysRole record = new SysRole();
+		record.setRoleId(roleId.trim());
+		record.setRoleName(roleName.trim());
+		record.setTips(tips);
+		record.setStatus("Y");
+		record.setCreateBy(userId);
+		record.setCreateTime(new Date());
+		return SysRoleMapper.insertSelective(record)>0;
 	}
 }
