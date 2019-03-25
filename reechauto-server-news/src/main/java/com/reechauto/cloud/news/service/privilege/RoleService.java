@@ -31,6 +31,7 @@ public class RoleService {
 		if (StringUtils.isNotBlank(roleName)) {
 			criteria.andRoleNameLike("%"+roleName.trim()+"%");
 		}
+		criteria.andStatusEqualTo("Y");
 		Long total = SysRoleMapper.countByExample(example);
 		example.setLimitStart(start);
 		example.setOffset(pageNum);
