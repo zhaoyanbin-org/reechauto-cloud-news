@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class MenuId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Integer menuId;
-	public Integer getMenuId() {
+	private Long  menuId;
+	public Long getMenuId() {
 		return menuId;
 	}
-	public void setMenuId(Integer menuId) {
+	public void setMenuId(Long menuId) {
 		this.menuId = menuId;
 	}
 }

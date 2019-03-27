@@ -79,28 +79,13 @@ public class PrivilegeController {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(value = "queryMenusByRoleId", method = RequestMethod.POST)
-	public ResponseData queryMenusByRoleId(@Valid PrivilegeQueryRequest req, BindingResult result) {
-		log.info("查询一个角色对应的所有菜单权限");
-		if (result.hasErrors()) {
-			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
-		}
-		ResponseData resp = privilegeService.queryMenusByRoleId(0,req.getRoleId());
-		return resp;
-	}
-	/**
-	 * 查询一个角色对应的所有菜单权限（只显示用户自己的菜单分支）
-	 * @param req
-	 * @param result
-	 * @return
-	 */
 	@RequestMapping(value = "queryMenusByRoleId1", method = RequestMethod.POST)
-	public ResponseData queryMenusByRoleId1(@Valid PrivilegeQueryRequest req, BindingResult result) {
-		log.info(" 查询一个角色对应的所有菜单权限（只显示用户自己的菜单分支）");
+	public ResponseData queryMenusByRoleId(@Valid PrivilegeQueryRequest req, BindingResult result) {
+		log.info("查询一个角色对应的所有菜单权限 ");
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		List<SysMenuBean> list = privilegeService.queryMenuByParentId(0L,req.getRoleId());
+		List<SysMenuBean> list = privilegeService.queryMenusByRoleId(req.getRoleId());
 		
 		return ResponseData.ok().data(list);
 	}

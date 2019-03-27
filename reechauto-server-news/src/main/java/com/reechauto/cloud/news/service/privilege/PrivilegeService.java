@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.runner.ReactiveWebApplicationContextRunner;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -96,28 +97,12 @@ public class PrivilegeService {
 		}
 	}
 
-	
-
-	/**
-	 * 查询某角色对应的所有菜单
-	 * 
-	 * @param roleId
-	 * @return
-	 */
-	public ResponseData queryMenusByRoleId(int pId, String roleId) {
-		List<SysMenuBean> allList = menuService.queryMenuByParentId(0L);
-		String sql = "SELECT t.menu_id FROM sys_privilege t,sys_menu m WHERE t.role_id = ? and t.menu_id = m.id and m.status = 'Y' ";
-		RowMapper<MenuId> rowMapper = new BeanPropertyRowMapper<MenuId>(MenuId.class);
-		List<MenuId> menuIdList = this.jdbcTemplate.query(sql, rowMapper, roleId);
-		return ResponseData.ok().data("allList", allList).data("menuIdList", menuIdList);
-	}
-
-	/**
+    /**
 	 * 根据pId查询某角色所有的子菜单
 	 * @param req
 	 * @return
 	 */
-	public List<SysMenuBean> queryMenuByParentId(Long pId,String roleId) {
+	public List<SysMenuBean> queryMenuByParentId(Long pId,List<MenuId> menuIdList) {
 		List<SysMenuBean> list = new ArrayList<SysMenuBean>();
 		SysMenuExample example = new SysMenuExample();
 		com.reechauto.cloud.news.entity.SysMenuExample.Criteria criteria = example.createCriteria();
@@ -129,18 +114,20 @@ public class PrivilegeService {
 			menuList.forEach(item -> {
 				SysMenuBean bean = new SysMenuBean();
 				BeanUtils.copyProperties(item, bean);
-				//添加状态，是否被该角色选中
+				/*//添加状态，是否被该角色选中
 				SysPrivilegeExample sysPrivilegeExample = new SysPrivilegeExample();
 				Criteria criteria1 = sysPrivilegeExample.createCriteria();
 				criteria1.andRoleIdEqualTo(roleId.trim());
 				criteria1.andMenuIdEqualTo(item.getId());
-				List<SysPrivilege> list1 = sysPrivilegeMapper.selectByExample(sysPrivilegeExample);
-				if (list1==null||list1.size()==0) {
+				List<SysPrivilege> list1 = sysPrivilegeMapper.selectByExample(sysPrivilegeExample);*/
+				MenuId menuId = new MenuId();
+				menuId.setMenuId(item.getId());
+				if (menuIdList.contains(menuId)) {
 					bean.setIsSelected("Y");
 				}else {
 					bean.setIsSelected("N");
 				}
-				List<SysMenuBean> childMenu = queryMenuByParentId(item.getId(), roleId);
+				List<SysMenuBean> childMenu = queryMenuByParentId(item.getId(), menuIdList);
 				bean.setChildMenu(childMenu);
 				list.add(bean);
 			});
@@ -160,6 +147,14 @@ public class PrivilegeService {
 		Criteria criteria = example.createCriteria();
 		criteria.andRoleIdEqualTo(roleId.trim());
 		return sysPrivilegeMapper.deleteByExample(example) > 0;
+	}
+	
+	public List<SysMenuBean> queryMenusByRoleId(String roleId){
+		String sql = "SELECT t.menu_id FROM sys_privilege t,sys_menu m WHERE t.role_id = ? and t.menu_id = m.id and m.status = 'Y' ";
+		RowMapper<MenuId> rowMapper = new BeanPropertyRowMapper<MenuId>(MenuId.class);
+		List<MenuId> menuIdList = this.jdbcTemplate.query(sql, rowMapper, roleId);
+		List<SysMenuBean> list = queryMenuByParentId(0L,menuIdList);
+		return list;
 	}
 
 }
