@@ -1,8 +1,12 @@
 package com.reechauto.cloud.news.service.privilege;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -105,6 +109,34 @@ public class PrivilegeService {
 		RowMapper<MenuId> rowMapper = new BeanPropertyRowMapper<MenuId>(MenuId.class);
 		List<MenuId> menuIdList = this.jdbcTemplate.query(sql, rowMapper, roleId);
 		return ResponseData.ok().data("allList", allList).data("menuIdList", menuIdList);
+	}
+
+	/**
+	 * 根据pId查询某角色所有的子菜单
+	 * @param req
+	 * @return
+	 */
+	public List<SysMenuBean> queryMenuByParentId(Long pId,String roleId) {
+		List<SysMenuBean> list = new ArrayList<SysMenuBean>();
+		/*SysMenuExample example = new SysMenuExample();
+		com.reechauto.cloud.news.entity.SysMenuExample.Criteria criteria = example.createCriteria();
+		criteria.andPIdEqualTo(pId);
+		criteria.andStatusEqualTo("Y");
+		example.setOrderByClause(" sort ASC");
+		List<SysMenu> menuList = this.sysMenuMapper.selectByExample(example);*/
+		String sql = "SELECT m.* FROM sys_privilege t,sys_menu m WHERE t.role_id = ? and t.menu_id = m.id and m.status = 'Y' and m.p_id = ?";
+		RowMapper<SysMenu> rowMapper = new BeanPropertyRowMapper<SysMenu>(SysMenu.class);
+		List<SysMenu> menuList = this.jdbcTemplate.query(sql, rowMapper, roleId,pId);
+		if (CollectionUtils.isNotEmpty(menuList)) {
+			menuList.forEach(item -> {
+				SysMenuBean bean = new SysMenuBean();
+				BeanUtils.copyProperties(item, bean);
+				List<SysMenuBean> childMenu = queryMenuByParentId(item.getId(), roleId);
+				bean.setChildMenu(childMenu);
+				list.add(bean);
+			});
+		}
+		return list;
 	}
 
 	/**
