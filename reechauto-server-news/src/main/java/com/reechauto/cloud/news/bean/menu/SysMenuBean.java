@@ -9,10 +9,19 @@ public class SysMenuBean extends SysMenu{
 	
 	private List<SysMenuBean> childMenu;
 	
+	private String isSelected;
+	
 	public List<SysMenuBean> getChildMenu() {
 		return childMenu;
 	}
 	public void setChildMenu(List<SysMenuBean> childMenu) {
 		this.childMenu = childMenu;
 	}
+	public String getIsSelected() {
+		return isSelected;
+	}
+	public void setIsSelected(String isSelected) {
+		this.isSelected = isSelected;
+	}
+	
 }

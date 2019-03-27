@@ -16,6 +16,7 @@ import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.bean.menu.MenuId;
 import com.reechauto.cloud.news.bean.menu.SysMenuBean;
 import com.reechauto.cloud.news.entity.SysMenu;
+import com.reechauto.cloud.news.entity.SysMenuExample;
 import com.reechauto.cloud.news.entity.SysPrivilege;
 import com.reechauto.cloud.news.entity.SysPrivilegeExample;
 import com.reechauto.cloud.news.entity.SysPrivilegeExample.Criteria;
@@ -118,19 +119,27 @@ public class PrivilegeService {
 	 */
 	public List<SysMenuBean> queryMenuByParentId(Long pId,String roleId) {
 		List<SysMenuBean> list = new ArrayList<SysMenuBean>();
-		/*SysMenuExample example = new SysMenuExample();
+		SysMenuExample example = new SysMenuExample();
 		com.reechauto.cloud.news.entity.SysMenuExample.Criteria criteria = example.createCriteria();
 		criteria.andPIdEqualTo(pId);
 		criteria.andStatusEqualTo("Y");
 		example.setOrderByClause(" sort ASC");
-		List<SysMenu> menuList = this.sysMenuMapper.selectByExample(example);*/
-		String sql = "SELECT m.* FROM sys_privilege t,sys_menu m WHERE t.role_id = ? and t.menu_id = m.id and m.status = 'Y' and m.p_id = ?";
-		RowMapper<SysMenu> rowMapper = new BeanPropertyRowMapper<SysMenu>(SysMenu.class);
-		List<SysMenu> menuList = this.jdbcTemplate.query(sql, rowMapper, roleId,pId);
+		List<SysMenu> menuList = this.sysMenuMapper.selectByExample(example);
 		if (CollectionUtils.isNotEmpty(menuList)) {
 			menuList.forEach(item -> {
 				SysMenuBean bean = new SysMenuBean();
 				BeanUtils.copyProperties(item, bean);
+				//添加状态，是否被该角色选中
+				SysPrivilegeExample sysPrivilegeExample = new SysPrivilegeExample();
+				Criteria criteria1 = sysPrivilegeExample.createCriteria();
+				criteria1.andRoleIdEqualTo(roleId.trim());
+				criteria1.andMenuIdEqualTo(item.getId());
+				List<SysPrivilege> list1 = sysPrivilegeMapper.selectByExample(sysPrivilegeExample);
+				if (list1==null||list1.size()==0) {
+					bean.setIsSelected("Y");
+				}else {
+					bean.setIsSelected("N");
+				}
 				List<SysMenuBean> childMenu = queryMenuByParentId(item.getId(), roleId);
 				bean.setChildMenu(childMenu);
 				list.add(bean);
