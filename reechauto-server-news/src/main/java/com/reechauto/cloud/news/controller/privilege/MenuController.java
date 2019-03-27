@@ -85,7 +85,7 @@ public class MenuController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		boolean flag = menuService.updateMenu(req.getId(),req.getName(),req.getUrl(),req.getIsMenu(),req.getSort());
+		boolean flag = menuService.updateMenu(req.getId(),req.getName(),req.getUrl(),req.getType(),req.getSort());
 		if (!flag) {
 			throw new RuntimeException("修改菜单失败");
 		}

@@ -10,7 +10,7 @@ public class MenuUpdateRequest extends BaseRequest {
 	private int id;
 	private String name;
 	private String url;
-	private Integer isMenu;
+	private Integer type;
 	private Integer sort = 0;
 	public int getId() {
 		return id;
@@ -30,11 +30,11 @@ public class MenuUpdateRequest extends BaseRequest {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public Integer getIsMenu() {
-		return isMenu;
+	public Integer getType() {
+		return type;
 	}
-	public void setIsMenu(Integer isMenu) {
-		this.isMenu = isMenu;
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	public Integer getSort() {
 		return sort;
