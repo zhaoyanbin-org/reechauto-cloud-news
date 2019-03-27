@@ -79,7 +79,7 @@ public class PrivilegeController {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(value = "queryMenusByRoleId1", method = RequestMethod.POST)
+	@RequestMapping(value = "queryMenusByRoleId", method = RequestMethod.POST)
 	public ResponseData queryMenusByRoleId(@Valid PrivilegeQueryRequest req, BindingResult result) {
 		log.info("查询一个角色对应的所有菜单权限 ");
 		if (result.hasErrors()) {
