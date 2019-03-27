@@ -76,7 +76,7 @@ public class PrivilegeService {
 		}
 		String[] menuIds1 = menuIds.split(",");
 		for (int i = 0; i < menuIds1.length; i++) {
-			Integer menuId = Integer.parseInt(menuIds1[i]);
+			Long menuId = Long.parseLong(menuIds1[i]);
 			SysMenu sysMenu = sysMenuMapper.selectByPrimaryKey(menuId);
 			if (sysMenu == null) {
 				throw new RuntimeException("menuId错误，对应的menu不存在");
@@ -100,7 +100,7 @@ public class PrivilegeService {
 	 * @return
 	 */
 	public ResponseData queryMenusByRoleId(int pId, String roleId) {
-		List<SysMenuBean> allList = menuService.queryMenuByParentId(0);
+		List<SysMenuBean> allList = menuService.queryMenuByParentId(0L);
 		String sql = "SELECT t.menu_id FROM sys_privilege t,sys_menu m WHERE t.role_id = ? and t.menu_id = m.id and m.status = 'Y' ";
 		RowMapper<MenuId> rowMapper = new BeanPropertyRowMapper<MenuId>(MenuId.class);
 		List<MenuId> menuIdList = this.jdbcTemplate.query(sql, rowMapper, roleId);

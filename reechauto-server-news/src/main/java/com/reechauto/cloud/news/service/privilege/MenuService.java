@@ -27,7 +27,7 @@ public class MenuService {
 	 * @param req
 	 */
 	@Transactional
-	public void delMenu(Integer id) {
+	public void delMenu(Long id) {
 		log.info("删除当前菜单以及下级菜单");
 		SysMenu sysMenu = this.sysMenuMapper.selectByPrimaryKey(id);
 		if (sysMenu == null) {
@@ -42,7 +42,7 @@ public class MenuService {
 	 * @param pId
 	 */
 	@Transactional
-	public void delMenuByParentId(Integer pId) {
+	public void delMenuByParentId(Long pId) {
 		log.info("删除下级菜单");
 		SysMenuExample example = new SysMenuExample();
 		example.createCriteria().andPIdEqualTo(pId);
@@ -62,7 +62,7 @@ public class MenuService {
 	 * @param req
 	 * @return
 	 */
-	public List<SysMenuBean> queryMenuByParentId(int pId) {
+	public List<SysMenuBean> queryMenuByParentId(Long pId) {
 		List<SysMenuBean> list = new ArrayList<SysMenuBean>();
 		SysMenuExample example = new SysMenuExample();
 		Criteria criteria = example.createCriteria();
@@ -82,9 +82,9 @@ public class MenuService {
 		return list;
 	}
 	
-	private Integer getMenuId(int pId) {
+	private Long getMenuId(Long pId) {
 		if (pId <= 0) {
-			pId = 0;
+			pId = 0L;
 		}
 		SysMenuExample example = new SysMenuExample();
 		example.createCriteria().andPIdEqualTo(pId);
@@ -93,9 +93,9 @@ public class MenuService {
 		if (CollectionUtils.isEmpty(list)) {
 			// 没有子组织,父组织Id后加10;
 			if (pId == 0) {
-				return 10;
+				return 10L;
 			} else {
-				return Integer.valueOf(pId + "10");
+				return Long.parseLong(pId + "10");
 			}
 		}
 		return list.get(0).getId() + 1;
@@ -115,21 +115,21 @@ public class MenuService {
 	 * @param sort
 	 * @return
 	 */
-	public boolean addMenu(Integer pId,String pCode,String name,String url,Integer type,Integer sort) {
+	public boolean addMenu(Long pId,String pCode,String name,String url,Integer type,Integer sort) {
 		log.info("添加菜单");
 		int n = queryMenuName(name.trim());
 		if (n > 0) {
 			throw new RuntimeException("菜单名'" + name + "'已被占用");
 		}
 		SysMenu record = new SysMenu();
-		Integer id = getMenuId(pId);
+		Long id = getMenuId(pId);
 		if (pId <= 0) {
 			
 			// 第一级组织
 			record.setStatus("Y");
 			record.setId(id);
 			record.setName(name);
-			record.setpId(0);
+			record.setpId(0L);
 			record.setpCode("0");
 			record.setLevel(1);
 			record.setSort(sort);
@@ -152,7 +152,7 @@ public class MenuService {
 			record.setpCode(pCode);
 			record.setLevel(level);
 			record.setSort(sort);
-			String code = parent.getCode()+"_"+Integer.toString(id).substring(Integer.toString(id).length()-2,Integer.toString(id).length());
+			String code = parent.getCode()+"_"+Long.toString(id).substring(Long.toString(id).length()-2,Long.toString(id).length());
 			record.setCode(code);
 			if (StringUtils.isNotBlank(url)) {
 				record.setUrl(url);
@@ -170,7 +170,7 @@ public class MenuService {
      * @param sort
      * @return
      */
-	public boolean updateMenu(Integer id,String name,String url,Integer type,Integer sort) {
+	public boolean updateMenu(Long id,String name,String url,Integer type,Integer sort) {
 		SysMenu record = new SysMenu();
 		record.setId(id);
 		if (StringUtils.isNotBlank(name)) {

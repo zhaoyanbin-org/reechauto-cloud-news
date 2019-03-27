@@ -7,11 +7,12 @@ public class MenuDelRequest extends BaseRequest {
 
 	private static final long serialVersionUID = 1L;
 	@NotNull(message = "id不可以为null")
-	private int id;
-	public int getId() {
+	private Long id;
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
+	
 }

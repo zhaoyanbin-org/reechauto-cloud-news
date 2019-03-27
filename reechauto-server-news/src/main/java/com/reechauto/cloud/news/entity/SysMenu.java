@@ -9,7 +9,7 @@ import java.io.Serializable;
 */
 public class SysMenu implements Serializable {
 
-    private Integer id;
+    private Long id;
     /**
      * 菜单编码
      */
@@ -17,7 +17,7 @@ public class SysMenu implements Serializable {
     /**
      * 父菜单ID
      */
-    private Integer pId;
+    private Long pId;
     /**
      * 菜单父编码
      */
@@ -49,10 +49,10 @@ public class SysMenu implements Serializable {
     private String icon;
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getCode() {
@@ -61,10 +61,10 @@ public class SysMenu implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-    public Integer getpId() {
+    public Long getpId() {
         return pId;
     }
-    public void setpId(Integer pId) {
+    public void setpId(Long pId) {
         this.pId = pId;
     }
     public String getpCode() {

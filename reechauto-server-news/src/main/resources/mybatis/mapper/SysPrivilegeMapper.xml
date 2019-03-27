@@ -3,7 +3,7 @@
 <mapper namespace="com.reechauto.cloud.news.mapper.SysPrivilegeMapper">
     <resultMap id="BaseResultMap" type="com.reechauto.cloud.news.entity.SysPrivilege">
         <id column="role_id" jdbcType="VARCHAR" property="roleId" />
-        <id column="menu_id" jdbcType="INTEGER" property="menuId" />
+        <id column="menu_id" jdbcType="BIGINT" property="menuId" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
         <result column="create_by" jdbcType="BIGINT" property="createBy" />
     </resultMap>
@@ -90,12 +90,12 @@
         <include refid="Base_Column_List" />
         from sys_privilege
         where role_id = #{roleId,jdbcType=VARCHAR}
-          and menu_id = #{menuId,jdbcType=INTEGER}
+          and menu_id = #{menuId,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="com.reechauto.cloud.news.entity.SysPrivilegeKey">
         delete from sys_privilege
         where role_id = #{roleId,jdbcType=VARCHAR}
-          and menu_id = #{menuId,jdbcType=INTEGER}
+          and menu_id = #{menuId,jdbcType=BIGINT}
     </delete>
     <delete id="deleteByExample" parameterType="com.reechauto.cloud.news.entity.SysPrivilegeExample">
         delete from sys_privilege
@@ -106,7 +106,7 @@
     <insert id="insert" parameterType="com.reechauto.cloud.news.entity.SysPrivilege">
         insert into sys_privilege (role_id, menu_id, create_time, 
             create_by)
-        values (#{roleId,jdbcType=VARCHAR}, #{menuId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+        values (#{roleId,jdbcType=VARCHAR}, #{menuId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
             #{createBy,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" parameterType="com.reechauto.cloud.news.entity.SysPrivilege">
@@ -130,7 +130,7 @@
                 #{roleId,jdbcType=VARCHAR},
             </if>
             <if test="menuId != null">
-                #{menuId,jdbcType=INTEGER},
+                #{menuId,jdbcType=BIGINT},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
@@ -153,7 +153,7 @@
                 role_id = #{record.roleId,jdbcType=VARCHAR},
             </if>
             <if test="record.menuId != null">
-                menu_id = #{record.menuId,jdbcType=INTEGER},
+                menu_id = #{record.menuId,jdbcType=BIGINT},
             </if>
             <if test="record.createTime != null">
                 create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -169,7 +169,7 @@
     <update id="updateByExample" parameterType="map">
         update sys_privilege
         set role_id = #{record.roleId,jdbcType=VARCHAR},
-            menu_id = #{record.menuId,jdbcType=INTEGER},
+            menu_id = #{record.menuId,jdbcType=BIGINT},
             create_time = #{record.createTime,jdbcType=TIMESTAMP},
             create_by = #{record.createBy,jdbcType=BIGINT}
         <if test="_parameter != null">
@@ -187,13 +187,13 @@
             </if>
         </set>
         where role_id = #{roleId,jdbcType=VARCHAR}
-          and menu_id = #{menuId,jdbcType=INTEGER}
+          and menu_id = #{menuId,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.reechauto.cloud.news.entity.SysPrivilege">
         update sys_privilege
         set create_time = #{createTime,jdbcType=TIMESTAMP},
             create_by = #{createBy,jdbcType=BIGINT}
         where role_id = #{roleId,jdbcType=VARCHAR}
-          and menu_id = #{menuId,jdbcType=INTEGER}
+          and menu_id = #{menuId,jdbcType=BIGINT}
     </update>
 </mapper>

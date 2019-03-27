@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.reechauto.cloud.news.mapper.SysMenuMapper">
     <resultMap id="BaseResultMap" type="com.reechauto.cloud.news.entity.SysMenu">
-        <id column="id" jdbcType="INTEGER" property="id" />
+        <id column="id" jdbcType="BIGINT" property="id" />
         <result column="code" jdbcType="VARCHAR" property="code" />
-        <result column="p_id" jdbcType="INTEGER" property="pId" />
+        <result column="p_id" jdbcType="BIGINT" property="pId" />
         <result column="p_code" jdbcType="VARCHAR" property="pCode" />
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="url" jdbcType="VARCHAR" property="url" />
@@ -92,15 +92,15 @@
             limit #{limitStart} , #{offset}
         </if>
     </select>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select 
         <include refid="Base_Column_List" />
         from sys_menu
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from sys_menu
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </delete>
     <delete id="deleteByExample" parameterType="com.reechauto.cloud.news.entity.SysMenuExample">
         delete from sys_menu
@@ -113,7 +113,7 @@
             p_code, name, url, 
             type, level, sort, 
             status, icon)
-        values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{pId,jdbcType=INTEGER}, 
+        values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{pId,jdbcType=BIGINT}, 
             #{pCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
             #{type,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
             #{status,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR})
@@ -157,13 +157,13 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
-                #{id,jdbcType=INTEGER},
+                #{id,jdbcType=BIGINT},
             </if>
             <if test="code != null">
                 #{code,jdbcType=VARCHAR},
             </if>
             <if test="pId != null">
-                #{pId,jdbcType=INTEGER},
+                #{pId,jdbcType=BIGINT},
             </if>
             <if test="pCode != null">
                 #{pCode,jdbcType=VARCHAR},
@@ -201,13 +201,13 @@
         update sys_menu
         <set>
             <if test="record.id != null">
-                id = #{record.id,jdbcType=INTEGER},
+                id = #{record.id,jdbcType=BIGINT},
             </if>
             <if test="record.code != null">
                 code = #{record.code,jdbcType=VARCHAR},
             </if>
             <if test="record.pId != null">
-                p_id = #{record.pId,jdbcType=INTEGER},
+                p_id = #{record.pId,jdbcType=BIGINT},
             </if>
             <if test="record.pCode != null">
                 p_code = #{record.pCode,jdbcType=VARCHAR},
@@ -240,9 +240,9 @@
     </update>
     <update id="updateByExample" parameterType="map">
         update sys_menu
-        set id = #{record.id,jdbcType=INTEGER},
+        set id = #{record.id,jdbcType=BIGINT},
             code = #{record.code,jdbcType=VARCHAR},
-            p_id = #{record.pId,jdbcType=INTEGER},
+            p_id = #{record.pId,jdbcType=BIGINT},
             p_code = #{record.pCode,jdbcType=VARCHAR},
             name = #{record.name,jdbcType=VARCHAR},
             url = #{record.url,jdbcType=VARCHAR},
@@ -262,7 +262,7 @@
                 code = #{code,jdbcType=VARCHAR},
             </if>
             <if test="pId != null">
-                p_id = #{pId,jdbcType=INTEGER},
+                p_id = #{pId,jdbcType=BIGINT},
             </if>
             <if test="pCode != null">
                 p_code = #{pCode,jdbcType=VARCHAR},
@@ -289,12 +289,12 @@
                 icon = #{icon,jdbcType=VARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.reechauto.cloud.news.entity.SysMenu">
         update sys_menu
         set code = #{code,jdbcType=VARCHAR},
-            p_id = #{pId,jdbcType=INTEGER},
+            p_id = #{pId,jdbcType=BIGINT},
             p_code = #{pCode,jdbcType=VARCHAR},
             name = #{name,jdbcType=VARCHAR},
             url = #{url,jdbcType=VARCHAR},
@@ -303,6 +303,6 @@
             sort = #{sort,jdbcType=INTEGER},
             status = #{status,jdbcType=VARCHAR},
             icon = #{icon,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

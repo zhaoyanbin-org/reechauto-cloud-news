@@ -10,7 +10,7 @@ public class MenuAddRequest extends BaseRequest {
 	private static final long serialVersionUID = 1L;
 	
 	@NotNull(message = "pId不可以为null")
-	private int pId;
+	private Long pId;
 	@NotBlank(message = "pCode不可以为空")
 	private String pCode;
 	@NotBlank(message = "name不可以为空")
@@ -19,10 +19,11 @@ public class MenuAddRequest extends BaseRequest {
 	@NotNull(message = "type不可以为null,1:菜单，2：按钮，3：权限")
 	private int type;
 	private int sort = 0;
-	public int getpId() {
+	
+	public Long getpId() {
 		return pId;
 	}
-	public void setpId(int pId) {
+	public void setpId(Long pId) {
 		this.pId = pId;
 	}
 	public String getpCode() {

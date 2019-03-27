@@ -7,15 +7,16 @@ public class MenuUpdateRequest extends BaseRequest {
 
 	private static final long serialVersionUID = 1L;
 	@NotNull(message = "id不可以为null")
-	private int id;
+	private Long id;
 	private String name;
 	private String url;
 	private Integer isMenu;
 	private Integer sort = 0;
-	public int getId() {
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {

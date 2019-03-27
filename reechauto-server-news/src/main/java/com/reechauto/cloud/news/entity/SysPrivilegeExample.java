@@ -171,43 +171,43 @@ public class SysPrivilegeExample {
             addCriterion("menu_id is not null");
             return (Criteria) this;
         }
-        public Criteria andMenuIdEqualTo(Integer value) {
+        public Criteria andMenuIdEqualTo(Long value) {
             addCriterion("menu_id =", value, "menuId");
             return (Criteria) this;
         }
-        public Criteria andMenuIdNotEqualTo(Integer value) {
+        public Criteria andMenuIdNotEqualTo(Long value) {
             addCriterion("menu_id <>", value, "menuId");
             return (Criteria) this;
         }
-        public Criteria andMenuIdGreaterThan(Integer value) {
+        public Criteria andMenuIdGreaterThan(Long value) {
             addCriterion("menu_id >", value, "menuId");
             return (Criteria) this;
         }
-        public Criteria andMenuIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andMenuIdGreaterThanOrEqualTo(Long value) {
             addCriterion("menu_id >=", value, "menuId");
             return (Criteria) this;
         }
-        public Criteria andMenuIdLessThan(Integer value) {
+        public Criteria andMenuIdLessThan(Long value) {
             addCriterion("menu_id <", value, "menuId");
             return (Criteria) this;
         }
-        public Criteria andMenuIdLessThanOrEqualTo(Integer value) {
+        public Criteria andMenuIdLessThanOrEqualTo(Long value) {
             addCriterion("menu_id <=", value, "menuId");
             return (Criteria) this;
         }
-        public Criteria andMenuIdIn(List<Integer> values) {
+        public Criteria andMenuIdIn(List<Long> values) {
             addCriterion("menu_id in", values, "menuId");
             return (Criteria) this;
         }
-        public Criteria andMenuIdNotIn(List<Integer> values) {
+        public Criteria andMenuIdNotIn(List<Long> values) {
             addCriterion("menu_id not in", values, "menuId");
             return (Criteria) this;
         }
-        public Criteria andMenuIdBetween(Integer value1, Integer value2) {
+        public Criteria andMenuIdBetween(Long value1, Long value2) {
             addCriterion("menu_id between", value1, value2, "menuId");
             return (Criteria) this;
         }
-        public Criteria andMenuIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andMenuIdNotBetween(Long value1, Long value2) {
             addCriterion("menu_id not between", value1, value2, "menuId");
             return (Criteria) this;
         }

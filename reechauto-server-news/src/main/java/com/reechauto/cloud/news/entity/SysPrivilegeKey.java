@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class SysPrivilegeKey implements Serializable {
 
     private String roleId;
-    private Integer menuId;
+    private Long menuId;
     private static final long serialVersionUID = 1L;
 
     public String getRoleId() {
@@ -19,10 +19,10 @@ public class SysPrivilegeKey implements Serializable {
     public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
-    public Integer getMenuId() {
+    public Long getMenuId() {
         return menuId;
     }
-    public void setMenuId(Integer menuId) {
+    public void setMenuId(Long menuId) {
         this.menuId = menuId;
     }
 }
