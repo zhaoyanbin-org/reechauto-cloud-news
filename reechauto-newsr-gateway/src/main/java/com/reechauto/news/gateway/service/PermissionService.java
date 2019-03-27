@@ -32,7 +32,7 @@ public class PermissionService {
 		String requestUrl = request.getRequestURI();
 		OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();
 
-		Object menusObj = redisTemplate.opsForValue().get(Constant.USER_MENUS + details.getTokenValue());
+		Object menusObj = redisTemplate.opsForValue().get(Constant.USER_PERMISSION + details.getTokenValue());
 		List<LinkedHashMap<String, Object>> list = null;
 		if (menusObj != null) {
 			list = (ArrayList<LinkedHashMap<String, Object>>)menusObj;

@@ -8,7 +8,7 @@ public interface Constant {
      /*
       * 用户菜单权限
       */
-	 public static final String USER_MENUS="news-gateway:menus:";
+	 public static final String USER_PERMISSION="news-gateway:permission:";
 	 /*
 	  * 用户角色权限
 	  */

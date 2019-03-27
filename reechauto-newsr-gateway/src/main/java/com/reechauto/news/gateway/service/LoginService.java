@@ -103,8 +103,8 @@ public class LoginService {
 		if (1000 != privilegeRet.getCode()) {
 			throw new RuntimeException("获取用户权限失败");
 		} else {
-			userRet.data("menus", privilegeRet.getData().get("context"));
-			redisTemplate.opsForValue().set(Constant.USER_MENUS + token.getAccess_token(),
+			//userRet.data("menus", privilegeRet.getData().get("context"));
+			redisTemplate.opsForValue().set(Constant.USER_PERMISSION + token.getAccess_token(),
 					privilegeRet.getData().get("context"), token.getExpires_in(), TimeUnit.SECONDS);
 		}
 		// 获取角色

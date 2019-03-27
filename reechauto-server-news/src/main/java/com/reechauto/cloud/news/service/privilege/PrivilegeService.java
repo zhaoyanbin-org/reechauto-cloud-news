@@ -53,7 +53,7 @@ public class PrivilegeService {
 	 * @return
 	 */
 	public List<SysMenu> queryPrivilege(Long userId) {
-		String sql = "SELECT * FROM sys_menu t WHERE t.status='Y' AND EXISTS (SELECT 1 FROM (SELECT a.menu_id FROM sys_privilege a,sys_user_role b,sys_role c WHERE a.role_id=b.role_id AND b.role_id=c.role_id AND c.status='Y' AND b.user_id=?)m WHERE t.id=m.menu_id)  ORDER BY t.sort ASC";
+		String sql = "SELECT * FROM sys_menu t WHERE t.status='Y' AND t.type='3' AND EXISTS (SELECT 1 FROM (SELECT a.menu_id FROM sys_privilege a,sys_user_role b,sys_role c WHERE a.role_id=b.role_id AND b.role_id=c.role_id AND c.status='Y' AND b.user_id=?)m WHERE t.id=m.menu_id)  ORDER BY t.sort ASC";
 		RowMapper<SysMenu> rowMapper = new BeanPropertyRowMapper<SysMenu>(SysMenu.class);
 		List<SysMenu> list = this.jdbcTemplate.query(sql, rowMapper, userId);
 		return list;
