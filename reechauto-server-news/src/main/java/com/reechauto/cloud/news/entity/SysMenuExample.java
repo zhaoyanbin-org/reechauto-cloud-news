@@ -426,52 +426,52 @@ public class SysMenuExample {
             addCriterion("url not between", value1, value2, "url");
             return (Criteria) this;
         }
-        public Criteria andIsMenuIsNull() {
-            addCriterion("is_menu is null");
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
             return (Criteria) this;
         }
-        public Criteria andIsMenuIsNotNull() {
-            addCriterion("is_menu is not null");
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
             return (Criteria) this;
         }
-        public Criteria andIsMenuEqualTo(Integer value) {
-            addCriterion("is_menu =", value, "isMenu");
+        public Criteria andTypeEqualTo(Integer value) {
+            addCriterion("type =", value, "type");
             return (Criteria) this;
         }
-        public Criteria andIsMenuNotEqualTo(Integer value) {
-            addCriterion("is_menu <>", value, "isMenu");
+        public Criteria andTypeNotEqualTo(Integer value) {
+            addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
-        public Criteria andIsMenuGreaterThan(Integer value) {
-            addCriterion("is_menu >", value, "isMenu");
+        public Criteria andTypeGreaterThan(Integer value) {
+            addCriterion("type >", value, "type");
             return (Criteria) this;
         }
-        public Criteria andIsMenuGreaterThanOrEqualTo(Integer value) {
-            addCriterion("is_menu >=", value, "isMenu");
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
-        public Criteria andIsMenuLessThan(Integer value) {
-            addCriterion("is_menu <", value, "isMenu");
+        public Criteria andTypeLessThan(Integer value) {
+            addCriterion("type <", value, "type");
             return (Criteria) this;
         }
-        public Criteria andIsMenuLessThanOrEqualTo(Integer value) {
-            addCriterion("is_menu <=", value, "isMenu");
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
-        public Criteria andIsMenuIn(List<Integer> values) {
-            addCriterion("is_menu in", values, "isMenu");
+        public Criteria andTypeIn(List<Integer> values) {
+            addCriterion("type in", values, "type");
             return (Criteria) this;
         }
-        public Criteria andIsMenuNotIn(List<Integer> values) {
-            addCriterion("is_menu not in", values, "isMenu");
+        public Criteria andTypeNotIn(List<Integer> values) {
+            addCriterion("type not in", values, "type");
             return (Criteria) this;
         }
-        public Criteria andIsMenuBetween(Integer value1, Integer value2) {
-            addCriterion("is_menu between", value1, value2, "isMenu");
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
+            addCriterion("type between", value1, value2, "type");
             return (Criteria) this;
         }
-        public Criteria andIsMenuNotBetween(Integer value1, Integer value2) {
-            addCriterion("is_menu not between", value1, value2, "isMenu");
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
         public Criteria andLevelIsNull() {

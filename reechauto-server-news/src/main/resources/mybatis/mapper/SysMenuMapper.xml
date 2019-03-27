@@ -8,7 +8,7 @@
         <result column="p_code" jdbcType="VARCHAR" property="pCode" />
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="url" jdbcType="VARCHAR" property="url" />
-        <result column="is_menu" jdbcType="INTEGER" property="isMenu" />
+        <result column="type" jdbcType="INTEGER" property="type" />
         <result column="level" jdbcType="INTEGER" property="level" />
         <result column="sort" jdbcType="INTEGER" property="sort" />
         <result column="status" jdbcType="VARCHAR" property="status" />
@@ -73,7 +73,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        id, code, p_id, p_code, name, url, is_menu, level, sort, status, icon
+        id, code, p_id, p_code, name, url, type, level, sort, status, icon
     </sql>
     <select id="selectByExample" parameterType="com.reechauto.cloud.news.entity.SysMenuExample" resultMap="BaseResultMap">
         select
@@ -111,11 +111,11 @@
     <insert id="insert" parameterType="com.reechauto.cloud.news.entity.SysMenu">
         insert into sys_menu (id, code, p_id, 
             p_code, name, url, 
-            is_menu, level, sort, 
+            type, level, sort, 
             status, icon)
         values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{pId,jdbcType=INTEGER}, 
             #{pCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-            #{isMenu,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
+            #{type,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
             #{status,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.reechauto.cloud.news.entity.SysMenu">
@@ -139,8 +139,8 @@
             <if test="url != null">
                 url,
             </if>
-            <if test="isMenu != null">
-                is_menu,
+            <if test="type != null">
+                type,
             </if>
             <if test="level != null">
                 level,
@@ -174,8 +174,8 @@
             <if test="url != null">
                 #{url,jdbcType=VARCHAR},
             </if>
-            <if test="isMenu != null">
-                #{isMenu,jdbcType=INTEGER},
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
             </if>
             <if test="level != null">
                 #{level,jdbcType=INTEGER},
@@ -218,8 +218,8 @@
             <if test="record.url != null">
                 url = #{record.url,jdbcType=VARCHAR},
             </if>
-            <if test="record.isMenu != null">
-                is_menu = #{record.isMenu,jdbcType=INTEGER},
+            <if test="record.type != null">
+                type = #{record.type,jdbcType=INTEGER},
             </if>
             <if test="record.level != null">
                 level = #{record.level,jdbcType=INTEGER},
@@ -246,7 +246,7 @@
             p_code = #{record.pCode,jdbcType=VARCHAR},
             name = #{record.name,jdbcType=VARCHAR},
             url = #{record.url,jdbcType=VARCHAR},
-            is_menu = #{record.isMenu,jdbcType=INTEGER},
+            type = #{record.type,jdbcType=INTEGER},
             level = #{record.level,jdbcType=INTEGER},
             sort = #{record.sort,jdbcType=INTEGER},
             status = #{record.status,jdbcType=VARCHAR},
@@ -273,8 +273,8 @@
             <if test="url != null">
                 url = #{url,jdbcType=VARCHAR},
             </if>
-            <if test="isMenu != null">
-                is_menu = #{isMenu,jdbcType=INTEGER},
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
             </if>
             <if test="level != null">
                 level = #{level,jdbcType=INTEGER},
@@ -298,7 +298,7 @@
             p_code = #{pCode,jdbcType=VARCHAR},
             name = #{name,jdbcType=VARCHAR},
             url = #{url,jdbcType=VARCHAR},
-            is_menu = #{isMenu,jdbcType=INTEGER},
+            type = #{type,jdbcType=INTEGER},
             level = #{level,jdbcType=INTEGER},
             sort = #{sort,jdbcType=INTEGER},
             status = #{status,jdbcType=VARCHAR},

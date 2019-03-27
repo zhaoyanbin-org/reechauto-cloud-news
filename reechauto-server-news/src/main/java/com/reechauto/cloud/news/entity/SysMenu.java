@@ -31,9 +31,9 @@ public class SysMenu implements Serializable {
      */
     private String url;
     /**
-     * 是否是菜单(1.菜单。2.权限)
+     * 1.菜单，2.按钮，3.权限
      */
-    private Integer isMenu;
+    private Integer type;
     /**
      * 菜单层级
      */
@@ -85,11 +85,11 @@ public class SysMenu implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
-    public Integer getIsMenu() {
-        return isMenu;
+    public Integer getType() {
+        return type;
     }
-    public void setIsMenu(Integer isMenu) {
-        this.isMenu = isMenu;
+    public void setType(Integer type) {
+        this.type = type;
     }
     public Integer getLevel() {
         return level;
