@@ -124,7 +124,9 @@ public class MenuService {
 		SysMenu record = new SysMenu();
 		Long id = getMenuId(pId);
 		if (pId <= 0) {
-			
+			if (type!=2&&type!=1) {
+				throw new RuntimeException("pId为0只能是菜单或权限");
+			}
 			// 第一级组织
 			record.setStatus("Y");
 			record.setId(id);
@@ -143,6 +145,9 @@ public class MenuService {
 			SysMenu parent = this.sysMenuMapper.selectByPrimaryKey(pId);
 			if (parent == null) {
 				throw new RuntimeException("不存在的上级菜单ID'" + pId + "'");
+			}
+			if (parent.getType()!=1) {
+				throw new RuntimeException("上级类型只能是菜单，不能是按钮或权限");
 			}
 			int level = parent.getLevel() + 1;
 			record.setStatus("Y");
