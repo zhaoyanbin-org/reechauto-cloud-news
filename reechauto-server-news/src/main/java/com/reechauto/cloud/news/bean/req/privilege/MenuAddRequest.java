@@ -16,8 +16,8 @@ public class MenuAddRequest extends BaseRequest {
 	@NotBlank(message = "name不可以为空")
 	private String name;
 	private String url;
-	@NotNull(message = "isMenu不可以为null,1:菜单，2：按钮")
-	private int isMenu;
+	@NotNull(message = "type不可以为null,1:菜单，2：按钮，3：权限")
+	private int type;
 	private int sort = 0;
 	public int getpId() {
 		return pId;
@@ -43,11 +43,11 @@ public class MenuAddRequest extends BaseRequest {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public int getIsMenu() {
-		return isMenu;
+	public int getType() {
+		return type;
 	}
-	public void setIsMenu(int isMenu) {
-		this.isMenu = isMenu;
+	public void setType(int type) {
+		this.type = type;
 	}
 	public int getSort() {
 		return sort;

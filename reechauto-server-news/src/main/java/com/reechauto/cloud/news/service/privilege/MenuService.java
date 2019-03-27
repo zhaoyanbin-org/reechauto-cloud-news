@@ -115,7 +115,7 @@ public class MenuService {
 	 * @param sort
 	 * @return
 	 */
-	public boolean addMenu(Integer pId,String pCode,String name,String url,Integer isMenu,Integer sort) {
+	public boolean addMenu(Integer pId,String pCode,String name,String url,Integer type,Integer sort) {
 		log.info("添加菜单");
 		int n = queryMenuName(name.trim());
 		if (n > 0) {
@@ -137,7 +137,7 @@ public class MenuService {
 			if (StringUtils.isNotBlank(url)) {
 				record.setUrl(url);
 			}
-			record.setIsMenu(isMenu);
+			record.setType(type);
 		} else {
 			// 查询上一级组织
 			SysMenu parent = this.sysMenuMapper.selectByPrimaryKey(pId);
@@ -157,7 +157,7 @@ public class MenuService {
 			if (StringUtils.isNotBlank(url)) {
 				record.setUrl(url);
 			}
-			record.setIsMenu(isMenu);
+			record.setType(type);
 		}
 		return this.sysMenuMapper.insertSelective(record) > 0;
 	}
@@ -170,7 +170,7 @@ public class MenuService {
      * @param sort
      * @return
      */
-	public boolean updateMenu(Integer id,String name,String url,Integer isMenu,Integer sort) {
+	public boolean updateMenu(Integer id,String name,String url,Integer type,Integer sort) {
 		SysMenu record = new SysMenu();
 		record.setId(id);
 		if (StringUtils.isNotBlank(name)) {
@@ -179,8 +179,8 @@ public class MenuService {
 		if (StringUtils.isNotBlank(url)) {
 			record.setUrl(url);
 		}
-		if (isMenu!=null) {
-			record.setIsMenu(isMenu);
+		if (type!=null) {
+			record.setType(type);
 		}
 		if (sort!=null) {
 			record.setSort(sort);
