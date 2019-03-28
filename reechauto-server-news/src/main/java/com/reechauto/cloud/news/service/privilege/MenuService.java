@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.reechauto.cloud.news.bean.enums.MenuTypeEnum;
 import com.reechauto.cloud.news.bean.menu.SysMenuBean;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysMenuExample;
@@ -124,7 +126,9 @@ public class MenuService {
 		SysMenu record = new SysMenu();
 		Long id = getMenuId(pId);
 		if (pId <= 0) {
-			
+			if (type!=3&&type!=1) {
+				throw new RuntimeException("pId为0只能是菜单或权限");
+			}
 			// 第一级组织
 			record.setStatus("Y");
 			record.setId(id);
@@ -137,12 +141,15 @@ public class MenuService {
 			if (StringUtils.isNotBlank(url)) {
 				record.setUrl(url);
 			}
-			record.setType(type);
+			record.setType(MenuTypeEnum.get(type).getValue());
 		} else {
 			// 查询上一级组织
 			SysMenu parent = this.sysMenuMapper.selectByPrimaryKey(pId);
 			if (parent == null) {
 				throw new RuntimeException("不存在的上级菜单ID'" + pId + "'");
+			}
+			if (parent.getType()!=1) {
+				throw new RuntimeException("上级类型只能是菜单，不能是按钮或权限");
 			}
 			int level = parent.getLevel() + 1;
 			record.setStatus("Y");
@@ -157,7 +164,7 @@ public class MenuService {
 			if (StringUtils.isNotBlank(url)) {
 				record.setUrl(url);
 			}
-			record.setType(type);
+			record.setType(MenuTypeEnum.get(type).getValue());
 		}
 		return this.sysMenuMapper.insertSelective(record) > 0;
 	}
@@ -180,7 +187,7 @@ public class MenuService {
 			record.setUrl(url);
 		}
 		if (type!=null) {
-			record.setType(type);
+			record.setType(MenuTypeEnum.get(type).getValue());
 		}
 		if (sort!=null) {
 			record.setSort(sort);
