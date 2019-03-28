@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.node.LongNode;
 import com.reechauto.cloud.common.exception.DataEmptyException;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.date.DateUtil;
@@ -140,12 +142,12 @@ public class AppFeedbackService {
 	 * @param vo
 	 * @return
 	 */
-	public ResponseData answerQuestion(FeedbackAnswerByOperatorRequest vo) {
-		log.info("appFeedbackId:" + vo.getAppFeedbackId());
-		log.info("content:" + vo.getContent());
-		NewsFeedback record = newsFeedbackMapper.selectByPrimaryKey(vo.getAppFeedbackId());
-		record.setAnswer(vo.getContent());
-		record.setAnswererId(vo.getOperatorId());
+	public ResponseData answerQuestion(Long operatorId,Integer appFeedbackId,String content) {
+		log.info("appFeedbackId:" + appFeedbackId);
+		log.info("content:" + content);
+		NewsFeedback record = newsFeedbackMapper.selectByPrimaryKey(appFeedbackId);
+		record.setAnswer(content);
+		record.setAnswererId(operatorId);
 		record.setAnswerTime(new Date());
 		record.setStatus("Y");
 		boolean flag = this.newsFeedbackMapper.updateByPrimaryKeySelective(record) > 0;
