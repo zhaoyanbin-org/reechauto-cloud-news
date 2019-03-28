@@ -37,7 +37,8 @@ public class NewsController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsService.pushNews(req);
+		ResponseData responseData = newsService.pushNews(req.getUserId(),req.getTitle(),req.getIntro(),req.getContext(),req.getImagesUrl()
+				,req.getIsTope());
 		return responseData;
 	}
 
@@ -54,7 +55,8 @@ public class NewsController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsService.modifyNews(req);
+		ResponseData responseData = newsService.modifyNews(req.getUserId(),req.getId(),req.getTitle(),req.getIntro(),req.getContext()
+				,req.getImagesUrl(),req.getIsTope(),req.getStatus());
 		return responseData;
 	}
 

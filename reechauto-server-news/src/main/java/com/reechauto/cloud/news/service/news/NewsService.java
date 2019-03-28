@@ -24,18 +24,18 @@ public class NewsService {
      * @param vo
      * @return
      */
-	public ResponseData pushNews( NewsPublishRequest vo) {
+	public ResponseData pushNews( Long userId,String title,String intro,String context,String imagesUrl,String isTope) {
 		NewsShareInfo bean = new NewsShareInfo();
-		bean.setTitle(vo.getTitle());
-		bean.setIntro(vo.getIntro());
-		bean.setContext(vo.getContext());
-		bean.setImagesUrl(vo.getImagesUrl());
-		if (StringUtils.isNotBlank(vo.getIsTope())) {
-			bean.setIsTope(IsTopEnum.get(vo.getIsTope()).getValue());
+		bean.setTitle(title);
+		bean.setIntro(intro);
+		bean.setContext(context);
+		bean.setImagesUrl(imagesUrl);
+		if (StringUtils.isNotBlank(isTope)) {
+			bean.setIsTope(IsTopEnum.get(isTope).getValue());
 		} else {
 			bean.setIsTope(IsTopEnum.N.getValue());
 		}
-		bean.setPushUserId(vo.getUserId());
+		bean.setPushUserId(userId);
 		bean.setIsNews(NewsShareEnum.NEWS.getValue());
 		bean.setStatus(NewsShareStatusEnum.Y.getValue());
 
@@ -54,28 +54,29 @@ public class NewsService {
 	 * @param vo
 	 * @return
 	 */
-	public ResponseData modifyNews( NewsModifyRequest vo) {
+	public ResponseData modifyNews( Long userId,String id,String title,String intro,String context,String imagesUrl,String isTope
+			,String status) {
 		NewsShareInfo bean = new NewsShareInfo();
-		bean.setId(vo.getId());
-		if (StringUtils.isNotBlank(vo.getTitle())) {
-			bean.setTitle(vo.getTitle());
+		bean.setId(id);
+		if (StringUtils.isNotBlank(title)) {
+			bean.setTitle(title);
 		}
-		if (StringUtils.isNotBlank(vo.getIntro())) {
-			bean.setIntro(vo.getIntro());
+		if (StringUtils.isNotBlank(intro)) {
+			bean.setIntro(intro);;
 		}
-		if (StringUtils.isNotBlank(vo.getContext())) {
-			bean.setContext(vo.getContext());
+		if (StringUtils.isNotBlank(context)) {
+			bean.setContext(context);
 		}
-		if (StringUtils.isNotBlank(vo.getImagesUrl())) {
-			bean.setImagesUrl(vo.getImagesUrl());
+		if (StringUtils.isNotBlank(imagesUrl)) {
+			bean.setImagesUrl(imagesUrl);
 		}
-		if (StringUtils.isNotBlank(vo.getIsTope())) {
-			bean.setIsTope(IsTopEnum.get(vo.getIsTope()).getValue());
+		if (StringUtils.isNotBlank(isTope)) {
+			bean.setIsTope(IsTopEnum.get(isTope).getValue());
 		}
 		bean.setIsNews(NewsShareEnum.NEWS.getValue());
-		bean.setPushUserId(vo.getUserId());
-		if (StringUtils.isNotBlank(vo.getStatus())) {
-			bean.setStatus(NewsShareStatusEnum.get(vo.getStatus()).getValue());
+		bean.setPushUserId(userId);
+		if (StringUtils.isNotBlank(status)) {
+			bean.setStatus(NewsShareStatusEnum.get(status).getValue());
 		}
 		boolean flag =  newsShareService.modifyNewsShare(bean);
 		if (!flag) {
