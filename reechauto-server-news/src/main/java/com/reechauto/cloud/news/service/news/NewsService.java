@@ -2,6 +2,7 @@ package com.reechauto.cloud.news.service.news;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.runner.ReactiveWebApplicationContextRunner;
 import org.springframework.stereotype.Service;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.bean.enums.IsTopEnum;
@@ -15,16 +16,18 @@ import com.reechauto.cloud.news.bean.req.news.NewsQueryRequest;
 
 @Service
 public class NewsService {
-	
+
 	@Autowired
-	private NewsShareService  newsShareService;
-  
+	private NewsShareService newsShareService;
+
 	/**
-             * 发布资讯
-     * @param vo
-     * @return
-     */
-	public ResponseData pushNews( Long userId,String title,String intro,String context,String imagesUrl,String isTope) {
+	 * 发布资讯
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public ResponseData pushNews(Long userId, String title, String intro, String context, String imagesUrl,
+			String isTope) {
 		NewsShareInfo bean = new NewsShareInfo();
 		bean.setTitle(title);
 		bean.setIntro(intro);
@@ -43,8 +46,8 @@ public class NewsService {
 		if (!flag) {
 			throw new RuntimeException("发布资讯失败");
 		}
-		return  ResponseData.ok();
-		
+		return ResponseData.ok();
+
 	}
 
 	/**
@@ -54,15 +57,16 @@ public class NewsService {
 	 * @param vo
 	 * @return
 	 */
-	public ResponseData modifyNews( Long userId,String id,String title,String intro,String context,String imagesUrl,String isTope
-			,String status) {
+	public ResponseData modifyNews(Long userId, String id, String title, String intro, String context, String imagesUrl,
+			String isTope, String status) {
 		NewsShareInfo bean = new NewsShareInfo();
 		bean.setId(id);
 		if (StringUtils.isNotBlank(title)) {
 			bean.setTitle(title);
 		}
 		if (StringUtils.isNotBlank(intro)) {
-			bean.setIntro(intro);;
+			bean.setIntro(intro);
+			;
 		}
 		if (StringUtils.isNotBlank(context)) {
 			bean.setContext(context);
@@ -78,7 +82,7 @@ public class NewsService {
 		if (StringUtils.isNotBlank(status)) {
 			bean.setStatus(NewsShareStatusEnum.get(status).getValue());
 		}
-		boolean flag =  newsShareService.modifyNewsShare(bean);
+		boolean flag = newsShareService.modifyNewsShare(bean);
 		if (!flag) {
 			throw new RuntimeException("修改资讯失败");
 		}
@@ -96,42 +100,22 @@ public class NewsService {
 	 * @param offset
 	 * @return
 	 */
-	public ResponseData queryNews( Long userId,String status,Long pushUserId,String createDate,String isTope,
-			String searchCondition,Integer pageNum,Integer start) {
-		NewsShareQuery bean = new NewsShareQuery();
-		bean.setIsNews(NewsShareEnum.NEWS.getValue());
-		bean.setStart(start);
-		bean.setPageNum(pageNum);
-		if(StringUtils.isNotBlank(createDate))
-		{
-		  bean.setCreateDate(createDate);
-		}
-		if(pushUserId!=null&&pushUserId>0) {
-			bean.setPushUserId(pushUserId);
-		}
-		if(StringUtils.isNotBlank(searchCondition)) {
-			bean.setSearchCondition(searchCondition);
-		}
-		if(StringUtils.isNotBlank(status))
-		{
-		 bean.setStatus(NewsShareStatusEnum.get(status).getValue());
-		}
-		bean.setUserId(userId);
-		return newsShareService.queryNewsShare(bean.getUserId(),bean.getIsNews(), bean.getIsTope(), bean.getStatus(), bean.getPushUserId()==null?0:bean.getPushUserId(), bean.getCreateDate(),bean.getSearchCondition(), bean.getStart(), bean.getPageNum());
+	public ResponseData queryNews(Long userId, String status, Long pushUserId, String createDate, String isTope,
+			String searchCondition, Integer pageNum, Integer start) {
+		return newsShareService.queryNewsShare(userId, NewsShareEnum.NEWS.getValue(), isTope,
+				NewsShareStatusEnum.get(status).getValue(), pushUserId == null ? 0 : pushUserId, createDate,
+				searchCondition, start, pageNum);
 	}
-	
+
 	/**
 	 * 增加浏览次数
+	 * 
 	 * @param newsShareId
 	 * @return
 	 */
-	public ResponseData browse(String newsShareId) {
+	public boolean browse(String newsShareId) {
 		boolean flag = newsShareService.browse(newsShareId);
-		if(flag) {
-			return  ResponseData.ok();
-		}
-		throw new RuntimeException("增加浏览次数失败");
+		return flag;
 	}
 
-	
 }

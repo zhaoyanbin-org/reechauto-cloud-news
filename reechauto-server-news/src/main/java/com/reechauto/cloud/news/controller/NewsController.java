@@ -91,8 +91,11 @@ public class NewsController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsService.browse(req.getId());
-		return responseData;
+		boolean flag = newsService.browse(req.getId());
+		if (flag) {
+			return ResponseData.ok();
+		}
+		throw new RuntimeException("增加浏览次数失败");
 	}
 
 }
