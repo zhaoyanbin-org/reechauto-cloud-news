@@ -36,9 +36,9 @@ public class CommentController  {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = commentService.addComment(req.getUserId(), req.getNewsShareId(),
+		commentService.addComment(req.getUserId(), req.getNewsShareId(),
 				req.getCommentContext());
-		return responseData;
+		return ResponseData.ok();
 	}
 
 	/**
@@ -53,8 +53,11 @@ public class CommentController  {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = commentService.modifyComment(req.getId(), req.getCommentContext());
-		return responseData;
+		boolean flag = commentService.modifyComment(req.getId(), req.getCommentContext());
+		if (!flag) {
+			throw new RuntimeException("更新评论失败");
+		}
+		return ResponseData.ok();
 	}
 
 	/**
@@ -69,8 +72,11 @@ public class CommentController  {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = commentService.delComment(req.getId());
-		return responseData;
+		boolean flag = commentService.delComment(req.getId());
+		if (!flag) {
+			throw new RuntimeException("删除评论失败");
+		}
+		return ResponseData.ok();
 	}
 
 	/**

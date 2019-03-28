@@ -34,7 +34,7 @@ public class CommentService {
 	 * @param commentContext
 	 * @return
 	 */
-	public ResponseData addComment(Long userId, String newsShareId, String commentContext) {
+	public void addComment(Long userId, String newsShareId, String commentContext) {
 		log.info("newsShareId:" + newsShareId);
 		UserDetails userDetails = userDetailsMapper.selectByPrimaryKey(userId);
 		if (userDetails == null) {
@@ -54,7 +54,6 @@ public class CommentService {
 		}
 		// 发送通知
 		noticeService.addNotice(newsShareId, id, "comment");
-		return ResponseData.ok();
 	}
 
 	/**
@@ -64,15 +63,12 @@ public class CommentService {
 	 * @param commentContext
 	 * @return
 	 */
-	public ResponseData modifyComment(String id, String commentContext) {
+	public boolean modifyComment(String id, String commentContext) {
 		NewsShareComment record = this.newsShareCommentMapper.selectByPrimaryKey(id);
 		record.setModifyTime(new Date());
 		record.setCommentContext(commentContext);
 		boolean flag = this.newsShareCommentMapper.updateByPrimaryKeySelective(record) > 0;
-		if (!flag) {
-			throw new RuntimeException("更新评论失败");
-		}
-		return ResponseData.ok();
+		return flag;
 	}
 
 	/**
@@ -81,15 +77,12 @@ public class CommentService {
 	 * @param id
 	 * @return
 	 */
-	public ResponseData delComment(String id) {
+	public boolean delComment(String id) {
 		NewsShareComment record = this.newsShareCommentMapper.selectByPrimaryKey(id);
 		record.setModifyTime(new Date());
 		record.setCommentStatus(CommentStatusEnum.N.getValue());
 		boolean flag = this.newsShareCommentMapper.updateByPrimaryKeySelective(record) > 0;
-		if (!flag) {
-			throw new RuntimeException("删除评论失败");
-		}
-		return ResponseData.ok();
+		return flag;
 	}
 
 	/**
