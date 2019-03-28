@@ -43,7 +43,7 @@ public class MainMenuService {
 	 */
 	private List<LeftMenuBean> getUserLeftMenu(Long pid, List<SysMenu> list) {
 		List<LeftMenuBean> lmlist = new ArrayList<LeftMenuBean>();
-		List<SysMenu> fl = list.stream().filter(item -> item.getpId() == pid).collect(Collectors.toList());
+		List<SysMenu> fl = list.stream().filter(item->item.getpId().longValue()==pid.longValue()).collect(Collectors.toList());
 		if (CollectionUtils.isNotEmpty(fl)) {
 			fl.forEach(item -> {
 				LeftMenuBean lmb = new LeftMenuBean();
@@ -55,6 +55,7 @@ public class MainMenuService {
 		}
 		return lmlist;
 	}
+	
 
 	/**
 	 * 查询当前用户的权限集合
@@ -62,7 +63,7 @@ public class MainMenuService {
 	 * @return
 	 */
 	public List<SysMenu> queryPrivilege(Long userId) {
-		String sql = "SELECT DISTINCT m.* FROM ( SELECT b.menu_id FROM sys_user_role a,sys_privilege b WHERE a.role_id=b.role_id AND a.user_id=? ) t ,sys_menu m WHERE t.menu_id=m.id AND m.status='Y' AND m.type<>3 ORDER BY m.level ASC,m.sort ASC";
+		String sql = "SELECT DISTINCT m.* FROM ( SELECT b.menu_id FROM sys_user_role a,sys_privilege b WHERE a.role_id=b.role_id AND a.user_id=? ) t ,sys_menu m WHERE t.menu_id=m.id AND m.status='Y' AND m.type<>3 ORDER BY m.level ASC,m.sort ASC,m.id ASC";
 		RowMapper<SysMenu> rowMapper = new BeanPropertyRowMapper<SysMenu>(SysMenu.class);
 		List<SysMenu> list = this.jdbcTemplate.query(sql, rowMapper, userId);
 		return list;
