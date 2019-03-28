@@ -80,21 +80,6 @@ public class NoticeService {
 	}
 
 	/**
-	 * read消息
-	 * 
-	 * @param noticeId
-	 * @return
-	 */
-	public ResponseData read(String noticeId) {
-		boolean flag = readNotice(noticeId);
-		;
-		if (flag) {
-			return ResponseData.ok();
-		}
-		throw new RuntimeException("消息已读失败");
-	}
-   
-	/**
              * 统计未读消息的个数
      * @param userId
      * @return
@@ -102,17 +87,6 @@ public class NoticeService {
 	public ResponseData countNoRead(Long userId) {
 		Long num = countNotRead(userId);
 		return ResponseData.ok().data(num);
-	}
-
-	/**
-	 * 将消息全部标记为已读
-	 * 
-	 * @param userId
-	 * @return
-	 */
-	public ResponseData readAll(Long userId) {
-		readAllNotice(userId);
-		return ResponseData.ok();
 	}
     /**
      * 发送通知
@@ -173,10 +147,8 @@ public class NoticeService {
 	 */
 
 	public void readAllNotice(Long notifyId) {
-
 		this.reechAutoJdbcTemplate.update("update news_notice set is_read = ? where notify_id = ? ",
 				YnEnum.Y.getValue(), notifyId);
-
 	}
 
 	/**

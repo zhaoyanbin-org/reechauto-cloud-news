@@ -51,8 +51,11 @@ public class NoticeController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = noticeServer.read(req.getNoticeId());
-		return responseData;
+		boolean flag = noticeServer.readNotice(req.getNoticeId());
+		if (flag) {
+			return ResponseData.ok();
+		}
+		throw new RuntimeException("消息已读失败");
 	}
 
 	/**
@@ -63,8 +66,8 @@ public class NoticeController {
 	@RequestMapping(value = "/readAll", method = RequestMethod.POST)
 	public ResponseData readAllNotice(@RequestParam("userId") Long userId) {
 		log.info("将消息全部标记为已读");
-		ResponseData responseData = noticeServer.readAll(userId);
-		return responseData;
+		noticeServer.readAllNotice(userId);
+		return ResponseData.ok();
 	}
 
 	/**
