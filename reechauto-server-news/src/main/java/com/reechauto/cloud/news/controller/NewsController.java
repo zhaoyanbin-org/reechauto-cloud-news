@@ -37,9 +37,12 @@ public class NewsController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsService.pushNews(req.getUserId(),req.getTitle(),req.getIntro(),req.getContext(),req.getImagesUrl()
+		boolean flag = newsService.pushNews(req.getUserId(),req.getTitle(),req.getIntro(),req.getContext(),req.getImagesUrl()
 				,req.getIsTope());
-		return responseData;
+		if (!flag) {
+			throw new RuntimeException("发布资讯失败");
+		}
+		return ResponseData.ok();
 	}
 
 	/**
@@ -55,9 +58,12 @@ public class NewsController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsService.modifyNews(req.getUserId(),req.getId(),req.getTitle(),req.getIntro(),req.getContext()
+		boolean flag = newsService.modifyNews(req.getUserId(),req.getId(),req.getTitle(),req.getIntro(),req.getContext()
 				,req.getImagesUrl(),req.getIsTope(),req.getStatus());
-		return responseData;
+		if (!flag) {
+			throw new RuntimeException("修改资讯失败");
+		}
+		return ResponseData.ok();
 	}
 
 	/**

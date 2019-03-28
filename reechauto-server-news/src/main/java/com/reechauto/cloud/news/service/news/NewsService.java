@@ -26,7 +26,7 @@ public class NewsService {
 	 * @param vo
 	 * @return
 	 */
-	public ResponseData pushNews(Long userId, String title, String intro, String context, String imagesUrl,
+	public boolean pushNews(Long userId, String title, String intro, String context, String imagesUrl,
 			String isTope) {
 		NewsShareInfo bean = new NewsShareInfo();
 		bean.setTitle(title);
@@ -43,11 +43,7 @@ public class NewsService {
 		bean.setStatus(NewsShareStatusEnum.Y.getValue());
 
 		boolean flag = newsShareService.addNewsShare(bean);
-		if (!flag) {
-			throw new RuntimeException("发布资讯失败");
-		}
-		return ResponseData.ok();
-
+		return flag;
 	}
 
 	/**
@@ -57,7 +53,7 @@ public class NewsService {
 	 * @param vo
 	 * @return
 	 */
-	public ResponseData modifyNews(Long userId, String id, String title, String intro, String context, String imagesUrl,
+	public boolean modifyNews(Long userId, String id, String title, String intro, String context, String imagesUrl,
 			String isTope, String status) {
 		NewsShareInfo bean = new NewsShareInfo();
 		bean.setId(id);
@@ -83,10 +79,7 @@ public class NewsService {
 			bean.setStatus(NewsShareStatusEnum.get(status).getValue());
 		}
 		boolean flag = newsShareService.modifyNewsShare(bean);
-		if (!flag) {
-			throw new RuntimeException("修改资讯失败");
-		}
-		return ResponseData.ok();
+		return flag;
 	}
 
 	/**
