@@ -187,7 +187,7 @@ public class MenuService {
 			record.setUrl(url);
 		}
 		if (type!=null) {
-			record.setType(type);
+			record.setType(MenuTypeEnum.get(type).getValue());
 		}
 		if (sort!=null) {
 			record.setSort(sort);
