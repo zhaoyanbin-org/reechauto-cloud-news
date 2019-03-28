@@ -326,45 +326,6 @@ public class NewsShareService {
 		return queryNewsShare(userId, null, IsTopEnum.Y.getValue(), NewsShareStatusEnum.Y.getValue(), 0L, null, null,
 				start, pageNum);
 	}
-
-	/**
-	 * 根据ID查询单条资讯动态
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public ResponseData querySingleNewsShare(String id) {
-		return singleNewsShare(id);
-	}
-
-	/**
-	 * 点赞
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public ResponseData addLikes(Long userId, String newsShareId) {
-		boolean flag = addLikes(newsShareId, userId);
-		if (flag) {
-			return ResponseData.ok();
-		}
-		throw new RuntimeException("点赞失败");
-	}
-
-	/**
-	 * 取消点赞
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public ResponseData removeLikes(Long userId, String newsShareId) {
-		boolean flag = removeLikes(newsShareId, userId);
-		if (flag) {
-			return ResponseData.ok();
-		}
-		throw new RuntimeException("取消点赞失败");
-	}
-
 	/**
 	 * 查询点赞人数
 	 * 
@@ -374,16 +335,13 @@ public class NewsShareService {
 	 * @return
 	 */
 
-	public ResponseData delNewsShare(String id) {
+	public boolean delNewsShare(String id) {
 		NewsShareInfo bean = new NewsShareInfo();
 		bean.setId(id);
 		bean.setStatus(NewsShareStatusEnum.N.getValue());
 		log.info(JsonUtils.toJson(bean));
 		boolean flag = modifyNewsShare(bean);
-		if (!flag) {
-			throw new RuntimeException("删除动态失败");
-		}
-		return ResponseData.ok();
+		return flag;
 	}
 
 }

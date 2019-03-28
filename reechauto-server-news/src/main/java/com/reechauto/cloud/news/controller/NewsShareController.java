@@ -60,7 +60,7 @@ public class NewsShareController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsShareService.querySingleNewsShare(req.getId());
+		ResponseData responseData = newsShareService.singleNewsShare(req.getId());
 		return responseData;
 	}
 
@@ -77,8 +77,11 @@ public class NewsShareController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsShareService.addLikes(req.getUserId(), req.getNewsShareId());
-		return responseData;
+		boolean flag = newsShareService.addLikes( req.getNewsShareId(),req.getUserId());
+		if (flag) {
+			return ResponseData.ok();
+		}
+		throw new RuntimeException("点赞失败");
 	}
 
 	/**
@@ -94,8 +97,11 @@ public class NewsShareController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsShareService.removeLikes(req.getUserId(), req.getNewsShareId());
-		return responseData;
+		boolean flag = newsShareService.removeLikes( req.getNewsShareId(),req.getUserId());
+		if (flag) {
+			return ResponseData.ok();
+		}
+		throw new RuntimeException("取消点赞失败");
 	}
 
 	/**
@@ -128,8 +134,11 @@ public class NewsShareController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsShareService.delNewsShare(req.getId());
-		return responseData;
+		boolean flag = newsShareService.delNewsShare(req.getId());
+		if (!flag) {
+			throw new RuntimeException("删除动态失败");
+		}
+		return ResponseData.ok();
 	}
 
 }
