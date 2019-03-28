@@ -96,26 +96,27 @@ public class NewsService {
 	 * @param offset
 	 * @return
 	 */
-	public ResponseData queryNews( NewsQueryRequest vo) {
+	public ResponseData queryNews( Long userId,String status,Long pushUserId,String createDate,String isTope,
+			String searchCondition,Integer pageNum,Integer start) {
 		NewsShareQuery bean = new NewsShareQuery();
 		bean.setIsNews(NewsShareEnum.NEWS.getValue());
-		bean.setStart(vo.getStart());
-		bean.setPageNum(vo.getPageNum());
-		if(StringUtils.isNotBlank(vo.getCreateDate()))
+		bean.setStart(start);
+		bean.setPageNum(pageNum);
+		if(StringUtils.isNotBlank(createDate))
 		{
-		  bean.setCreateDate(vo.getCreateDate());
+		  bean.setCreateDate(createDate);
 		}
-		if(vo.getPushUserId()!=null&&vo.getPushUserId()>0) {
-			bean.setPushUserId(vo.getPushUserId());
+		if(pushUserId!=null&&pushUserId>0) {
+			bean.setPushUserId(pushUserId);
 		}
-		if(StringUtils.isNotBlank(vo.getSearchCondition())) {
-			bean.setSearchCondition(vo.getSearchCondition());
+		if(StringUtils.isNotBlank(searchCondition)) {
+			bean.setSearchCondition(searchCondition);
 		}
-		if(StringUtils.isNotBlank(vo.getStatus()))
+		if(StringUtils.isNotBlank(status))
 		{
-		 bean.setStatus(NewsShareStatusEnum.get(vo.getStatus()).getValue());
+		 bean.setStatus(NewsShareStatusEnum.get(status).getValue());
 		}
-		bean.setUserId(vo.getUserId());
+		bean.setUserId(userId);
 		return newsShareService.queryNewsShare(bean.getUserId(),bean.getIsNews(), bean.getIsTope(), bean.getStatus(), bean.getPushUserId()==null?0:bean.getPushUserId(), bean.getCreateDate(),bean.getSearchCondition(), bean.getStart(), bean.getPageNum());
 	}
 	

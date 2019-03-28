@@ -73,7 +73,8 @@ public class NewsController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsService.queryNews(req);
+		ResponseData responseData = newsService.queryNews(req.getUserId(),req.getStatus(),req.getPushUserId(),req.getCreateDate()
+				,req.getIsTope(),req.getSearchCondition(),req.getPageNum(),req.getStart());
 		return responseData;
 	}
 
