@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.reechauto.cloud.news.bean.enums.MenuTypeEnum;
 import com.reechauto.cloud.news.bean.menu.SysMenuBean;
 import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.SysMenuExample;
@@ -139,7 +141,7 @@ public class MenuService {
 			if (StringUtils.isNotBlank(url)) {
 				record.setUrl(url);
 			}
-			record.setType(type);
+			record.setType(MenuTypeEnum.get(type).getValue());
 		} else {
 			// 查询上一级组织
 			SysMenu parent = this.sysMenuMapper.selectByPrimaryKey(pId);
@@ -162,7 +164,7 @@ public class MenuService {
 			if (StringUtils.isNotBlank(url)) {
 				record.setUrl(url);
 			}
-			record.setType(type);
+			record.setType(MenuTypeEnum.get(type).getValue());
 		}
 		return this.sysMenuMapper.insertSelective(record) > 0;
 	}
