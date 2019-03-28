@@ -127,19 +127,21 @@ public class NewsShareService {
 		}
 		return this.newsShareMapper.updateByPrimaryKeySelective(record) > 0;
 	}
-    /**
-             * 根据条件查询资讯或动态
-     * @param userId
-     * @param isNews
-     * @param isTop
-     * @param status
-     * @param pushUserId
-     * @param createDate
-     * @param SearchCondition
-     * @param start
-     * @param pageNum
-     * @return
-     */
+
+	/**
+	 * 根据条件查询资讯或动态
+	 * 
+	 * @param userId
+	 * @param isNews
+	 * @param isTop
+	 * @param status
+	 * @param pushUserId
+	 * @param createDate
+	 * @param SearchCondition
+	 * @param start
+	 * @param pageNum
+	 * @return
+	 */
 	public ResponseData queryNewsShare(Long userId, String isNews, String isTop, String status, Long pushUserId,
 			String createDate, String SearchCondition, int start, int pageNum) {
 		NewsShareExample example = new NewsShareExample();
@@ -268,11 +270,13 @@ public class NewsShareService {
 		List<NewsShareLikes> list = this.newsShareLikesMapper.selectByExample(example);
 		return ResponseData.ok().data(list).data("total", total);
 	}
-    /**
-              * 根据资讯或动态的ID增加浏览次数
-     * @param newsShareId
-     * @return
-     */
+
+	/**
+	 * 根据资讯或动态的ID增加浏览次数
+	 * 
+	 * @param newsShareId
+	 * @return
+	 */
 	public boolean browse(String newsShareId) {
 		NewsShareWithBLOBs bean = this.newsShareMapper.selectByPrimaryKey(newsShareId);
 		bean.setBrowseNum(bean.getBrowseNum() + 1);
@@ -313,26 +317,14 @@ public class NewsShareService {
 
 	/**
 	 * 查询置顶
-	 * 
-	 * @param isTop
-	 * @param status
-	 * @param pushUserId
-	 * @param createDate
-	 * @param limit
-	 * @param offset
+	 * @param userId
+	 * @param pageNum
+	 * @param start
 	 * @return
 	 */
-	public ResponseData queryNewsShareTop(NewsShareTopQueryRequest vo) {
-		NewsShareQuery bean = new NewsShareQuery();
-		bean.setIsNews(null);
-		bean.setIsTope(IsTopEnum.Y.getValue());
-		bean.setStart(vo.getStart());
-		bean.setPageNum(vo.getPageNum());
-		bean.setStatus(NewsShareStatusEnum.Y.getValue());
-		bean.setUserId(vo.getUserId());
-		return queryNewsShare(bean.getUserId(), bean.getIsNews(), bean.getIsTope(), bean.getStatus(),
-				bean.getPushUserId() == null ? 0 : bean.getPushUserId(), bean.getCreateDate(),
-				bean.getSearchCondition(), bean.getStart(), bean.getPageNum());
+	public ResponseData queryNewsShareTop(Long userId, Integer pageNum, Integer start) {
+		return queryNewsShare(userId, null, IsTopEnum.Y.getValue(), NewsShareStatusEnum.Y.getValue(), 0L, null, null,
+				start, pageNum);
 	}
 
 	/**

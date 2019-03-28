@@ -43,7 +43,7 @@ public class NewsShareController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = newsShareService.queryNewsShareTop(req);
+		ResponseData responseData = newsShareService.queryNewsShareTop(req.getUserId(),req.getPageNum(),req.getStart());
 		return responseData;
 	}
 
