@@ -1,6 +1,8 @@
 package com.reechauto.cloud.news.controller;
 
 import javax.validation.Valid;
+
+import org.mockito.internal.stubbing.defaultanswers.TriesToReturnSelf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,11 +79,8 @@ public class NewsShareController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		boolean flag = newsShareService.addLikes( req.getNewsShareId(),req.getUserId());
-		if (flag) {
-			return ResponseData.ok();
-		}
-		throw new RuntimeException("点赞失败");
+		newsShareService.addLikes( req.getNewsShareId(),req.getUserId());
+	    return ResponseData.ok();
 	}
 
 	/**

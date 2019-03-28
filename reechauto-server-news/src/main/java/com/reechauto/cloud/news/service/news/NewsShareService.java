@@ -204,7 +204,7 @@ public class NewsShareService {
 	 * @return
 	 */
 	@Transactional
-	public boolean addLikes(String newsShareId, Long userId) {
+	public void addLikes(String newsShareId, Long userId) {
 		UserDetails userDetails = this.userDetailsMapper.selectByPrimaryKey(userId);
 		if (userDetails == null) {
 			throw new DataEmptyException("用户不存在");
@@ -227,8 +227,9 @@ public class NewsShareService {
 			}
 			// 发送通知
 			noticeService.addNotice(newsShareId, id, "likes");
+		}else {
+			throw new RuntimeException("点赞失败");
 		}
-		return true;
 	}
 
 	/**

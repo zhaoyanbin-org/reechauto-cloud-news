@@ -2,6 +2,9 @@ package com.reechauto.cloud.news.service.comment;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.reechauto.cloud.common.exception.DataEmptyException;
@@ -26,6 +29,7 @@ public class CommentService {
 	private NoticeService noticeService;
 	@Autowired
 	private NewsShareCommentMapper newsShareCommentMapper;
+
 	/**
 	 * 发表评论
 	 * 
@@ -34,6 +38,7 @@ public class CommentService {
 	 * @param commentContext
 	 * @return
 	 */
+	
 	public void addComment(Long userId, String newsShareId, String commentContext) {
 		log.info("newsShareId:" + newsShareId);
 		UserDetails userDetails = userDetailsMapper.selectByPrimaryKey(userId);
