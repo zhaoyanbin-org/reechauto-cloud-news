@@ -85,7 +85,7 @@ public class FeedbackController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = AppFeedbackService.answerQuestion(req);
+		ResponseData responseData = AppFeedbackService.answerQuestion(req.getOperatorId(),req.getAppFeedbackId(),req.getContent());
 		return responseData;
 	}
 
