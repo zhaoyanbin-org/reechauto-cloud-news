@@ -2,6 +2,7 @@ package com.reechauto.cloud.news.service.news;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.runner.ReactiveWebApplicationContextRunner;
 import org.springframework.stereotype.Service;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.common.utils.json.JsonUtils;
@@ -15,30 +16,29 @@ import com.reechauto.cloud.news.bean.req.news.SharePublishRequest;
 import com.reechauto.cloud.news.bean.req.news.ShareQueryRequest;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
 public class ShareService {
 
 	@Autowired
-	private NewsShareService  newsShareService;
-	
+	private NewsShareService newsShareService;
+
 	/**
 	 * 发布动态
+	 * 
 	 * @param vo
 	 * @return
 	 */
-	public ResponseData pushShare(SharePublishRequest vo) {
+	public boolean pushShare(Long userId, String context, String imagesUrl) {
 		NewsShareInfo bean = new NewsShareInfo();
-		bean.setTitle(vo.getContext());
-		bean.setImagesUrl(vo.getImagesUrl());
+		bean.setTitle(context);
+		bean.setImagesUrl(imagesUrl);
 		bean.setIsNews(NewsShareEnum.SHARE.getValue());
-		bean.setPushUserId(vo.getUserId());
+		bean.setPushUserId(userId);
 		bean.setStatus(NewsShareStatusEnum.Y.getValue());
 		boolean flag = newsShareService.addNewsShare(bean);
-		if (!flag) {
-			throw new RuntimeException("发布动态失败");
-		}
-		return ResponseData.ok();
+		return flag;
 	}
 
 	/**
@@ -48,29 +48,26 @@ public class ShareService {
 	 * @param vo
 	 * @return
 	 */
-	public ResponseData modifyShare(ShareModifyRequest vo) {
+	public boolean modifyShare(Long userId, String id, String isTope, String status, String context, String imagesUrl) {
 		NewsShareInfo bean = new NewsShareInfo();
-		bean.setId(vo.getId());
-		if (StringUtils.isNotBlank(vo.getContext())) {
-			bean.setTitle(vo.getContext());
+		bean.setId(id);
+		if (StringUtils.isNotBlank(context)) {
+			bean.setTitle(context);
 		}
-		if (StringUtils.isNotBlank(vo.getImagesUrl())) {
-			bean.setImagesUrl(vo.getImagesUrl());
+		if (StringUtils.isNotBlank(imagesUrl)) {
+			bean.setImagesUrl(imagesUrl);
 		}
-		if(StringUtils.isNotBlank(vo.getIsTope())) {
-			bean.setIsTope(IsTopEnum.get(vo.getIsTope()).getValue());
+		if (StringUtils.isNotBlank(isTope)) {
+			bean.setIsTope(IsTopEnum.get(isTope).getValue());
 		}
-		if(StringUtils.isNotBlank(vo.getStatus())) {
-			bean.setIsTope(NewsShareStatusEnum.get(vo.getStatus()).getValue());
+		if (StringUtils.isNotBlank(status)) {
+			bean.setIsTope(NewsShareStatusEnum.get(status).getValue());
 		}
 		bean.setIsNews(NewsShareEnum.SHARE.getValue());
-		bean.setPushUserId(vo.getUserId());
+		bean.setPushUserId(userId);
 		log.info(JsonUtils.toJson(bean));
 		boolean flag = newsShareService.modifyNewsShare(bean);
-		if (!flag) {
-			throw new RuntimeException("修改动态失败");
-		}
-		return ResponseData.ok();
+		return flag;
 	}
 
 	/**
@@ -84,18 +81,10 @@ public class ShareService {
 	 * @param offset
 	 * @return
 	 */
-	public ResponseData queryShare(ShareQueryRequest vo, boolean currentUser) {
-		NewsShareQuery bean = new NewsShareQuery();
-		bean.setIsNews(NewsShareEnum.SHARE.getValue());
-		bean.setStart(vo.getStart());
-		bean.setPageNum(vo.getPageNum());
-		bean.setStatus(vo.getStatus());
-		if (currentUser) {
-			bean.setPushUserId(vo.getUserId());
-		}
-		bean.setSearchCondition(vo.getSearchCondition());
-		bean.setUserId(vo.getUserId());
-		return newsShareService.queryNewsShare(bean.getUserId(),bean.getIsNews(), bean.getIsTope(), bean.getStatus(), bean.getPushUserId()==null?0:bean.getPushUserId(), bean.getCreateDate(),bean.getSearchCondition(), bean.getStart(), bean.getPageNum());
+	public ResponseData queryShare(Long userId, String searchCondition, Integer pageNum, Integer start, String status,
+			boolean currentUser) {
+		return newsShareService.queryNewsShare(userId, NewsShareEnum.SHARE.getValue(), null, status,
+				currentUser == true ? userId : 0, null, searchCondition, start, pageNum);
 	}
-	
+
 }

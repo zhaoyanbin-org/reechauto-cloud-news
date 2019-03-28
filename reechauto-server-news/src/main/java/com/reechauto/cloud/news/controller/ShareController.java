@@ -18,13 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/share")
-public class ShareController  {
+public class ShareController {
 
 	@Autowired
 	private ShareService ShareService;
 
 	/**
 	 * 发布动态
+	 * 
 	 * @param req
 	 * @param result
 	 * @return
@@ -35,12 +36,16 @@ public class ShareController  {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = ShareService.pushShare(req);
-		return responseData;
+		boolean flag = ShareService.pushShare(req.getUserId(), req.getContext(), req.getImagesUrl());
+		if (!flag) {
+			throw new RuntimeException("发布动态失败");
+		}
+		return ResponseData.ok();
 	}
 
 	/**
 	 * 修改动态
+	 * 
 	 * @param req
 	 * @param result
 	 * @return
@@ -51,12 +56,17 @@ public class ShareController  {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = ShareService.modifyShare(req);
-		return responseData;
+		boolean flag = ShareService.modifyShare(req.getUserId(), req.getId(), req.getIsTope(), req.getStatus(),
+				req.getContext(), req.getImagesUrl());
+		if (!flag) {
+			throw new RuntimeException("修改动态失败");
+		}
+		return ResponseData.ok();
 	}
 
 	/**
 	 * 根据条件查询动态
+	 * 
 	 * @param req
 	 * @param result
 	 * @return
@@ -67,12 +77,14 @@ public class ShareController  {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = ShareService.queryShare(req, false);
+		ResponseData responseData = ShareService.queryShare(req.getUserId(), req.getSearchCondition(), req.getPageNum(),
+				req.getStart(), req.getStatus(), false);
 		return responseData;
 	}
 
 	/**
 	 * 查询我的动态
+	 * 
 	 * @param req
 	 * @param result
 	 * @return
@@ -83,7 +95,8 @@ public class ShareController  {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = ShareService.queryShare(req, true);
+		ResponseData responseData = ShareService.queryShare(req.getUserId(), req.getSearchCondition(), req.getPageNum(),
+				req.getStart(), req.getStatus(), true);
 		return responseData;
 	}
 }
