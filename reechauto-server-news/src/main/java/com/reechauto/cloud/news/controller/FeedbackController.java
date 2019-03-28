@@ -52,8 +52,11 @@ public class FeedbackController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = AppFeedbackService.addQuestion(req.getUserId(), req.getQuestion());
-		return responseData;
+		boolean flag = AppFeedbackService.addQuestion(req.getUserId(), req.getQuestion());
+		if (!flag) {
+			throw new RuntimeException("提交反馈失败");
+		}
+		return ResponseData.ok();
 	}
 
 	/**
@@ -85,8 +88,11 @@ public class FeedbackController {
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData responseData = AppFeedbackService.answerQuestion(req.getOperatorId(),req.getAppFeedbackId(),req.getContent());
-		return responseData;
+		boolean flag = AppFeedbackService.answerQuestion(req.getOperatorId(),req.getAppFeedbackId(),req.getContent());
+		if (!flag) {
+			throw new RuntimeException("回复反馈失败");
+		}
+		return ResponseData.ok();
 	}
 
 }

@@ -62,17 +62,14 @@ public class AppFeedbackService {
 	 * @param question
 	 * @return
 	 */
-	public ResponseData addQuestion(Long userId, String question) {
+	public boolean addQuestion(Long userId, String question) {
 		log.info("questionerId:" + userId);
 		NewsFeedback record = new NewsFeedback();
 		record.setQuestion(question);
 		record.setQuestionerId(userId);
 		record.setQuestionTime(new Date());
 		boolean flag = this.newsFeedbackMapper.insertSelective(record) > 0;
-		if (!flag) {
-			throw new RuntimeException("提交反馈失败");
-		}
-		return ResponseData.ok();
+		return flag;
 	}
 
 	/**
@@ -119,6 +116,7 @@ public class AppFeedbackService {
 		example.setLimitStart(start);
 		example.setOffset(pageNum);
 		list = this.newsFeedbackMapper.selectByExample(example);
+		Long total = newsFeedbackMapper.countByExample(example);
 		List<FeedbackList> nList = new ArrayList<FeedbackList>();
 		if (CollectionUtils.isNotEmpty(list)) {
 			for (NewsFeedback appFeedback : list) {
@@ -133,7 +131,7 @@ public class AppFeedbackService {
 				nList.add(nl);
 			}
 		}
-		return ResponseData.ok().data(nList);
+		return ResponseData.ok().data(nList).data("total", total);
 	}
 
 	/**
@@ -142,7 +140,7 @@ public class AppFeedbackService {
 	 * @param vo
 	 * @return
 	 */
-	public ResponseData answerQuestion(Long operatorId,Integer appFeedbackId,String content) {
+	public boolean answerQuestion(Long operatorId,Integer appFeedbackId,String content) {
 		log.info("appFeedbackId:" + appFeedbackId);
 		log.info("content:" + content);
 		NewsFeedback record = newsFeedbackMapper.selectByPrimaryKey(appFeedbackId);
@@ -151,10 +149,7 @@ public class AppFeedbackService {
 		record.setAnswerTime(new Date());
 		record.setStatus("Y");
 		boolean flag = this.newsFeedbackMapper.updateByPrimaryKeySelective(record) > 0;
-		if (!flag) {
-			throw new RuntimeException("回复反馈失败");
-		}
-		return ResponseData.ok();
+		return flag;
 	}
 
 }
