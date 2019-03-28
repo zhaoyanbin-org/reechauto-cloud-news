@@ -124,7 +124,7 @@ public class MenuService {
 		SysMenu record = new SysMenu();
 		Long id = getMenuId(pId);
 		if (pId <= 0) {
-			if (type!=2&&type!=1) {
+			if (type!=3&&type!=1) {
 				throw new RuntimeException("pId为0只能是菜单或权限");
 			}
 			// 第一级组织
