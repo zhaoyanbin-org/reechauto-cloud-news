@@ -22,6 +22,18 @@ public class RoleController {
 
 	@Autowired
 	private RoleService roleService;
+	
+	/**
+	 * 查询所有角色
+	 * @return
+	 */
+	@RequestMapping(value = "/queryAll", method = RequestMethod.POST)
+	public ResponseData queryRoles() {
+		log.info("查询所有角色");
+		ResponseData resp = roleService.queryAllRoles();
+		return resp;
+	}
+	
 	/**
 	 * 根据条件查询角色
 	 * @param req

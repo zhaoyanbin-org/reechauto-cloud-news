@@ -219,7 +219,7 @@ public class NewsShareService {
 	 * @return
 	 */
 	public ResponseData searchNewsShare(Long userId,String context,Integer start,Integer pageNum) {
-		String sql = "SELECT * from news_share where ((context  like ? or title like ?) and is_news = 'share' or (context_txt  like ? or title like ?) and is_news = 'news') and status = 'Y'  limit ?,?";
+		String sql = "SELECT * from news_share where ((context  like ? or title like ?) and is_news = 'share' or (context_txt  like ? or title like ?) and is_news = 'news') and status = 'Y'  limit ?,? DESC create_time";
 		Object[] param = new Object[6];
 		param[0] = "%"+context.trim()+"%";
 		param[1] = "%"+context.trim()+"%";
@@ -241,7 +241,7 @@ public class NewsShareService {
 				nlist.add(vo);
 			}
 		}
-		String sql1 = "SELECT count(*) from news_share where ((context  like ? or title like ?) and is_news = 'share' or (context_txt  like ? or title like ?) and is_news = 'news') and status = 'Y'  ";
+		String sql1 = "SELECT count(*) from news_share where ((context  like ? or title like ?) and is_news = 'share' or (context_txt  like ? or title like ?) and is_news = 'news') and status = 'Y'  DESC create_time";
 		Object[] param1 = new Object[4];
 		param1[0] = "%"+context.trim()+"%";
 		param1[1] = "%"+context.trim()+"%";

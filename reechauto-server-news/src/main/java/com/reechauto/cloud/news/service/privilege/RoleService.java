@@ -16,6 +16,21 @@ public class RoleService {
 
 	@Autowired
 	private SysRoleMapper SysRoleMapper;
+	
+	
+	/**
+	 * 查询所有角色
+	 * @param roleId
+	 * @param roleName
+	 * @return
+	 */
+	public ResponseData queryAllRoles() {
+		SysRoleExample example = new SysRoleExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andStatusEqualTo("Y");
+		List<SysRole> list = SysRoleMapper.selectByExample(example);
+		return ResponseData.ok().data(list);
+	}
 	/**
 	 * 根据条件查询角色
 	 * @param roleId
