@@ -12,7 +12,6 @@ import com.reechauto.cloud.news.bean.req.news.SharePublishRequest;
 import com.reechauto.cloud.news.bean.req.news.ShareQueryRequest;
 import com.reechauto.cloud.news.service.news.ShareService;
 import com.reechauto.cloud.news.utils.ErrorsUtil;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

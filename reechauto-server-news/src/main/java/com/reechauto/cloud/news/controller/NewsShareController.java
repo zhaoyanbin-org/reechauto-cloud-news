@@ -1,8 +1,6 @@
 package com.reechauto.cloud.news.controller;
 
 import javax.validation.Valid;
-
-import org.mockito.internal.stubbing.defaultanswers.TriesToReturnSelf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +14,6 @@ import com.reechauto.cloud.news.bean.req.news.NewsShareSingleRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsShareTopQueryRequest;
 import com.reechauto.cloud.news.service.news.NewsShareService;
 import com.reechauto.cloud.news.utils.ErrorsUtil;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

@@ -12,7 +12,6 @@ import com.reechauto.cloud.news.bean.req.notice.NoticeQueryRequest;
 import com.reechauto.cloud.news.bean.req.notice.NoticeReadRequest;
 import com.reechauto.cloud.news.service.notice.NoticeService;
 import com.reechauto.cloud.news.utils.ErrorsUtil;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
