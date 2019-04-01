@@ -11,7 +11,7 @@ public class NewsShareSearchRequest extends BaseRequest {
 	@NotNull(message = "用户ID不可以为NULL")
 	private Long userId;
 	
-	private String context;
+	private String context="";
 	
 	@Min(value = 0, message = "开始位置不能小于0")
 	private Integer start = 0;

@@ -14,7 +14,7 @@ import com.reechauto.cloud.common.exception.EnumsException;
  *
  */
 public enum MenuTypeEnum {
-	menu(1, "菜单"), button(2, "按钮");
+	menu(1, "菜单"), button(2, "按钮"),privilege(3,"权限");
 	
 	private static final Map<String, Integer> MAPPING = new LinkedHashMap<String, Integer>();
 	
