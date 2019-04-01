@@ -18,6 +18,7 @@
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.reechauto.cloud.news.entity.NewsShareWithBLOBs">
         <result column="intro" jdbcType="LONGVARCHAR" property="intro" />
         <result column="context" jdbcType="LONGVARCHAR" property="context" />
+        <result column="context_txt" jdbcType="LONGVARCHAR" property="contextTxt" />
         <result column="images_url" jdbcType="LONGVARCHAR" property="imagesUrl" />
     </resultMap>
     <sql id="Example_Where_Clause">
@@ -83,7 +84,7 @@
         browse_num, like_num, create_time, modify_time
     </sql>
     <sql id="Blob_Column_List">
-        intro, context, images_url
+        intro, context, context_txt, images_url
     </sql>
     <select id="selectByExampleWithBLOBs" parameterType="com.reechauto.cloud.news.entity.NewsShareExample" resultMap="ResultMapWithBLOBs">
         select
@@ -145,13 +146,13 @@
             push_user_nick, push_user_head_portrait_url, 
             browse_num, like_num, create_time, 
             modify_time, intro, context, 
-            images_url)
+            context_txt, images_url)
         values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{isTope,jdbcType=VARCHAR}, 
             #{isNews,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{pushUserId,jdbcType=BIGINT}, 
             #{pushUserNick,jdbcType=VARCHAR}, #{pushUserHeadPortraitUrl,jdbcType=VARCHAR}, 
             #{browseNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
             #{modifyTime,jdbcType=TIMESTAMP}, #{intro,jdbcType=LONGVARCHAR}, #{context,jdbcType=LONGVARCHAR}, 
-            #{imagesUrl,jdbcType=LONGVARCHAR})
+            #{contextTxt,jdbcType=LONGVARCHAR}, #{imagesUrl,jdbcType=LONGVARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.reechauto.cloud.news.entity.NewsShareWithBLOBs">
         insert into news_share
@@ -197,6 +198,9 @@
             </if>
             <if test="context != null">
                 context,
+            </if>
+            <if test="contextTxt != null">
+                context_txt,
             </if>
             <if test="imagesUrl != null">
                 images_url,
@@ -244,6 +248,9 @@
             </if>
             <if test="context != null">
                 #{context,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="contextTxt != null">
+                #{contextTxt,jdbcType=LONGVARCHAR},
             </if>
             <if test="imagesUrl != null">
                 #{imagesUrl,jdbcType=LONGVARCHAR},
@@ -301,6 +308,9 @@
             <if test="record.context != null">
                 context = #{record.context,jdbcType=LONGVARCHAR},
             </if>
+            <if test="record.contextTxt != null">
+                context_txt = #{record.contextTxt,jdbcType=LONGVARCHAR},
+            </if>
             <if test="record.imagesUrl != null">
                 images_url = #{record.imagesUrl,jdbcType=LONGVARCHAR},
             </if>
@@ -325,6 +335,7 @@
             modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
             intro = #{record.intro,jdbcType=LONGVARCHAR},
             context = #{record.context,jdbcType=LONGVARCHAR},
+            context_txt = #{record.contextTxt,jdbcType=LONGVARCHAR},
             images_url = #{record.imagesUrl,jdbcType=LONGVARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
@@ -390,6 +401,9 @@
             <if test="context != null">
                 context = #{context,jdbcType=LONGVARCHAR},
             </if>
+            <if test="contextTxt != null">
+                context_txt = #{contextTxt,jdbcType=LONGVARCHAR},
+            </if>
             <if test="imagesUrl != null">
                 images_url = #{imagesUrl,jdbcType=LONGVARCHAR},
             </if>
@@ -411,6 +425,7 @@
             modify_time = #{modifyTime,jdbcType=TIMESTAMP},
             intro = #{intro,jdbcType=LONGVARCHAR},
             context = #{context,jdbcType=LONGVARCHAR},
+            context_txt = #{contextTxt,jdbcType=LONGVARCHAR},
             images_url = #{imagesUrl,jdbcType=LONGVARCHAR}
         where id = #{id,jdbcType=VARCHAR}
     </update>

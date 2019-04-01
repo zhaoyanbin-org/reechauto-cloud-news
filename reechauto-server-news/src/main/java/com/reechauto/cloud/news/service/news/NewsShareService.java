@@ -3,11 +3,16 @@ package com.reechauto.cloud.news.service.news;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import javax.transaction.Transactional;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import com.reechauto.cloud.common.exception.DataEmptyException;
 import com.reechauto.cloud.common.resp.ResponseData;
@@ -22,11 +27,13 @@ import com.reechauto.cloud.news.bean.news.NewsShareBean;
 import com.reechauto.cloud.news.bean.news.NewsShareInfo;
 import com.reechauto.cloud.news.bean.news.NewsShareQuery;
 import com.reechauto.cloud.news.bean.req.news.NewsShareTopQueryRequest;
+import com.reechauto.cloud.news.entity.NewsShare;
 import com.reechauto.cloud.news.entity.NewsShareCommentExample;
 import com.reechauto.cloud.news.entity.NewsShareExample;
 import com.reechauto.cloud.news.entity.NewsShareLikes;
 import com.reechauto.cloud.news.entity.NewsShareLikesExample;
 import com.reechauto.cloud.news.entity.NewsShareWithBLOBs;
+import com.reechauto.cloud.news.entity.SysMenu;
 import com.reechauto.cloud.news.entity.UserDetails;
 import com.reechauto.cloud.news.entity.NewsShareExample.Criteria;
 import com.reechauto.cloud.news.mapper.NewsShareCommentMapper;
@@ -34,6 +41,8 @@ import com.reechauto.cloud.news.mapper.NewsShareLikesMapper;
 import com.reechauto.cloud.news.mapper.NewsShareMapper;
 import com.reechauto.cloud.news.mapper.UserDetailsMapper;
 import com.reechauto.cloud.news.service.notice.NoticeService;
+import com.reechauto.cloud.news.utils.HtmlFilter;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -50,7 +59,8 @@ public class NewsShareService {
 	private NewsShareCommentMapper newsShareCommentMapper;
 	@Autowired
 	private NoticeService noticeService;
-
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	/**
 	 * 发布资讯或动态
 	 * 
@@ -72,6 +82,9 @@ public class NewsShareService {
 		record.setPushUserHeadPortraitUrl(pushUser.getImgUrl());
 		if (StringUtils.isNotBlank(bean.getContext())) {
 			record.setContext(bean.getContext());
+		}
+		if (StringUtils.isNotBlank(bean.getContextTxt())) {
+			record.setContextTxt(bean.getContextTxt());
 		}
 		if (StringUtils.isNotBlank(bean.getImagesUrl())) {
 			record.setImagesUrl(bean.getImagesUrl());
@@ -109,6 +122,9 @@ public class NewsShareService {
 		}
 		if (StringUtils.isNotBlank(bean.getContext())) {
 			record.setContext(bean.getContext());
+		}
+		if (StringUtils.isNotBlank(bean.getContextTxt())) {
+			record.setContextTxt(HtmlFilter.delHtmlTag(bean.getContextTxt()));
 		}
 		if (StringUtils.isNotBlank(bean.getIntro())) {
 			record.setIntro(bean.getIntro());
@@ -195,7 +211,29 @@ public class NewsShareService {
 		NewsShareWithBLOBs recod = this.newsShareMapper.selectByPrimaryKey(id);
 		return ResponseData.ok().data(recod);
 	}
-
+	
+	/**
+	 * 根据搜索内容查询动态或资讯
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public ResponseData searchNewsShare(String context,Integer start,Integer pageNum) {
+		String sql = "SELECT * from news_share where (context like ? or title  like ?) and status = 'Y' limit ?,?";
+		Object[] param = new Object[4];
+		param[0] = "%"+context.trim()+"%";
+		param[1] = "%"+context.trim()+"%";
+		param[2] = start;
+		param[3] = pageNum;
+		RowMapper<NewsShareWithBLOBs> rowMapper = new BeanPropertyRowMapper<NewsShareWithBLOBs>(NewsShareWithBLOBs.class);
+		List<NewsShareWithBLOBs> list = this.jdbcTemplate.query(sql, rowMapper,param);
+		String sql1 = "SELECT count(*) from news_share where (context  like ? or title like ?) and status = 'Y' ";
+		Object[] param1 = new Object[2];
+		param1[0] = "%"+context.trim()+"%";
+		param1[1] = "%"+context.trim()+"%";
+		Long total = this.jdbcTemplate.queryForObject(sql1, Long.class,param1);
+		return ResponseData.ok().data(list).data("total", total);
+	}
 	/**
 	 * 点赞
 	 * 

@@ -17,6 +17,11 @@ public class NewsShareInfo implements Serializable {
 	 * 内容
 	 */
 	private String context;
+	
+	/**
+	 * 纯文本内容
+	 */
+	private String contextTxt;
 	/**
 	 * 逗号分割
 	 */
@@ -130,6 +135,14 @@ public class NewsShareInfo implements Serializable {
 
 	public void setLikeNum(Integer likeNum) {
 		this.likeNum = likeNum;
+	}
+
+	public String getContextTxt() {
+		return contextTxt;
+	}
+
+	public void setContextTxt(String contextTxt) {
+		this.contextTxt = contextTxt;
 	}
 
 }

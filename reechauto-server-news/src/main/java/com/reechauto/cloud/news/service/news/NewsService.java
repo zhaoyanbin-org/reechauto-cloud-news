@@ -8,6 +8,7 @@ import com.reechauto.cloud.news.bean.enums.IsTopEnum;
 import com.reechauto.cloud.news.bean.enums.NewsShareEnum;
 import com.reechauto.cloud.news.bean.enums.NewsShareStatusEnum;
 import com.reechauto.cloud.news.bean.news.NewsShareInfo;
+import com.reechauto.cloud.news.utils.HtmlFilter;
 
 @Service
 public class NewsService {
@@ -27,6 +28,9 @@ public class NewsService {
 		bean.setTitle(title);
 		bean.setIntro(intro);
 		bean.setContext(context);
+		if (StringUtils.isNotBlank(context)) {
+			bean.setContextTxt(HtmlFilter.delHtmlTag(context));
+		}
 		bean.setImagesUrl(imagesUrl);
 		if (StringUtils.isNotBlank(isTope)) {
 			bean.setIsTope(IsTopEnum.get(isTope).getValue());
@@ -61,6 +65,7 @@ public class NewsService {
 		}
 		if (StringUtils.isNotBlank(context)) {
 			bean.setContext(context);
+			bean.setContextTxt(HtmlFilter.delHtmlTag(context));
 		}
 		if (StringUtils.isNotBlank(imagesUrl)) {
 			bean.setImagesUrl(imagesUrl);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.bean.req.news.LikesUsersQueryRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsShareLikesRequest;
+import com.reechauto.cloud.news.bean.req.news.NewsShareSearchRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsShareSingleRequest;
 import com.reechauto.cloud.news.bean.req.news.NewsShareTopQueryRequest;
 import com.reechauto.cloud.news.service.news.NewsShareService;
@@ -63,6 +64,22 @@ public class NewsShareController {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
 		ResponseData responseData = newsShareService.singleNewsShare(req.getId());
+		return responseData;
+	}
+	/**
+	 * 根据搜索内容查询资讯或动态
+	 * 
+	 * @param req
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public ResponseData searchNewsShare(@Valid NewsShareSearchRequest req, BindingResult result) {
+		log.info("根据搜索内容查询资讯或动态");
+		if (result.hasErrors()) {
+			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
+		}
+		ResponseData responseData = newsShareService.searchNewsShare(req.getContext(),req.getStart(),req.getPageNum());
 		return responseData;
 	}
 

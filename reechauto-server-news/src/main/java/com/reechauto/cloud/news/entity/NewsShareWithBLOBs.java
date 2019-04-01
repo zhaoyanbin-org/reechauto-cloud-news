@@ -17,6 +17,7 @@ public class NewsShareWithBLOBs extends NewsShare implements Serializable {
      * 内容
      */
     private String context;
+    private String contextTxt;
     /**
      * 逗号分割
      */
@@ -34,6 +35,12 @@ public class NewsShareWithBLOBs extends NewsShare implements Serializable {
     }
     public void setContext(String context) {
         this.context = context;
+    }
+    public String getContextTxt() {
+        return contextTxt;
+    }
+    public void setContextTxt(String contextTxt) {
+        this.contextTxt = contextTxt;
     }
     public String getImagesUrl() {
         return imagesUrl;
