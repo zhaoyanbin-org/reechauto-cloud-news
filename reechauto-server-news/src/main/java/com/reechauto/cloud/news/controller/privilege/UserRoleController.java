@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.reechauto.cloud.common.resp.ResponseData;
+import com.reechauto.cloud.news.bean.req.user.SetRoleRequest;
 import com.reechauto.cloud.news.bean.req.user.UserRequest;
 import com.reechauto.cloud.news.service.privilege.UserRoleService;
 import com.reechauto.cloud.news.utils.ErrorsUtil;
@@ -39,12 +40,12 @@ public class UserRoleController {
 	 * @return
 	 */
 	@RequestMapping(value = "/setRoles", method = RequestMethod.POST)
-	public ResponseData setRoles(@Valid UserRequest req, BindingResult result) {
+	public ResponseData setRoles(@Valid SetRoleRequest req, BindingResult result) {
 		log.info("给用户分配角色");
 		if (result.hasErrors()) {
 			return ResponseData.argumentsError().data(ErrorsUtil.fieldError2Map(result.getFieldErrors()));
 		}
-		ResponseData resp = userRoleService.queryUsers(req.getUserId(),req.getStart(),req.getPageNum());
-		return resp;
+		userRoleService.setRoles(req.getUserId(),req.getSetter(),req.getRoleIds());
+		return ResponseData.ok();
 	}
 }

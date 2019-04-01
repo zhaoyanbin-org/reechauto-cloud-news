@@ -1,7 +1,9 @@
 package com.reechauto.cloud.news.service.privilege;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,13 @@ import org.springframework.stereotype.Service;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.bean.user.User;
 import com.reechauto.cloud.news.entity.SysRole;
+import com.reechauto.cloud.news.entity.SysUserRole;
+import com.reechauto.cloud.news.entity.SysUserRoleExample;
 import com.reechauto.cloud.news.entity.UserDetails;
 import com.reechauto.cloud.news.entity.UserDetailsExample;
 import com.reechauto.cloud.news.entity.UserDetailsExample.Criteria;
+import com.reechauto.cloud.news.mapper.SysRoleMapper;
+import com.reechauto.cloud.news.mapper.SysUserRoleMapper;
 import com.reechauto.cloud.news.mapper.UserDetailsMapper;
 
 @Service
@@ -24,6 +30,10 @@ public class UserRoleService {
 	private UserDetailsMapper userDetailsMapper;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private SysUserRoleMapper sysUserRoleMapper;
+	@Autowired
+	private SysRoleMapper sysRoleMapper;
 	
 	public ResponseData queryUsers(Long userId,Integer start,Integer pageNum) {
 		UserDetailsExample example = new UserDetailsExample();
@@ -48,5 +58,36 @@ public class UserRoleService {
 			}
 		}
 		return ResponseData.ok().data(nList).data("total", total);
+	}
+	
+	@Transactional
+	public void setRoles(Long userId,Long setter,String roleIds) {
+		delUserRole(userId);
+		UserDetails userDetails = userDetailsMapper.selectByPrimaryKey(userId);
+		if (userDetails==null) {
+			throw new RuntimeException("userId错误，对应的user不存在");
+		}
+		String[] roleIds1 = roleIds.split(",");
+		for(int i = 0;i<roleIds1.length;i++) {
+			String roleId = roleIds1[i];
+			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
+			if (sysRole==null) {
+				throw new RuntimeException("roleId错误，对应的role不存在");
+			}
+			SysUserRole record = new SysUserRole();
+			record.setRoleId(roleId);
+			record.setUserId(userId);
+			record.setCreateBy(setter);
+			record.setCreateTime(new Date());
+			sysUserRoleMapper.insert(record);
+		}
+		
+	}
+	
+	public boolean delUserRole(Long userId) {
+		SysUserRoleExample example = new SysUserRoleExample();
+		com.reechauto.cloud.news.entity.SysUserRoleExample.Criteria criteria = example.createCriteria();
+		criteria.andUserIdEqualTo(userId);
+		return sysUserRoleMapper.deleteByExample(example)>0;
 	}
 }
