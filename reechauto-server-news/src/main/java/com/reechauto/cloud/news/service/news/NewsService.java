@@ -2,17 +2,12 @@ package com.reechauto.cloud.news.service.news;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.runner.ReactiveWebApplicationContextRunner;
 import org.springframework.stereotype.Service;
 import com.reechauto.cloud.common.resp.ResponseData;
 import com.reechauto.cloud.news.bean.enums.IsTopEnum;
 import com.reechauto.cloud.news.bean.enums.NewsShareEnum;
 import com.reechauto.cloud.news.bean.enums.NewsShareStatusEnum;
 import com.reechauto.cloud.news.bean.news.NewsShareInfo;
-import com.reechauto.cloud.news.bean.news.NewsShareQuery;
-import com.reechauto.cloud.news.bean.req.news.NewsModifyRequest;
-import com.reechauto.cloud.news.bean.req.news.NewsPublishRequest;
-import com.reechauto.cloud.news.bean.req.news.NewsQueryRequest;
 
 @Service
 public class NewsService {
