@@ -218,21 +218,37 @@ public class NewsShareService {
 	 * @param id
 	 * @return
 	 */
-	public ResponseData searchNewsShare(String context,Integer start,Integer pageNum) {
-		String sql = "SELECT * from news_share where (context like ? or title  like ?) and status = 'Y' limit ?,?";
-		Object[] param = new Object[4];
+	public ResponseData searchNewsShare(Long userId,String context,Integer start,Integer pageNum) {
+		String sql = "SELECT * from news_share where ((context  like ? or title like ?) and is_news = 'share' or (context_txt  like ? or title like ?) and is_news = 'news') and status = 'Y'  limit ?,?";
+		Object[] param = new Object[6];
 		param[0] = "%"+context.trim()+"%";
 		param[1] = "%"+context.trim()+"%";
-		param[2] = start;
-		param[3] = pageNum;
+		param[2] = "%"+context.trim()+"%";
+		param[3] = "%"+context.trim()+"%";
+		param[4] = start;
+		param[5] = pageNum;
 		RowMapper<NewsShareWithBLOBs> rowMapper = new BeanPropertyRowMapper<NewsShareWithBLOBs>(NewsShareWithBLOBs.class);
 		List<NewsShareWithBLOBs> list = this.jdbcTemplate.query(sql, rowMapper,param);
-		String sql1 = "SELECT count(*) from news_share where (context  like ? or title like ?) and status = 'Y' ";
-		Object[] param1 = new Object[2];
+		List<NewsShareBean> nlist = new ArrayList<NewsShareBean>();
+		if (CollectionUtils.isNotEmpty(list)) {
+			for (NewsShareWithBLOBs bean : list) {
+				NewsShareBean vo = new NewsShareBean();
+				BeanUtils.copyProperties(bean, vo);
+				int commentNum = queryCommentNum(bean.getId());
+				vo.setCommentNum(commentNum);
+				boolean flag = isHasLikes(bean.getId(), userId);
+				vo.setHasLike(flag);
+				nlist.add(vo);
+			}
+		}
+		String sql1 = "SELECT count(*) from news_share where ((context  like ? or title like ?) and is_news = 'share' or (context_txt  like ? or title like ?) and is_news = 'news') and status = 'Y'  ";
+		Object[] param1 = new Object[4];
 		param1[0] = "%"+context.trim()+"%";
 		param1[1] = "%"+context.trim()+"%";
+		param1[2] = "%"+context.trim()+"%";
+		param1[3] = "%"+context.trim()+"%";
 		Long total = this.jdbcTemplate.queryForObject(sql1, Long.class,param1);
-		return ResponseData.ok().data(list).data("total", total);
+		return ResponseData.ok().data(nlist).data("total", total);
 	}
 	/**
 	 * 点赞

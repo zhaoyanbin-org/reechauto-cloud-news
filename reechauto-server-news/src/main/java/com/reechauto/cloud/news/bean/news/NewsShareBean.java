@@ -53,6 +53,10 @@ public class NewsShareBean implements Serializable {
 	 */
 	private String context;
 	/**
+	 * 内容
+	 */
+	private String contextTxt;
+	/**
 	 * 逗号分割
 	 */
 	private String imagesUrl;
@@ -203,4 +207,12 @@ public class NewsShareBean implements Serializable {
 		this.hasLike = hasLike;
 	}
 
+	public String getContextTxt() {
+		return contextTxt;
+	}
+
+	public void setContextTxt(String contextTxt) {
+		this.contextTxt = contextTxt;
+	}
+    
 }
